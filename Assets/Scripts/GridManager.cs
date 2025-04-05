@@ -51,11 +51,13 @@ public class GridManager : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
+            Debug.Log("Right mouse button clicked");
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = tilemap.WorldToCell(worldPos);
+            Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
+            Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
 
             GameObject newUnit = Instantiate(unitPrefab);
-            PlaceUnitOnTile(newUnit, gridPos);
+            PlaceUnitOnTile(newUnit, adjustedGridPos);
         }
     }
 
@@ -72,8 +74,9 @@ public class GridManager : MonoBehaviour
             Tile tile = grid[gridPos.x, gridPos.y];
             if (!tile.IsOccupied)
             {
+                Debug.Log($"Placing unit on tile at {gridPos}");
                 tile.unitOnTile = unit;
-                unit.transform.position = tilemap.GetCellCenterWorld(gridPos);
+                unit.transform.position = tilemap.GetCellCenterWorld(GridPositionToWorldPosition(gridPos));
 
                 // Optionally update the unit's own reference to its grid position
                 Unit unitScript = unit.GetComponent<Unit>();
@@ -81,7 +84,13 @@ public class GridManager : MonoBehaviour
                 {
                     unitScript.currentTilePos = gridPos;
                 }
+            } else 
+            {
+                Debug.Log($"Tile at {gridPos} is already occupied by another unit.");
             }
+        } else 
+        {
+            Debug.Log($"Grid position {gridPos} is out of bounds.");
         }
     }
 

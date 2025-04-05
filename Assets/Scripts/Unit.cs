@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
     public float mdef;
     public float prec;
     public float eva;
-    public int mov = 3;
+    public int mov = 1;
     public Vector3Int currentTilePos;
     void Start()
     {
