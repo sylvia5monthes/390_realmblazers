@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 public class GridManager : MonoBehaviour
 {
     public Tilemap tilemap;
+    public Tilemap highlighter;
+    public TileBase highlightedTile;
     public int width = 10;
     public int height = 10;
 
@@ -37,6 +39,7 @@ public class GridManager : MonoBehaviour
                 Tile tile = grid[gridPos.x, gridPos.y];
                 Debug.Log($"Clicked tile at {gridPos}. Occupied? {tile.IsOccupied}");
             }
+            HighlightTileAt(gridPos);
         }
     }
 
@@ -45,20 +48,10 @@ public class GridManager : MonoBehaviour
         return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
     }
 
-    public void PlaceUnit(GameObject unit, Vector3Int gridPos)
+    void HighlightTileAt(Vector3Int gridPos)
     {
-        if (IsInBounds(gridPos))
-        {
-            grid[gridPos.x, gridPos.y].unitOnTile = unit;
-            unit.transform.position = tilemap.GetCellCenterWorld(gridPos);
-        }
+        highlighter.ClearAllTiles(); // Remove old highlights
+        highlighter.SetTile(gridPos, highlightedTile);
     }
 
-    public void RemoveUnit(Vector3Int gridPos)
-    {
-        if (IsInBounds(gridPos))
-        {
-            grid[gridPos.x, gridPos.y].unitOnTile = null;
-        }
-    }
 }
