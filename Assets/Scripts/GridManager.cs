@@ -34,18 +34,23 @@ public class GridManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = tilemap.WorldToCell(worldPos);
+            Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
+            Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
 
-            if (IsInBounds(gridPos))
+            if (IsInBounds(adjustedGridPos))
             {
-                Tile tile = grid[gridPos.x, gridPos.y];
-                Debug.Log($"Clicked tile at {gridPos}. Occupied? {tile.IsOccupied}");
+                Tile tile = grid[adjustedGridPos.x, adjustedGridPos.y];
+                Debug.Log($"Clicked tile at {adjustedGridPos}. Occupied? {tile.IsOccupied}");
+
+                HighlightTileAt(adjustedGridPos);
+                HighlightMovableTiles(adjustedGridPos);
+            } else 
+            {
+                Debug.Log($"Clicked out of bounds: {adjustedGridPos}");
             }
-            HighlightTileAt(gridPos);
-            HighLightMovableTiles(gridPos);
         }
         if (Input.GetMouseButtonDown(1))
-    {
+        {
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPos = tilemap.WorldToCell(worldPos);
 
@@ -56,6 +61,7 @@ public class GridManager : MonoBehaviour
 
     bool IsInBounds(Vector3Int pos)
     {
+        Debug.Log($"Checking bounds for {pos}");
         return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
     }
 
@@ -87,13 +93,20 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    // takes in the adjusted grid position
+    // and highlights the tile at that position
+    // in the world space
     void HighlightTileAt(Vector3Int gridPos)
     {
         highlighter.ClearAllTiles(); // Remove old highlights
-        highlighter.SetTile(gridPos, highlightedTile);
+        highlighter.SetTile(GridPositionToWorldPosition(gridPos), highlightedTile);
     }
 
-    void HighLightMovableTiles(Vector3Int gridPos){
+    // takes in the adjusted grid position
+    // and highlights all the tiles that are within
+    // the range of the unit on that tile
+    // in the world space
+    void HighlightMovableTiles(Vector3Int gridPos){
         Tile tile = grid[gridPos.x, gridPos.y];
         if (tile.IsOccupied){
             GameObject unitObject = tile.unitOnTile;
@@ -111,7 +124,7 @@ public class GridManager : MonoBehaviour
                         if (IsInBounds(pos) && !grid[pos.x, pos.y].IsOccupied)
                         {
                             if (!pos.Equals(gridPos)){
-                                highlighter.SetTile(pos, movableTile);
+                                highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
                             }
                             
                         }
@@ -120,6 +133,33 @@ public class GridManager : MonoBehaviour
             }
         }
 
+    }
+
+    // converts position from the world space, where (0,0) is centered
+    // to our grid space, where bottom left corner is (0,0)
+        public Vector3Int WorldPositionToGridPosition(Vector3 originalGridPos)
+    {
+        float offset_x = width / 2;
+        float offset_y = height / 2;
+        Vector3Int adjustedPos = new Vector3Int((int)(originalGridPos.x + offset_x), (int)(originalGridPos.y + offset_y), (int)originalGridPos.z);
+
+        Debug.Log($"Original Grid Position: {originalGridPos}, Adjusted Position: {adjustedPos}");
+
+        return adjustedPos;
+    }
+
+
+    // converts position from the grid space, where bottom left corner is (0,0)
+    // to our world space, where (0,0) is centered
+    public Vector3Int GridPositionToWorldPosition(Vector3Int adjustedGridPos)
+    {
+        float offset_x = width / 2;
+        float offset_y = height / 2;
+        Vector3Int originalGridPos = new Vector3Int(adjustedGridPos.x - (int)offset_x, adjustedGridPos.y - (int)offset_y, (int)adjustedGridPos.z);
+
+        Debug.Log($"Adjusted Grid Position: {adjustedGridPos}, Original Position: {originalGridPos}");
+
+        return originalGridPos;
     }
 
 }

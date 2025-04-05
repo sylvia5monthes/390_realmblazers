@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "390_realmblazers.sln"
+    "dotnet.defaultSolution": "realmblazers.sln"
 }
