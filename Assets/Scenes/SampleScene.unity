@@ -203,7 +203,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -414,7 +414,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -564,7 +564,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -1703,7 +1703,7 @@ MonoBehaviour:
   tilemap: {fileID: 1671359065}
   highlighter: {fileID: 1168681933}
   highlightedTile: {fileID: 11400000, guid: 3e7e0f91ab1ed4b15b570c8928aee111, type: 2}
-  movableTile: {fileID: 11400000, guid: 3e7e0f91ab1ed4b15b570c8928aee111, type: 2}
+  movableTile: {fileID: 11400000, guid: ae347fa891a4e4c1ca11d844bec02545, type: 2}
   width: 10
   height: 10
   unitPrefab: {fileID: 180620720376431556, guid: d9602cf134113477b82368e03d5ef4cc, type: 3}
