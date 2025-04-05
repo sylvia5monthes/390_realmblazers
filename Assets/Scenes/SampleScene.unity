@@ -643,8 +643,10 @@ MonoBehaviour:
   tilemap: {fileID: 1671359065}
   highlighter: {fileID: 1168681933}
   highlightedTile: {fileID: 11400000, guid: 3e7e0f91ab1ed4b15b570c8928aee111, type: 2}
+  movableTile: {fileID: 11400000, guid: 3e7e0f91ab1ed4b15b570c8928aee111, type: 2}
   width: 10
   height: 10
+  unitPrefab: {fileID: 180620720376431556, guid: d9602cf134113477b82368e03d5ef4cc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
