@@ -14,6 +14,8 @@ public class Unit : MonoBehaviour
     public float eva;
     public int mov = 1;
     public Vector3Int currentTilePos;
+    public bool hasMoved = false;
+    public bool hasAttacked = false;
     void Start()
     {
         
@@ -29,5 +31,15 @@ public class Unit : MonoBehaviour
     {
         currentTilePos = newTilePos;
         transform.position = FindObjectOfType<Tilemap>().GetCellCenterWorld(newTilePos);
+    }
+
+    void OnMouseDown()
+    {   
+        Debug.Log($"Unit {gameObject.name} was clicked!");
+        UnitMenuController menu = FindObjectOfType<UnitMenuController>();
+        if (menu != null)
+        {
+            menu.ShowMenu(this);
+        }
     }
 }

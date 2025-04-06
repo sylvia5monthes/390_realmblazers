@@ -29,37 +29,51 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    void Update()
+void Update()
+{
+    if (Input.GetMouseButtonDown(0))
     {
-        if (Input.GetMouseButtonDown(0))
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
+        Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
+
+        if (!IsInBounds(adjustedGridPos))
         {
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
-            Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
+            Debug.Log($"Clicked out of bounds: {adjustedGridPos}");
+            return;
+        }
 
-            if (IsInBounds(adjustedGridPos))
-            {
-                Tile tile = grid[adjustedGridPos.x, adjustedGridPos.y];
-                Debug.Log($"Clicked tile at {adjustedGridPos}. Occupied? {tile.IsOccupied}");
+        Tile clickedTile = grid[adjustedGridPos.x, adjustedGridPos.y];
 
-                HighlightTileAt(adjustedGridPos);
-                HighlightMovableTiles(adjustedGridPos);
-            } else 
+        // If a unit is on this tile, show the menu
+        if (clickedTile.IsOccupied)
+        {
+            Unit unit = clickedTile.unitOnTile.GetComponent<Unit>();
+            Debug.Log($"Clicked unit on tile {adjustedGridPos}: {unit.name}");
+
+            if (unit != null)
             {
-                Debug.Log($"Clicked out of bounds: {adjustedGridPos}");
+                FindObjectOfType<UnitMenuController>()?.ShowMenu(unit);
+                return;
             }
         }
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log("Right mouse button clicked");
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
-            Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
 
-            GameObject newUnit = Instantiate(unitPrefab);
-            PlaceUnitOnTile(newUnit, adjustedGridPos);
-        }
+        // Otherwise, treat as regular tile click
+        HighlightTileAt(adjustedGridPos);
+        // (Only call HighlightMovableTiles() from the Move button now)
     }
+
+    if (Input.GetMouseButtonDown(1))
+    {
+        Debug.Log("Right mouse button clicked");
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
+        Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
+
+        GameObject newUnit = Instantiate(unitPrefab);
+        PlaceUnitOnTile(newUnit, adjustedGridPos);
+    }
+}
 
     bool IsInBounds(Vector3Int pos)
     {
@@ -115,7 +129,7 @@ public class GridManager : MonoBehaviour
     // and highlights all the tiles that are within
     // the range of the unit on that tile
     // in the world space
-    void HighlightMovableTiles(Vector3Int gridPos){
+    public void HighlightMovableTiles(Vector3Int gridPos){
         Tile tile = grid[gridPos.x, gridPos.y];
         if (tile.IsOccupied){
             GameObject unitObject = tile.unitOnTile;
