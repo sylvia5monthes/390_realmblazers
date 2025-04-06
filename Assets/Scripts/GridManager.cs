@@ -14,6 +14,9 @@ public class GridManager : MonoBehaviour
     public GameObject unitPrefab;
 
     private Tile[,] grid;
+    private HashSet<Vector3Int> highlightedMoveTiles = new HashSet<Vector3Int>();
+    private Unit unitWaitingToMove = null;
+
 
     void Start()
     {
@@ -34,33 +37,32 @@ void Update()
     if (Input.GetMouseButtonDown(0))
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
-        Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
+        Vector3Int gridPos = WorldPositionToGridPosition(tilemap.WorldToCell(worldPos));
 
-        if (!IsInBounds(adjustedGridPos))
+        if (!IsInBounds(gridPos)) return;
+
+        // ✅ If a move is pending and the clicked tile is valid:
+        if (unitWaitingToMove != null && highlightedMoveTiles.Contains(gridPos))
         {
-            Debug.Log($"Clicked out of bounds: {adjustedGridPos}");
+            MoveUnit(unitWaitingToMove, gridPos);
+            unitWaitingToMove.hasMoved = true;
+            unitWaitingToMove = null;
+            highlightedMoveTiles.Clear();
+            highlighter.ClearAllTiles();
             return;
         }
 
-        Tile clickedTile = grid[adjustedGridPos.x, adjustedGridPos.y];
-
-        // If a unit is on this tile, show the menu
+        // Otherwise, normal click handling...
+        Tile clickedTile = grid[gridPos.x, gridPos.y];
         if (clickedTile.IsOccupied)
         {
             Unit unit = clickedTile.unitOnTile.GetComponent<Unit>();
-            Debug.Log($"Clicked unit on tile {adjustedGridPos}: {unit.name}");
-
-            if (unit != null)
-            {
-                FindObjectOfType<UnitMenuController>()?.ShowMenu(unit);
-                return;
-            }
+            FindObjectOfType<UnitMenuController>()?.ShowMenu(unit);
         }
-
-        // Otherwise, treat as regular tile click
-        HighlightTileAt(adjustedGridPos);
-        // (Only call HighlightMovableTiles() from the Move button now)
+        else
+        {
+            HighlightTileAt(gridPos);
+        }
     }
 
     if (Input.GetMouseButtonDown(1))
@@ -130,6 +132,8 @@ void Update()
     // the range of the unit on that tile
     // in the world space
     public void HighlightMovableTiles(Vector3Int gridPos){
+        highlighter.ClearAllTiles();
+        highlightedMoveTiles.Clear();
         Tile tile = grid[gridPos.x, gridPos.y];
         if (tile.IsOccupied){
             GameObject unitObject = tile.unitOnTile;
@@ -144,12 +148,10 @@ void Update()
                     {
                         Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
 
-                        if (IsInBounds(pos) && !grid[pos.x, pos.y].IsOccupied)
+                        if (IsInBounds(pos) && !grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos))
                         {
-                            if (!pos.Equals(gridPos)){
-                                highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
-                            }
-                            
+                            highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
+                            highlightedMoveTiles.Add(pos);
                         }
                     }
                 }
@@ -183,6 +185,21 @@ void Update()
         Debug.Log($"Adjusted Grid Position: {adjustedGridPos}, Original Position: {originalGridPos}");
 
         return originalGridPos;
+    }
+    public void StartMove(Unit unit)
+    {
+        unitWaitingToMove = unit;
+    }
+
+    private void MoveUnit(Unit unit, Vector3Int newGridPos)
+    {
+        Vector3Int oldGridPos = unit.currentTilePos;
+
+        // Update grid references
+        RemoveUnit(oldGridPos);
+        PlaceUnitOnTile(unit.gameObject, newGridPos);
+
+        Debug.Log($"Moved {unit.name} to {newGridPos}");
     }
 
 }

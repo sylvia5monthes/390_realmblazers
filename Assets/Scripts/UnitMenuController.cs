@@ -43,9 +43,10 @@ public class UnitMenuController : MonoBehaviour
         {
             Vector3Int adjustedGridPos = gridManager.WorldPositionToGridPosition(selectedUnit.currentTilePos);
             gridManager.HighlightMovableTiles(selectedUnit.currentTilePos);
+            gridManager.StartMove(selectedUnit); 
         }
-
         HideMenu(); 
+        
     }
 
     public void OnAttackClicked()
