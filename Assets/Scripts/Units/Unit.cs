@@ -39,7 +39,13 @@ public class Unit : MonoBehaviour
         UnitMenuController menu = FindObjectOfType<UnitMenuController>();
         if (menu != null)
         {
-            menu.ShowMenu(this);
+            //menu.ShowMenu(this);
         }
+    }
+
+    // can be overriden by specific unit classes
+    public virtual void PerformAction() {
+
+        // add generic action logic here
     }
 }

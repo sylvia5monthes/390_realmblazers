@@ -12,12 +12,16 @@ public class GridManager : MonoBehaviour
     public int width = 10;
     public int height = 10;
     public GameObject unitPrefab;
+    private GameObject selectedUnitPrefab;
 
     private Tile[,] grid;
     private HashSet<Vector3Int> highlightedMoveTiles = new HashSet<Vector3Int>();
     private Unit unitWaitingToMove = null;
 
-
+    // spawn enemies
+    // TODO: make this dynamic for each level
+    public GameObject goblinPrefab;
+    
     void Start()
     {
         grid = new Tile[width, height];
@@ -30,6 +34,9 @@ public class GridManager : MonoBehaviour
                 grid[x, y] = new Tile(cellPos);
             }
         }
+
+        // Spawn enemies at the start
+        SpawnEnemiesAtStart();
     }
 
 void Update()
@@ -41,7 +48,7 @@ void Update()
 
         if (!IsInBounds(gridPos)) return;
 
-        // ✅ If a move is pending and the clicked tile is valid:
+        // if a move is pending and the clicked tile is valid:
         if (unitWaitingToMove != null && highlightedMoveTiles.Contains(gridPos))
         {
             MoveUnit(unitWaitingToMove, gridPos);
@@ -57,7 +64,7 @@ void Update()
         if (clickedTile.IsOccupied)
         {
             Unit unit = clickedTile.unitOnTile.GetComponent<Unit>();
-            FindObjectOfType<UnitMenuController>()?.ShowMenu(unit);
+            //FindObjectOfType<UnitMenuController>()?.ShowMenu(unit);
         }
         else
         {
@@ -72,8 +79,18 @@ void Update()
         Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
         Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
 
-        GameObject newUnit = Instantiate(unitPrefab);
-        PlaceUnitOnTile(newUnit, adjustedGridPos);
+        if (selectedUnitPrefab != null && IsInBounds(adjustedGridPos))
+        {
+            GameObject unit = Instantiate(selectedUnitPrefab);
+            // try to place unit; if fail, delete it
+            if (!PlaceUnitOnTile(unit, adjustedGridPos))
+            {
+                Destroy(unit);
+                return;
+            }
+            FindObjectOfType<UnitMenuController>()?.MarkUnitAsPlaced(selectedUnitPrefab);
+            selectedUnitPrefab = null; // Reset the selected unit prefab after placing
+        }
     }
 }
 
@@ -83,7 +100,7 @@ void Update()
         return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
     }
 
-    public void PlaceUnitOnTile(GameObject unit, Vector3Int gridPos)
+    public bool PlaceUnitOnTile(GameObject unit, Vector3Int gridPos)
     {
         if (IsInBounds(gridPos))
         {
@@ -103,11 +120,14 @@ void Update()
             } else 
             {
                 Debug.Log($"Tile at {gridPos} is already occupied by another unit.");
+                return false; // Tile is occupied
             }
         } else 
         {
             Debug.Log($"Grid position {gridPos} is out of bounds.");
+            return false; // Out of bounds
         }
+        return true; // Successfully placed the unit
     }
 
     public void RemoveUnit(Vector3Int gridPos)
@@ -200,6 +220,27 @@ void Update()
         PlaceUnitOnTile(unit.gameObject, newGridPos);
 
         Debug.Log($"Moved {unit.name} to {newGridPos}");
+    }
+
+    public void SetSelectedUnitPrefab(GameObject unitPrefab)
+    {
+        selectedUnitPrefab = unitPrefab;
+    }
+
+    public void SpawnEnemiesAtStart()
+    {
+        List<Vector3Int> enemySpawnPositions = new List<Vector3Int>
+        {
+            new Vector3Int(width - 1, 0, 0),
+            new Vector3Int(width - 1, 1, 0),
+            new Vector3Int(width - 2, 0, 0),
+        };
+
+        foreach (var adjustedGridPos in enemySpawnPositions)
+        {
+            GameObject enemyUnit = Instantiate(goblinPrefab);
+            PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+        }
     }
 
 }
