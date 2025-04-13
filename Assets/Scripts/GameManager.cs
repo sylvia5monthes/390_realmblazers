@@ -50,4 +50,5 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<PhaseTextController>()?.ShowPhase("Enemy Phase");
         Debug.Log("Enemy Phase Started");
     }
+
 }

@@ -17,6 +17,8 @@ public class UnitMenuController : MonoBehaviour
     public Button knightButton;
     public Button archerButton;
     public Button whiteMageButton;
+    public GameObject abilityPanel;
+    public Button abilityButtonTemplate;
     private bool knightPlaced = false;
     private bool archerPlaced = false;
     private bool whiteMagePlaced = false;
@@ -29,12 +31,14 @@ public class UnitMenuController : MonoBehaviour
     public GameObject unitActionPanel;
     public Button moveButton;
     public Button actionButton;
+    public Button waitButton;
     public TMP_Text statsText;
     public TMP_Text unitNameText;
 
     private GameObject selectedUnitPrefab;
     private Unit selectedUnit;
     private GridManager gridManager;
+    private List<Unit> activeUnits;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +57,8 @@ public class UnitMenuController : MonoBehaviour
         
         unitSelectionPanel.SetActive(true);
         unitActionPanel.SetActive(false);
+        abilityPanel.SetActive(false);
+        activeUnits = new List<Unit>();
 
     }
 
@@ -70,16 +76,19 @@ public class UnitMenuController : MonoBehaviour
         {
             knightPlaced = true;
             knightButton.interactable = false;
+            activeUnits.Add(FindObjectOfType<KnightUnit>());
         } 
         else if (prefab == archerPrefab) 
         {
             archerPlaced = true;
             archerButton.interactable = false;
+            activeUnits.Add(FindObjectOfType<ArcherUnit>());
         } 
         else if (prefab == whiteMagePrefab) 
         {
             whiteMagePlaced = true;
             whiteMageButton.interactable = false;
+            activeUnits.Add(FindObjectOfType<WhiteMageUnit>());
         }
 
         if (knightPlaced && archerPlaced && whiteMagePlaced) 
@@ -99,17 +108,19 @@ public class UnitMenuController : MonoBehaviour
         unitActionPanel.SetActive(true);
 
         moveButton.interactable = !unit.hasMoved;
-        actionButton.interactable = !unit.hasAttacked;
+        actionButton.interactable = !unit.hasActed;
 
         if (unit.isEnemy)
         {
             // don't show action menu for enemy units
             moveButton.gameObject.SetActive(false);
             actionButton.gameObject.SetActive(false);
+            waitButton.gameObject.SetActive(false);
         } else
         {
             moveButton.gameObject.SetActive(true);
             actionButton.gameObject.SetActive(true);
+            waitButton.gameObject.SetActive(true);
         }
 
         unitNameText.text = unit.unitDisplayName;
@@ -127,6 +138,7 @@ public class UnitMenuController : MonoBehaviour
     public void HideUnitActionMenu()
     {
         unitActionPanel.SetActive(false);
+        abilityPanel.SetActive(false);
         //selectedUnit = null;
     }
 
@@ -142,6 +154,75 @@ public class UnitMenuController : MonoBehaviour
         openUnitSelectionButton.gameObject.SetActive(true);
     }
 
+    public bool AllPlayersActed()
+    {
+        foreach (Unit unit in activeUnits)
+        {
+            if (!unit.hasActed){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void MoveUnit(){
+        gridManager.StartMove(selectedUnit);
+        HideUnitActionMenu();
+    }
+    public void UnitHasMoved(Unit unit){//call after each Unit Action
+        unit.hasMoved = true;
+        ShowUnitActionMenu(unit);
+    }
+    public void WaitUnit(){
+        UnitHasActed(selectedUnit);
+    }
+
+    public void UnitHasActed(Unit unit){
+        HideUnitActionMenu();
+        unit.hasActed = true;
+        if (!selectedUnit.hasMoved){//waiting ends the unit's turn. if anyone disagrees we can change, but right now
+            selectedUnit.hasMoved = true; //i think it's easiest to just whenever we have a unit act we automatically set moved to true as well
+        }
+        if (AllPlayersActed()){
+            FindObjectOfType<GameManager>()?.StartEnemyPhase();
+            return;
+        }
+    }
+    public void OnActionButtonPressed()//ability menu
+    {
+        // Clear old buttons
+        foreach (Transform child in abilityPanel.transform)
+        {
+            if (child != abilityButtonTemplate.transform)
+                Destroy(child.gameObject);
+        }
+
+        // Show panel
+        abilityPanel.SetActive(!abilityPanel.activeSelf);
+
+        // Create new buttons based on actionNames
+        for (int i = 0; i < selectedUnit.actionNames.Length; i++)
+        {
+            string actionName = selectedUnit.actionNames[i];
+            int actionIndex = i; // Capture for lambda
+
+            Button newButton = Instantiate(abilityButtonTemplate, abilityPanel.transform);
+            newButton.gameObject.SetActive(true);
+            newButton.GetComponentInChildren<TextMeshProUGUI>().text = actionName;
+
+            newButton.onClick.AddListener(() =>
+            {
+                DoAction(actionIndex);
+            });
+        }
+    }//things to consider- self targeted actions?healing?right now this is just for combat abilities, but will try to restructure later
+    private void DoAction(int actionIndex)
+    {
+        Debug.Log($"Action selected: {selectedUnit.actionNames[actionIndex]}");
+        //selectedUnit.PerformAction(actionIndex);
+        HideUnitActionMenu();
+        gridManager.StartAction(selectedUnit, selectedUnit.actions[actionIndex]);//4th value in the array is range
+    }
     // public void OnMoveClicked()
     // {
     //     if (selectedUnit != null)

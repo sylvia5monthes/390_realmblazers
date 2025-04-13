@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitDisplayName: 
+  isEnemy: 1
   health: 15
   atk: 8
   def: 8
@@ -109,8 +110,9 @@ MonoBehaviour:
   mov: 3
   currentTilePos: {x: 0, y: 0, z: 0}
   hasMoved: 0
-  hasAttacked: 1
+  hasActed: 0
   currentHealth: 0
+  actionNames: []
 --- !u!61 &8515109450624485263
 BoxCollider2D:
   m_ObjectHideFlags: 0

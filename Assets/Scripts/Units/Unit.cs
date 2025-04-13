@@ -21,8 +21,10 @@ public class Unit : MonoBehaviour
     // current state fields
     public Vector3Int currentTilePos;
     public bool hasMoved = false;
-    public bool hasAttacked = false;
+    public bool hasActed = false;
     public float currentHealth;
+    public float[][] actions;
+    public string[] actionNames;
 
     protected virtual void Start()
     {
@@ -58,8 +60,16 @@ public class Unit : MonoBehaviour
     }
 
     // can be overriden by specific unit classes
-    public virtual void PerformAction() {
+    public virtual void PerformAction(int index) {
 
         // add generic action logic here
+    }//redefining in below UseAbility code so that i don't have to manually update every script- we might be able to repurpose this (ie, items?)
+    //the point is i want the child/specific unit class to be able to call it with the index but pass in the actual float itself here
+    //we can also restructure this later if this is a mess
+    public void UseAbility(float[] ability, Unit unit){
+
+    }
+    public void UseAbility(float[] ability){//overloading? we might not need this but we'll probably have targeted and non-targeted abilities
+
     }
 }
