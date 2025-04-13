@@ -41,7 +41,7 @@ public class GridManager : MonoBehaviour
 
 void Update()
 {
-    if (Input.GetMouseButtonDown(0))
+    if (Input.GetMouseButtonDown(0) && !GameManager.Instance.isPhaseChanging)
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int gridPos = WorldPositionToGridPosition(tilemap.WorldToCell(worldPos));
@@ -66,13 +66,10 @@ void Update()
             Unit unit = clickedTile.unitOnTile.GetComponent<Unit>();
             //FindObjectOfType<UnitMenuController>()?.ShowMenu(unit);
         }
-        else
-        {
-            HighlightTileAt(gridPos);
-        }
+        HighlightTileAt(gridPos);
     }
 
-    if (Input.GetMouseButtonDown(1))
+    if (Input.GetMouseButtonDown(1) && !GameManager.Instance.isPhaseChanging)
     {
         Debug.Log("Right mouse button clicked");
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

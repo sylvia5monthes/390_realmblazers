@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 public class Unit : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public string unitDisplayName = "";
+
+    // stats fields
     public float health;
     public float atk;
     public float def;
@@ -13,12 +15,17 @@ public class Unit : MonoBehaviour
     public float prec;
     public float eva;
     public int mov = 1;
+
+
+    // current state fields
     public Vector3Int currentTilePos;
     public bool hasMoved = false;
     public bool hasAttacked = false;
-    void Start()
+    public float currentHealth;
+
+    protected virtual void Start()
     {
-        
+        currentHealth = health;
     }
 
     // Update is called once per frame
@@ -35,11 +42,17 @@ public class Unit : MonoBehaviour
 
     void OnMouseDown()
     {   
-        Debug.Log($"Unit {gameObject.name} was clicked!");
-        UnitMenuController menu = FindObjectOfType<UnitMenuController>();
-        if (menu != null)
+        if (GameManager.Instance.currentPhase != GameManager.GamePhase.PlayerPhase ||
+            GameManager.Instance.isPhaseChanging)
         {
-            //menu.ShowMenu(this);
+            Debug.Log("Not your turn!");
+            return;
+        }
+        Debug.Log($"Unit {gameObject.name} was clicked!");
+        UnitMenuController actionMenu = FindObjectOfType<UnitMenuController>();
+        if (actionMenu != null)
+        {
+            actionMenu.ShowUnitActionMenu(this);
         }
     }
 

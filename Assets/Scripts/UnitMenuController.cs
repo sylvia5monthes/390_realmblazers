@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UnitMenuController : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class UnitMenuController : MonoBehaviour
     public GameObject unitActionPanel;
     public Button moveButton;
     public Button actionButton;
+    public TMP_Text statsText;
+    public TMP_Text unitNameText;
 
     private GameObject selectedUnitPrefab;
     private Unit selectedUnit;
@@ -83,17 +86,31 @@ public class UnitMenuController : MonoBehaviour
         {
             HideUnitSelectionMenu();
             openUnitSelectionButton.gameObject.SetActive(false);
-            Debug.Log("All units placed. Hiding unit selection menu.");
+            Debug.Log("All units placed. Starting player phase.");
+
+            FindObjectOfType<GameManager>()?.StartPlayerPhase();
         }
     }
 
     public void ShowUnitActionMenu(Unit unit)
     {
+        Debug.Log($"Showing action menu for unit: {unit.name}");
         selectedUnit = unit;
         unitActionPanel.SetActive(true);
+
         moveButton.interactable = !unit.hasMoved;
         actionButton.interactable = !unit.hasAttacked;
-        // TODO: add stats text
+
+        unitNameText.text = unit.unitDisplayName;
+        // TODO: for health, show current/total
+        statsText.text = $"Health: {unit.currentHealth} / {unit.health}\n" +
+                         $"Attack: {unit.atk}\n" +
+                         $"Defense: {unit.def}\n" +
+                         $"Magic Attack: {unit.matk}\n" +
+                         $"Magic Defense: {unit.mdef}\n" +
+                         $"Precision: {unit.prec}\n" +
+                         $"Evasion: {unit.eva}\n" +
+                         $"Movement: {unit.mov}";
     }
 
     public void HideUnitActionMenu()

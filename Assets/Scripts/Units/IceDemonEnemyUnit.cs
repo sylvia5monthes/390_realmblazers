@@ -6,9 +6,10 @@ public class IceDemonEnemyUnit : Unit
 {   
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        
+        base.Start();
+        unitDisplayName = "Ice Demon";
     }
 
     // Update is called once per frame
