@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 public class Unit : MonoBehaviour
 {
     public string unitDisplayName = "";
+    public bool isEnemy = false;
 
     // stats fields
     public float health;

@@ -101,6 +101,17 @@ public class UnitMenuController : MonoBehaviour
         moveButton.interactable = !unit.hasMoved;
         actionButton.interactable = !unit.hasAttacked;
 
+        if (unit.isEnemy)
+        {
+            // don't show action menu for enemy units
+            moveButton.gameObject.SetActive(false);
+            actionButton.gameObject.SetActive(false);
+        } else
+        {
+            moveButton.gameObject.SetActive(true);
+            actionButton.gameObject.SetActive(true);
+        }
+
         unitNameText.text = unit.unitDisplayName;
         // TODO: for health, show current/total
         statsText.text = $"Health: {unit.currentHealth} / {unit.health}\n" +
