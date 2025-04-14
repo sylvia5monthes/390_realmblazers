@@ -18,6 +18,7 @@ public class CombatManager : MonoBehaviour
         bool magic = false;
         if (action[0] == 1){
             magic = true;
+            Debug.Log("Magical damage!!!!!");
         }
         float offense;
         float defense;
