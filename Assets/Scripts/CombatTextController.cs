@@ -6,7 +6,9 @@ public class CombatTextController : MonoBehaviour
 {
     public GameObject combatTextPanel;
     public TMP_Text actorText;
-    public TMP_Text defenderText;
+    public TMP_Text receiverText;
+    private string displayString1 = " dealt ";
+    private string displayString2 = " damage to ";
 
     // Start is called before the first frame update
     void Start()
@@ -20,42 +22,36 @@ public class CombatTextController : MonoBehaviour
         
     }
 
-    public void ShowActorDamage(float damage)
+    public void ShowActorDamage(float damage, string actorName, string receiverName)
     {
         StopAllCoroutines();
-        StartCoroutine(DisplayActorText(damage));
+        StartCoroutine(DisplayActorText(damage, actorName, receiverName));
     }
-
-    private IEnumerator DisplayActorText(float damage){
-        yield return new WaitForSeconds(3f);
-    }
-
-    /*private IEnumerator DisplayActorText(string phase)
+    public void ShowReceiverDamage(float damage, string receiverName, string actorName)
     {
-
-        actorText.text = phase;
-
-        phaseText.gameObject.SetActive(true);
-        phaseTextPanel.SetActive(true);
-
-        yield return new WaitForSeconds(3f);
-
-        phaseText.gameObject.SetActive(false);
-        phaseTextPanel.SetActive(false);
-        GameManager.Instance.isPhaseChanging = false;
+        StartCoroutine(DisplayReceiverText(damage, receiverName, actorName));
     }
-    private IEnumerator DisplayPhaseText(string phase)
-    {
 
-        phaseText.text = phase;
-
-        phaseText.gameObject.SetActive(true);
-        phaseTextPanel.SetActive(true);
-
-        yield return new WaitForSeconds(3f);
-
-        phaseText.gameObject.SetActive(false);
-        phaseTextPanel.SetActive(false);
-        GameManager.Instance.isPhaseChanging = false;
-    }*/
+    private IEnumerator DisplayActorText(float damage, string actorName, string receiverName){
+        combatTextPanel.SetActive(false);
+        actorText.text = actorName + displayString1 + damage.ToString() + displayString2 + receiverName + "!";
+        combatTextPanel.SetActive(true);
+        actorText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        actorText.gameObject.SetActive(false);
+    }
+    private IEnumerator DisplayReceiverText(float damage, string receiverName, string actorName){
+        receiverText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1.0f);
+        if (damage > 0){
+            receiverText.text = receiverName + displayString1 + damage.ToString() + displayString2 + actorName + "!";
+            receiverText.gameObject.SetActive(true);
+            yield return new WaitForSeconds(2.0f);
+            receiverText.gameObject.SetActive(false);
+            combatTextPanel.SetActive(false);
+        }
+        else{
+            combatTextPanel.SetActive(false);
+        }
+    }
 }

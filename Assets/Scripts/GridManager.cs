@@ -66,7 +66,31 @@ void Update()
         // if a action is pending and the clicked tile is valid:
         if (unitWaitingToAct != null && highlightedMoveTiles.Contains(gridPos))
         {
-            CombatManager.Instance.HandleCombat(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction);
+            /*Tile tile = grid[gridPos.x, gridPos.y];
+        if (tile.IsOccupied){
+            GameObject unitObject = tile.unitOnTile;
+            Unit unitScript = unitObject.GetComponent<Unit>();
+            for (int dx = -range; dx <= range; dx++)
+            {
+                for (int dy = -range; dy <= range; dy++)
+                {
+                    // Manhattan distance check
+                    if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
+                    {
+                        Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
+
+                        if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
+                        {
+                            highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
+                            highlightedMoveTiles.Add(pos);
+                        }
+                    }
+                }
+            }
+        }*/
+            Vector3Int waitingPos = unitWaitingToAct.currentTilePos;
+            int distance = Mathf.Abs(gridPos.x-waitingPos.x) + Mathf.Abs(gridPos.y - waitingPos.y);
+            CombatManager.Instance.HandleCombat(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction, distance);
             unitMenuController.UnitHasActed(unitWaitingToAct);
             unitWaitingToAct = null;
             pendingAction = null;
