@@ -40,8 +40,15 @@ public class CombatManager : MonoBehaviour
         if (Random.value>=chance){
             totaldamage = 0;//set damage to 0 if miss
         }
-        receiver.currentHealth -=totaldamage;
+        receiver.currentHealth -= totaldamage;
         combatTextController.ShowActorDamage(totaldamage, actor.unitDisplayName, receiver.unitDisplayName);
+
+        // Check death AFTER showing damage
+        if (receiver.currentHealth <= 0)
+        {
+            StartCoroutine(HandleDeathAfterDelay(receiver));
+            return;
+        }
         //RECEIVER'S ACTION: SKIP IF RECEIVER DIED
         if (receiver.currentHealth > 0){
             float[] defaultAction = receiver.actions[0];
@@ -64,6 +71,7 @@ public class CombatManager : MonoBehaviour
                     totaldamage = 0;//set damage to 0 if miss
                 }
                 actor.currentHealth -=totaldamage;
+
             } else{
                 totaldamage = 0;
             }
@@ -71,5 +79,18 @@ public class CombatManager : MonoBehaviour
             totaldamage=0;
         }
         combatTextController.ShowReceiverDamage(totaldamage, receiver.unitDisplayName,actor.unitDisplayName);
+        if (actor.currentHealth <= 0)
+        {
+            StartCoroutine(HandleDeathAfterDelay(actor));
+            return;
+        }
+    }
+
+    private IEnumerator HandleDeathAfterDelay(Unit unit)
+    {
+        // Wait 2 seconds to let the damage text display
+        yield return new WaitForSeconds(2f);
+
+        unit.CheckDeath();  // This will show death text and clean up
     }
 }

@@ -38,6 +38,17 @@ public class CombatTextController : MonoBehaviour
     {
         StartCoroutine(DisplayReceiverText(damage, receiverName, actorName));
     }
+    public void ShowDeathText(string unitName)
+    {
+        StopAllCoroutines();
+        combatTextPanel.SetActive(true);
+        actorText.text = $"{unitName} has fallen!";
+        actorText.gameObject.SetActive(true);
+        receiverText.gameObject.SetActive(false);
+
+        // Auto-hide after 2 seconds
+        StartCoroutine(HideAfterDelay());
+    }
     private IEnumerator DisplayHealerText(float health, string actorName, string receiverName){
         combatTextPanel.SetActive(false);
         actorText.text = actorName + healString1 + receiverName + healString2 + health.ToString() + healString3;
@@ -69,5 +80,19 @@ public class CombatTextController : MonoBehaviour
         else{
             combatTextPanel.SetActive(false);
         }
+    }
+    private IEnumerator HideAfterDelay()
+    {
+        yield return new WaitForSeconds(2.0f);
+        actorText.gameObject.SetActive(false);
+        combatTextPanel.SetActive(false);
+    }
+
+    public void HideAllCombatText()
+    {
+        StopAllCoroutines();
+        actorText.gameObject.SetActive(false);
+        receiverText.gameObject.SetActive(false);
+        combatTextPanel.SetActive(false);
     }
 }

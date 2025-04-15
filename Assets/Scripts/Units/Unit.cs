@@ -131,4 +131,24 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public virtual void CheckDeath()
+    {
+        if (currentHealth <= 0)
+        {
+            Debug.Log($"{unitDisplayName} has been defeated.");
+
+            var grid = FindObjectOfType<GridManager>();
+            var menu = FindObjectOfType<UnitMenuController>();
+            var combatUI = FindObjectOfType<CombatTextController>();
+
+            grid?.RemoveUnit(currentTilePos);
+            menu?.GetUnits().Remove(this);
+            menu?.HideUnitActionMenu();
+
+            combatUI?.ShowDeathText(unitDisplayName); // show "___ has fallen!"
+
+            Destroy(gameObject);
+        }
+    }
+
 }
