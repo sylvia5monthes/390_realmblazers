@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class Unit : MonoBehaviour
@@ -25,10 +26,16 @@ public class Unit : MonoBehaviour
     public float currentHealth;
     public float[][] actions;
     public string[] actionNames;
+    private GridManager gridManager;
+    private UnitMenuController unitMenuController;
+    private CombatManager combatManager;
 
     protected virtual void Start()
     {
         currentHealth = health;
+        gridManager = FindObjectOfType<GridManager>();
+        unitMenuController = FindObjectOfType<UnitMenuController>();
+        combatManager = FindObjectOfType<CombatManager>();
     }
 
     // Update is called once per frame
@@ -72,4 +79,56 @@ public class Unit : MonoBehaviour
     public void UseAbility(float[] ability){//overloading? we might not need this but we'll probably have targeted and non-targeted abilities
 
     }
+    public virtual void EnemyLogic(){//can be overridden with better AI later. default is attack closest unit using 1st ability
+        //finds actable range
+        int effectiveRange = (int)actions[0][3] + mov;
+        int distance = 999;
+        Unit closestUnit = this;
+        foreach (Unit unit in unitMenuController.GetUnits())
+            {
+                if (gridManager.GetManhattan(currentTilePos,unit.currentTilePos) < distance){
+                    closestUnit = unit;
+                    distance = gridManager.GetManhattan(currentTilePos,unit.currentTilePos);
+                }
+            }
+        if (distance > effectiveRange){//move to tile closest to this unit
+            Vector3Int closest = currentTilePos;
+            distance = 999;
+            foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov)){
+                if (gridManager.GetManhattan(gridPos, closestUnit.currentTilePos) < distance){
+                    closest = gridPos;
+                    distance = gridManager.GetManhattan(gridPos, closestUnit.currentTilePos);
+                }
+            }
+            gridManager.MoveEnemy(this, closest);
+            Debug.Log(distance);
+        }
+        else{//move to closest tile in range of enemy and attack
+            int range = effectiveRange-mov;
+            Vector3Int closestInRange = currentTilePos;
+            distance = mov+1;
+            for (int dx = -range; dx <= range; dx++)
+            {
+                for (int dy = -range; dy <= range; dy++)
+                {
+                    if (Mathf.Abs(dx) + Mathf.Abs(dy) == range)
+                    {
+                        Vector3Int newTile = new Vector3Int(closestUnit.currentTilePos.x + dx, closestUnit.currentTilePos.y + dy, 0);
+                        if (gridManager.GetManhattan(currentTilePos, newTile) < distance && gridManager.IsInBounds(newTile) && !gridManager.TileAt(newTile).IsOccupied){
+                            closestInRange = newTile;
+                            distance = gridManager.GetManhattan(currentTilePos, newTile);
+                        }
+                    }
+                }
+            }
+            if (closestInRange.Equals(currentTilePos)){
+                //do nothing
+            } else{
+                gridManager.MoveEnemy(this, closestInRange);
+                combatManager.HandleCombat(this, closestUnit, actions[0], range);
+                Debug.Log(distance);
+            }
+        }
+    }
+
 }

@@ -166,7 +166,7 @@ public class UnitMenuController : MonoBehaviour
     }
 
     public void MoveUnit(){
-        gridManager.StartMove(selectedUnit);
+        gridManager.StartMove(selectedUnit);//button
         HideUnitActionMenu();
     }
     public void UnitHasMoved(Unit unit){//call after each Unit Action
@@ -174,7 +174,7 @@ public class UnitMenuController : MonoBehaviour
         ShowUnitActionMenu(unit);
     }
     public void WaitUnit(){
-        UnitHasActed(selectedUnit);
+        UnitHasActed(selectedUnit);//button
     }
 
     public void UnitHasActed(Unit unit){
@@ -249,5 +249,15 @@ public class UnitMenuController : MonoBehaviour
     void Update()
     {
         
+    }
+    public void PhaseStart(){//re-enable actions and movements on all active units at start of phase
+        foreach (Unit unit in activeUnits)
+        {
+            unit.hasActed = false;
+            unit.hasMoved = false;
+        }
+    }
+    public List<Unit> GetUnits(){
+        return activeUnits;
     }
 }

@@ -24,9 +24,11 @@ public class GridManager : MonoBehaviour
     // TODO: make this dynamic for each level
     public GameObject goblinPrefab;
     private UnitMenuController unitMenuController;
+    private EnemyController enemyController;
     
     void Start()
     {
+        enemyController = FindObjectOfType<EnemyController>();
         grid = new Tile[width, height];
 
         for (int x = 0; x < width; x++)
@@ -131,10 +133,13 @@ void Update()
     }
 }
 
-    bool IsInBounds(Vector3Int pos)
+    public bool IsInBounds(Vector3Int pos)
     {
         Debug.Log($"Checking bounds for {pos}");
         return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
+    }
+    public Tile TileAt(Vector3Int gridPos){
+        return grid[gridPos.x, gridPos.y];
     }
 
     public bool PlaceUnitOnTile(GameObject unit, Vector3Int gridPos)
@@ -216,6 +221,27 @@ void Update()
         }
 
     }
+    public List<Vector3Int> GetMovableTiles(Vector3Int gridPos, int range){
+        List<Vector3Int> ret = new List<Vector3Int>();
+        for (int dx = -range; dx <= range; dx++)
+            {
+                for (int dy = -range; dy <= range; dy++)
+                {
+                    // Manhattan distance check
+                    if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
+                    {
+                        Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
+
+                        if (IsInBounds(pos) && !grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos))
+                        {
+                            ret.Add(pos);
+                        }
+                    }
+                }
+            }
+        return ret;
+    }
+
     public void HighlightActableTiles(Vector3Int gridPos, int range){//again, currently only for combat abilities (enemy units)
         highlighter.ClearAllTiles();
         highlightedMoveTiles.Clear();
@@ -292,6 +318,9 @@ void Update()
 
         Debug.Log($"Moved {unit.name} to {newGridPos}");
     }
+    public void MoveEnemy(Unit unit, Vector3Int newGridPos){
+        MoveUnit(unit, newGridPos);
+    }
 
     public void SetSelectedUnitPrefab(GameObject unitPrefab)
     {
@@ -310,8 +339,13 @@ void Update()
         foreach (var adjustedGridPos in enemySpawnPositions)
         {
             GameObject enemyUnit = Instantiate(goblinPrefab);
+            Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+            enemyController.ActivateEnemy(enemyUnitScript);
             PlaceUnitOnTile(enemyUnit, adjustedGridPos);
         }
+    }
+    public int GetManhattan(Vector3Int tilePos1, Vector3Int tilePos2){
+        return Mathf.Abs(tilePos1.x - tilePos2.x) + Mathf.Abs(tilePos1.y - tilePos2.y);
     }
 
 }

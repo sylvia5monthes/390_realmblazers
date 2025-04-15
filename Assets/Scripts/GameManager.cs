@@ -41,13 +41,16 @@ public class GameManager : MonoBehaviour
         currentPhase = GamePhase.PlayerPhase;
         isPhaseChanging = true;
         FindObjectOfType<PhaseTextController>()?.ShowPhase("Player Phase");
+        FindObjectOfType<UnitMenuController>()?.PhaseStart();
         Debug.Log("Player Phase Started");
     }
 
     public void StartEnemyPhase()
     {
         currentPhase = GamePhase.EnemyPhase;
+        isPhaseChanging = true;
         FindObjectOfType<PhaseTextController>()?.ShowPhase("Enemy Phase");
+        FindObjectOfType<EnemyController>()?.StartPhase();
         Debug.Log("Enemy Phase Started");
     }
 
