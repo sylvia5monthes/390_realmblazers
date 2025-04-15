@@ -35,6 +35,8 @@ public class UnitMenuController : MonoBehaviour
     public Button waitButton;
     public TMP_Text statsText;
     public TMP_Text unitNameText;
+    public TMP_Text enemyAbilityText;
+
 
     [Header("Ability Tooltip")]
     public GameObject abilityTooltipPanel;
@@ -118,58 +120,59 @@ public class UnitMenuController : MonoBehaviour
 
         if (unit.isEnemy)
         {
-            // don't show action menu for enemy units
+            // Hide action buttons
             moveButton.gameObject.SetActive(false);
             actionButton.gameObject.SetActive(false);
             waitButton.gameObject.SetActive(false);
-        } else
+            enemyAbilityText.gameObject.SetActive(true);
+
+            string abilityInfo = "";
+            for (int i = 0; i < unit.actionNames.Length; i++)
+            {
+                string actionName = unit.actionNames[i];
+                float[] stats = unit.actions[i];
+
+                abilityInfo += $"{actionName}\n";
+                abilityInfo += $"  Type: {(stats[0] == 0 ? "Physical" : "Magic")}\n";
+                abilityInfo += $"  Power: {stats[1]}\n";
+                abilityInfo += $"  Accuracy: {stats[2]}\n";
+                abilityInfo += $"  Range: {stats[3]}\n\n";
+
+                Debug.Log($"[ENEMY] {actionName}: P={stats[1]}, Acc={stats[2]}, R={stats[3]}");
+            }
+            enemyAbilityText.text = abilityInfo;
+        }
+        else
         {
+            // Player unit: show action buttons and interactive tooltips
             moveButton.gameObject.SetActive(true);
             actionButton.gameObject.SetActive(true);
             waitButton.gameObject.SetActive(true);
-        }
+            enemyAbilityText.gameObject.SetActive(false);
 
-        unitNameText.text = unit.unitDisplayName;
-        // TODO: for health, show current/total
-        statsText.text = $"Health: {unit.currentHealth} / {unit.health}\n" +
-                         $"Attack: {unit.atk}\n" +
-                         $"Defense: {unit.def}\n" +
-                         $"Magic Attack: {unit.matk}\n" +
-                         $"Magic Defense: {unit.mdef}\n" +
-                         $"Precision: {unit.prec}\n" +
-                         $"Evasion: {unit.eva}\n" +
-                         $"Movement: {unit.mov}";
-        abilityPanel.SetActive(true);
 
-// clear old buttons
-        foreach (Transform child in abilityPanel.transform)
-        {
-            if (child != abilityButtonTemplate.transform)
-                Destroy(child.gameObject);
-        }
-
-        // create new ability buttons
-        for (int i = 0; i < unit.actionNames.Length; i++)
-        {
-            string actionName = unit.actionNames[i];
-            float[] stats = unit.actions[i];
-            int actionIndex = i;
-
-            Button newButton = Instantiate(abilityButtonTemplate, abilityPanel.transform);
-            newButton.gameObject.SetActive(true);
-            newButton.GetComponentInChildren<TextMeshProUGUI>().text = actionName;
-
-            if (unit.isEnemy)
+            abilityPanel.SetActive(true);
+            foreach (Transform child in abilityPanel.transform)
             {
-                newButton.interactable = false;
-                newButton.GetComponentInChildren<TextMeshProUGUI>().text += 
-                    $" — Type: {stats[0]}, Power: {stats[1]}, Accuracy: {stats[2]}, Range: {stats[3]}";
+                if (child != abilityButtonTemplate.transform)
+                    Destroy(child.gameObject);
             }
-            else
+
+            for (int i = 0; i < unit.actionNames.Length; i++)
             {
+                string actionName = unit.actionNames[i];
+                float[] stats = unit.actions[i];
+                int actionIndex = i;
+
+                Debug.Log($"[PLAYER ABILITY] {actionName}");
+
+                Button newButton = Instantiate(abilityButtonTemplate, abilityPanel.transform);
+                newButton.gameObject.SetActive(true);
+                newButton.GetComponentInChildren<TextMeshProUGUI>().text = actionName;
+
                 newButton.onClick.AddListener(() => DoAction(actionIndex));
 
-                // add tooltip hover
+                // Tooltip hover setup (unchanged)
                 EventTrigger trigger = newButton.gameObject.AddComponent<EventTrigger>();
 
                 EventTrigger.Entry enter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
@@ -177,15 +180,16 @@ public class UnitMenuController : MonoBehaviour
                     abilityTooltipPanel.SetActive(true);
                     abilityTooltipText.text = 
                         $"{actionName}\nPower: {stats[1]}\nAccuracy: {stats[2]}\nRange: {stats[3]}";
-                        Vector2 anchoredPos;
-                        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                            unitActionPanel.GetComponent<RectTransform>(),  // or your canvas RectTransform
-                            Input.mousePosition,
-                            null, // or use your canvas's world camera if in Screen Space - Camera
-                            out anchoredPos
-                        );
-                        Vector2 tooltipOffset = new Vector2(10, -20);
-                        abilityTooltipPanel.GetComponent<RectTransform>().anchoredPosition = anchoredPos + tooltipOffset;                
+
+                    Vector2 anchoredPos;
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                        unitActionPanel.GetComponent<RectTransform>(),
+                        Input.mousePosition,
+                        null,
+                        out anchoredPos
+                    );
+                    Vector2 tooltipOffset = new Vector2(10, -20);
+                    abilityTooltipPanel.GetComponent<RectTransform>().anchoredPosition = anchoredPos + tooltipOffset;
                 });
 
                 EventTrigger.Entry exit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
@@ -197,6 +201,15 @@ public class UnitMenuController : MonoBehaviour
                 trigger.triggers.Add(exit);
             }
         }
+        unitNameText.text = unit.unitDisplayName;
+        statsText.text = $"Health: {unit.currentHealth} / {unit.health}\n" +
+                        $"Attack: {unit.atk}\n" +
+                        $"Defense: {unit.def}\n" +
+                        $"Magic Attack: {unit.matk}\n" +
+                        $"Magic Defense: {unit.mdef}\n" +
+                        $"Precision: {unit.prec}\n" +
+                        $"Evasion: {unit.eva}\n" +
+                        $"Movement: {unit.mov}";
         
     }
 
