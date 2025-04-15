@@ -144,8 +144,13 @@ public class Unit : MonoBehaviour
             var combatUI = FindObjectOfType<CombatTextController>();
 
             grid?.RemoveUnit(currentTilePos);
-            menu?.GetUnits().Remove(this);
-            menu?.HideUnitActionMenu();
+            if (isEnemy){
+                var enemyController = FindObjectOfType<EnemyController>();
+                enemyController.GetEnemies().Remove(this);
+            } else{
+                menu?.GetUnits().Remove(this);
+                menu?.HideUnitActionMenu();
+            }
 
             combatUI?.ShowDeathText(unitDisplayName); // show "___ has fallen!"
 

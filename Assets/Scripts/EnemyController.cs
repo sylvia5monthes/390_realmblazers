@@ -22,6 +22,9 @@ public class EnemyController : MonoBehaviour
     public void ActivateEnemy(Unit unit){
         activeEnemies.Add(unit);
     }
+    public List<Unit> GetEnemies(){
+        return activeEnemies;
+    }
     public void StartPhase(){
         foreach (Unit unit in activeEnemies)
         {
