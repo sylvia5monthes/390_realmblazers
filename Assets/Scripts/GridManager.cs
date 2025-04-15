@@ -68,37 +68,25 @@ void Update()
         // if a action is pending and the clicked tile is valid:
         if (unitWaitingToAct != null && highlightedMoveTiles.Contains(gridPos))
         {
-            /*Tile tile = grid[gridPos.x, gridPos.y];
-        if (tile.IsOccupied){
-            GameObject unitObject = tile.unitOnTile;
-            Unit unitScript = unitObject.GetComponent<Unit>();
-            for (int dx = -range; dx <= range; dx++)
-            {
-                for (int dy = -range; dy <= range; dy++)
-                {
-                    // Manhattan distance check
-                    if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
-                    {
-                        Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
-
-                        if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
-                        {
-                            highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
-                            highlightedMoveTiles.Add(pos);
-                        }
-                    }
-                }
+            if(pendingAction[0] == 2){
+                CombatManager.Instance.HandleHeal(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction);
+                unitMenuController.UnitHasActed(unitWaitingToAct);
+                unitWaitingToAct = null;
+                pendingAction = null;
+                highlightedMoveTiles.Clear();
+                highlighter.ClearAllTiles();
+                return;
+            } else{
+                Vector3Int waitingPos = unitWaitingToAct.currentTilePos;
+                int distance = Mathf.Abs(gridPos.x-waitingPos.x) + Mathf.Abs(gridPos.y - waitingPos.y);
+                CombatManager.Instance.HandleCombat(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction, distance);
+                unitMenuController.UnitHasActed(unitWaitingToAct);
+                unitWaitingToAct = null;
+                pendingAction = null;
+                highlightedMoveTiles.Clear();
+                highlighter.ClearAllTiles();
+                return;
             }
-        }*/
-            Vector3Int waitingPos = unitWaitingToAct.currentTilePos;
-            int distance = Mathf.Abs(gridPos.x-waitingPos.x) + Mathf.Abs(gridPos.y - waitingPos.y);
-            CombatManager.Instance.HandleCombat(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction, distance);
-            unitMenuController.UnitHasActed(unitWaitingToAct);
-            unitWaitingToAct = null;
-            pendingAction = null;
-            highlightedMoveTiles.Clear();
-            highlighter.ClearAllTiles();
-            return;
         }
 
         // Otherwise, normal click handling...
@@ -247,8 +235,6 @@ void Update()
         highlightedMoveTiles.Clear();
         Tile tile = grid[gridPos.x, gridPos.y];
         if (tile.IsOccupied){
-            GameObject unitObject = tile.unitOnTile;
-            Unit unitScript = unitObject.GetComponent<Unit>();
             for (int dx = -range; dx <= range; dx++)
             {
                 for (int dy = -range; dy <= range; dy++)
@@ -267,7 +253,30 @@ void Update()
                 }
             }
         }
+    }
+    public void HighlightAlliedTiles(Vector3Int gridPos, int range){//again, currently only for combat abilities (enemy units)
+        highlighter.ClearAllTiles();
+        highlightedMoveTiles.Clear();
+        Tile tile = grid[gridPos.x, gridPos.y];
+        if (tile.IsOccupied){
+            for (int dx = -range; dx <= range; dx++)
+            {
+                for (int dy = -range; dy <= range; dy++)
+                {
+                    // Manhattan distance check
+                    if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
+                    {
+                        Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
 
+                        if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && !grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
+                        {
+                            highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
+                            highlightedMoveTiles.Add(pos);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // converts position from the world space, where (0,0) is centered
@@ -305,7 +314,12 @@ void Update()
     {
         unitWaitingToAct = unit;
         pendingAction = action;
-        HighlightActableTiles(unit.currentTilePos, (int)action[3]);//range is the 3rd entry in the action
+        if (action[0] == 2){
+            HighlightAlliedTiles(unit.currentTilePos, (int)action[3]);
+        } else{
+            HighlightActableTiles(unit.currentTilePos, (int)action[3]);
+        }
+        //range is the 3rd entry in the action
     }
 
     private void MoveUnit(Unit unit, Vector3Int newGridPos)

@@ -9,6 +9,9 @@ public class CombatTextController : MonoBehaviour
     public TMP_Text receiverText;
     private string displayString1 = " dealt ";
     private string displayString2 = " damage to ";
+    private string healString1 = " healed ";
+    private string healString2 = " to ";
+    private string healString3 = " health!";
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +24,10 @@ public class CombatTextController : MonoBehaviour
     {
         
     }
+    public void ShowHealAmount(float health, string actorName, string receiverName){
+        StopAllCoroutines();
+        StartCoroutine(DisplayHealerText(health, actorName, receiverName));
+    }
 
     public void ShowActorDamage(float damage, string actorName, string receiverName)
     {
@@ -30,6 +37,15 @@ public class CombatTextController : MonoBehaviour
     public void ShowReceiverDamage(float damage, string receiverName, string actorName)
     {
         StartCoroutine(DisplayReceiverText(damage, receiverName, actorName));
+    }
+    private IEnumerator DisplayHealerText(float health, string actorName, string receiverName){
+        combatTextPanel.SetActive(false);
+        actorText.text = actorName + healString1 + receiverName + healString2 + health.ToString() + healString3;
+        combatTextPanel.SetActive(true);
+        actorText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        actorText.gameObject.SetActive(false);
+        combatTextPanel.SetActive(false);
     }
 
     private IEnumerator DisplayActorText(float damage, string actorName, string receiverName){

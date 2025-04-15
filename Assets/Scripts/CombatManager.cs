@@ -14,6 +14,11 @@ public class CombatManager : MonoBehaviour
         }
         combatTextController = FindObjectOfType<CombatTextController>();
     }
+    public void HandleHeal(Unit actor, Unit receiver, float[] action){
+        float totalheal = action[1] + actor.matk;
+        receiver.currentHealth = Mathf.Min(receiver.health, receiver.currentHealth+totalheal);
+        combatTextController.ShowHealAmount(receiver.currentHealth, actor.unitDisplayName, receiver.unitDisplayName);
+    }
     public void HandleCombat(Unit actor, Unit receiver, float[] action, int distance){
         bool magic = false;
         if (action[0] == 1){
