@@ -26,10 +26,18 @@ public class EnemyController : MonoBehaviour
         return activeEnemies;
     }
     public void StartPhase(){
+        List<Unit> toBeRemoved = new List<Unit>();
         foreach (Unit unit in activeEnemies)
         {
             unit.hasActed = false;
             unit.hasMoved = false;
+            
+            if (unit.currentHealth<= 0){
+                toBeRemoved.Add(unit);
+            }
+        }
+        foreach(Unit unit in toBeRemoved){
+            activeEnemies.Remove(unit);
         }
         StartCoroutine(EnemyPhaseCoroutine());
     }
