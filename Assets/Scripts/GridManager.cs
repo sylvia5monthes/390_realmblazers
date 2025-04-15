@@ -189,44 +189,73 @@ void Update()
             GameObject unitObject = tile.unitOnTile;
             Unit unitScript = unitObject.GetComponent<Unit>();
             int range = unitScript.mov;
-            for (int dx = -range; dx <= range; dx++)
+            
+            List<Vector3Int> movableTiles = GetMovableTiles(gridPos, range);
+            foreach (Vector3Int pos in movableTiles)
             {
-                for (int dy = -range; dy <= range; dy++)
-                {
-                    // Manhattan distance check
-                    if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
-                    {
-                        Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
+                highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
+                highlightedMoveTiles.Add(pos);
+            }
+        }
 
-                        if (IsInBounds(pos) && !grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos))
-                        {
-                            highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
-                            highlightedMoveTiles.Add(pos);
-                        }
+    }
+    public List<Vector3Int> GetMovableTiles(Vector3Int gridPos, int range, bool isEnemy = false){
+        // pathfinding w/ bfs, can only move through ally tiles
+        List<Vector3Int> ret = new List<Vector3Int>();
+        Queue<(Vector3Int pos, int cost)> queue = new Queue<(Vector3Int, int)>();
+        HashSet<Vector3Int> visited = new HashSet<Vector3Int>();
+
+        Unit movingUnit = grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>();
+
+        queue.Enqueue((gridPos, 0));
+        visited.Add(gridPos);
+
+        // 4 cardinal directions
+        Vector3Int[] directions = new Vector3Int[] {
+            new Vector3Int(1, 0, 0),
+            new Vector3Int(-1, 0, 0),
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(0, -1, 0)
+        };
+
+        while (queue.Count > 0) {
+            var (currentPos, currentCost) = queue.Dequeue();
+
+            foreach (var dir in directions) {
+                Vector3Int nextPos = currentPos + dir; 
+
+                if (!IsInBounds(nextPos) || visited.Contains(nextPos)) {
+                    continue; // Skip out of bounds or already visited
+                }
+
+                int nextCost = currentCost + 1;
+                if (nextCost > range) {
+                    continue; // Skip if cost exceeds range
+                }
+
+                Tile tile = grid[nextPos.x, nextPos.y];
+
+                if (!tile.IsOccupied) {
+                    ret.Add(nextPos);
+                    queue.Enqueue((nextPos, nextCost));
+                    visited.Add(nextPos);
+                } else {
+                    // if occupied, check if it's an ally or enemy
+                    Unit unitOnTile = tile.unitOnTile.GetComponent<Unit>();
+
+                    // ok to walk through if an ally
+                    if (unitOnTile.isEnemy == movingUnit.isEnemy){
+                        queue.Enqueue((nextPos, nextCost));
+                        visited.Add(nextPos);
                     }
                 }
             }
         }
 
-    }
-    public List<Vector3Int> GetMovableTiles(Vector3Int gridPos, int range){
-        List<Vector3Int> ret = new List<Vector3Int>();
-        for (int dx = -range; dx <= range; dx++)
-            {
-                for (int dy = -range; dy <= range; dy++)
-                {
-                    // Manhattan distance check
-                    if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
-                    {
-                        Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
-
-                        if (IsInBounds(pos) && !grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos))
-                        {
-                            ret.Add(pos);
-                        }
-                    }
-                }
-            }
+        // Debug.Log($"Movable tiles for {movingUnit.unitDisplayName} at {gridPos}:");
+        // foreach (var pos in ret) {
+        //     Debug.Log(pos);
+        // }
         return ret;
     }
 
@@ -281,7 +310,7 @@ void Update()
 
     // converts position from the world space, where (0,0) is centered
     // to our grid space, where bottom left corner is (0,0)
-        public Vector3Int WorldPositionToGridPosition(Vector3 originalGridPos)
+    public Vector3Int WorldPositionToGridPosition(Vector3 originalGridPos)
     {
         float offset_x = width / 2;
         float offset_y = height / 2;

@@ -94,7 +94,7 @@ public class Unit : MonoBehaviour
         if (distance > effectiveRange){//move to tile closest to this unit
             Vector3Int closest = currentTilePos;
             distance = 999;
-            foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov)){
+            foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
                 if (gridManager.GetManhattan(gridPos, closestUnit.currentTilePos) < distance){
                     closest = gridPos;
                     distance = gridManager.GetManhattan(gridPos, closestUnit.currentTilePos);
