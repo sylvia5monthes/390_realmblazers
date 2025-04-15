@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class UnitMenuController : MonoBehaviour
 {
@@ -35,6 +36,10 @@ public class UnitMenuController : MonoBehaviour
     public TMP_Text statsText;
     public TMP_Text unitNameText;
 
+    [Header("Ability Tooltip")]
+    public GameObject abilityTooltipPanel;
+    public TMP_Text abilityTooltipText;
+
     private GameObject selectedUnitPrefab;
     private Unit selectedUnit;
     private GridManager gridManager;
@@ -58,6 +63,7 @@ public class UnitMenuController : MonoBehaviour
         unitSelectionPanel.SetActive(true);
         unitActionPanel.SetActive(false);
         abilityPanel.SetActive(false);
+        abilityTooltipPanel.SetActive(false);
         activeUnits = new List<Unit>();
 
     }
@@ -133,12 +139,72 @@ public class UnitMenuController : MonoBehaviour
                          $"Precision: {unit.prec}\n" +
                          $"Evasion: {unit.eva}\n" +
                          $"Movement: {unit.mov}";
+        abilityPanel.SetActive(true);
+
+// clear old buttons
+        foreach (Transform child in abilityPanel.transform)
+        {
+            if (child != abilityButtonTemplate.transform)
+                Destroy(child.gameObject);
+        }
+
+        // create new ability buttons
+        for (int i = 0; i < unit.actionNames.Length; i++)
+        {
+            string actionName = unit.actionNames[i];
+            float[] stats = unit.actions[i];
+            int actionIndex = i;
+
+            Button newButton = Instantiate(abilityButtonTemplate, abilityPanel.transform);
+            newButton.gameObject.SetActive(true);
+            newButton.GetComponentInChildren<TextMeshProUGUI>().text = actionName;
+
+            if (unit.isEnemy)
+            {
+                newButton.interactable = false;
+                newButton.GetComponentInChildren<TextMeshProUGUI>().text += 
+                    $" — Type: {stats[0]}, Power: {stats[1]}, Accuracy: {stats[2]}, Range: {stats[3]}";
+            }
+            else
+            {
+                newButton.onClick.AddListener(() => DoAction(actionIndex));
+
+                // add tooltip hover
+                EventTrigger trigger = newButton.gameObject.AddComponent<EventTrigger>();
+
+                EventTrigger.Entry enter = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+                enter.callback.AddListener((data) => {
+                    abilityTooltipPanel.SetActive(true);
+                    abilityTooltipText.text = 
+                        $"{actionName}\nPower: {stats[1]}\nAccuracy: {stats[2]}\nRange: {stats[3]}";
+                        Vector2 anchoredPos;
+                        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                            unitActionPanel.GetComponent<RectTransform>(),  // or your canvas RectTransform
+                            Input.mousePosition,
+                            null, // or use your canvas's world camera if in Screen Space - Camera
+                            out anchoredPos
+                        );
+                        Vector2 tooltipOffset = new Vector2(10, -20);
+                        abilityTooltipPanel.GetComponent<RectTransform>().anchoredPosition = anchoredPos + tooltipOffset;                
+                });
+
+                EventTrigger.Entry exit = new EventTrigger.Entry { eventID = EventTriggerType.PointerExit };
+                exit.callback.AddListener((data) => {
+                    abilityTooltipPanel.SetActive(false);
+                });
+
+                trigger.triggers.Add(enter);
+                trigger.triggers.Add(exit);
+            }
+        }
+        
     }
 
     public void HideUnitActionMenu()
     {
         unitActionPanel.SetActive(false);
         abilityPanel.SetActive(false);
+        abilityTooltipPanel.SetActive(false);
         //selectedUnit = null;
     }
 
@@ -190,31 +256,31 @@ public class UnitMenuController : MonoBehaviour
     }
     public void OnActionButtonPressed()//ability menu
     {
-        // Clear old buttons
-        foreach (Transform child in abilityPanel.transform)
-        {
-            if (child != abilityButtonTemplate.transform)
-                Destroy(child.gameObject);
-        }
+        // // Clear old buttons
+        // foreach (Transform child in abilityPanel.transform)
+        // {
+        //     if (child != abilityButtonTemplate.transform)
+        //         Destroy(child.gameObject);
+        // }
 
-        // Show panel
-        abilityPanel.SetActive(!abilityPanel.activeSelf);
+        // // Show panel
+        // abilityPanel.SetActive(!abilityPanel.activeSelf);
 
-        // Create new buttons based on actionNames
-        for (int i = 0; i < selectedUnit.actionNames.Length; i++)
-        {
-            string actionName = selectedUnit.actionNames[i];
-            int actionIndex = i; // Capture for lambda
+        // // Create new buttons based on actionNames
+        // for (int i = 0; i < selectedUnit.actionNames.Length; i++)
+        // {
+        //     string actionName = selectedUnit.actionNames[i];
+        //     int actionIndex = i; // Capture for lambda
 
-            Button newButton = Instantiate(abilityButtonTemplate, abilityPanel.transform);
-            newButton.gameObject.SetActive(true);
-            newButton.GetComponentInChildren<TextMeshProUGUI>().text = actionName;
+        //     Button newButton = Instantiate(abilityButtonTemplate, abilityPanel.transform);
+        //     newButton.gameObject.SetActive(true);
+        //     newButton.GetComponentInChildren<TextMeshProUGUI>().text = actionName;
 
-            newButton.onClick.AddListener(() =>
-            {
-                DoAction(actionIndex);
-            });
-        }
+        //     newButton.onClick.AddListener(() =>
+        //     {
+        //         DoAction(actionIndex);
+        //     });
+        // }
     }//things to consider- self targeted actions?healing?right now this is just for combat abilities, but will try to restructure later
     private void DoAction(int actionIndex)
     {
