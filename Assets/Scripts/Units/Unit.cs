@@ -108,18 +108,10 @@ public class Unit : MonoBehaviour
             int range = effectiveRange-mov;
             Vector3Int closestInRange = currentTilePos;
             distance = mov+1;
-            for (int dx = -range; dx <= range; dx++)
-            {
-                for (int dy = -range; dy <= range; dy++)
-                {
-                    if (Mathf.Abs(dx) + Mathf.Abs(dy) == range)
-                    {
-                        Vector3Int newTile = new Vector3Int(closestUnit.currentTilePos.x + dx, closestUnit.currentTilePos.y + dy, 0);
-                        if (gridManager.GetManhattan(currentTilePos, newTile) < distance && gridManager.IsInBounds(newTile) && !gridManager.TileAt(newTile).IsOccupied){
-                            closestInRange = newTile;
-                            distance = gridManager.GetManhattan(currentTilePos, newTile);
-                        }
-                    }
+            foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
+                if (gridManager.GetManhattan(gridPos, currentTilePos) < distance && gridManager.GetManhattan(closestUnit.currentTilePos, gridPos) <= range){
+                    closestInRange = gridPos;
+                    distance = gridManager.GetManhattan(gridPos, currentTilePos);
                 }
             }
             if (closestInRange.Equals(currentTilePos)){
