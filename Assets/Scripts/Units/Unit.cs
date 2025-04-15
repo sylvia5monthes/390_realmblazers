@@ -100,6 +100,7 @@ public class Unit : MonoBehaviour
                     distance = gridManager.GetManhattan(gridPos, closestUnit.currentTilePos);
                 }
             }
+            gridManager.HighlightEnemyPathTemporarily(currentTilePos, closest);
             gridManager.MoveEnemy(this, closest);
             Debug.Log(distance);
         }
@@ -124,6 +125,7 @@ public class Unit : MonoBehaviour
             if (closestInRange.Equals(currentTilePos)){
                 //do nothing
             } else{
+                gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
                 gridManager.MoveEnemy(this, closestInRange);
                 combatManager.HandleCombat(this, closestUnit, actions[0], range);
                 Debug.Log(distance);

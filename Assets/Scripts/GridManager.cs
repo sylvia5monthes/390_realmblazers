@@ -308,6 +308,26 @@ void Update()
         }
     }
 
+    public void HighlightEnemyPathTemporarily(Vector3Int from, Vector3Int to, float duration = 1f) {
+        StartCoroutine(HighlightAndClear(from, to, duration));
+    }
+
+    public void HighlightEnemyPath(Vector3Int from, Vector3Int to)
+    {
+        highlighter.ClearAllTiles(); 
+        // TODO: maybe add different colored highlighted Tile
+        highlighter.SetTile(GridPositionToWorldPosition(from), highlightedTile);
+        highlighter.SetTile(GridPositionToWorldPosition(to), highlightedTile);
+    }
+
+    private IEnumerator HighlightAndClear(Vector3Int from, Vector3Int to, float duration)
+    {
+        HighlightEnemyPath(from, to);
+        yield return new WaitForSeconds(duration);
+        highlighter.ClearAllTiles();
+    }
+
+
     // converts position from the world space, where (0,0) is centered
     // to our grid space, where bottom left corner is (0,0)
     public Vector3Int WorldPositionToGridPosition(Vector3 originalGridPos)
