@@ -20,6 +20,7 @@ public class CombatManager : MonoBehaviour
         combatTextController.ShowHealAmount(receiver.currentHealth, actor.unitDisplayName, receiver.unitDisplayName);
     }
     public void HandleCombat(Unit actor, Unit receiver, float[] action, int distance){
+        Debug.Log("CombatManager: HandleCombat called between " + actor.unitDisplayName + " and " + receiver.unitDisplayName);
         bool magic = false;
         if (action[0] == 1){
             magic = true;

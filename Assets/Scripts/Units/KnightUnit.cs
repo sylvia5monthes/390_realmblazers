@@ -31,6 +31,6 @@ public class KnightUnit : Unit
     {
         
         // Implement Knight-specific action logic here
-        Debug.Log(actionNames[index]);
+        Debug.Log("Knight is performing an action!");
     }
 }

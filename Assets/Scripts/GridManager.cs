@@ -23,6 +23,7 @@ public class GridManager : MonoBehaviour
     // spawn enemies
     // TODO: make this dynamic for each level
     public GameObject goblinPrefab;
+    public GameObject iceDemonPrefab;
     private UnitMenuController unitMenuController;
     private EnemyController enemyController;
     
@@ -406,6 +407,17 @@ void Update()
             enemyController.ActivateEnemy(enemyUnitScript);
             PlaceUnitOnTile(enemyUnit, adjustedGridPos);
         }
+
+    }
+    public void SpawnBoss()
+    {
+        Debug.Log("[GridManager] Spawning boss unit.");
+
+        GameObject bossUnit = Instantiate(iceDemonPrefab);
+        Unit bossUnitScript = bossUnit.GetComponent<Unit>();
+        
+        enemyController.ActivateEnemy(bossUnitScript);
+        PlaceUnitOnTile(bossUnit, new Vector3Int(width - 2, 1, 0));
     }
     public int GetManhattan(Vector3Int tilePos1, Vector3Int tilePos2){
         return Mathf.Abs(tilePos1.x - tilePos2.x) + Mathf.Abs(tilePos1.y - tilePos2.y);

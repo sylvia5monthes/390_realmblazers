@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5488443895641035720}
   m_Layer: 0
   m_Name: ArcherPrefab
-  m_TagString: Untagged
+  m_TagString: PlayerUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitDisplayName: 
+  isEnemy: 0
   health: 20
   atk: 10
   def: 8
@@ -109,8 +110,9 @@ MonoBehaviour:
   mov: 3
   currentTilePos: {x: 0, y: 0, z: 0}
   hasMoved: 0
-  hasAttacked: 0
+  hasActed: 0
   currentHealth: 0
+  actionNames: []
 --- !u!61 &5488443895641035720
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -7,6 +7,8 @@ public class Unit : MonoBehaviour
 {
     public string unitDisplayName = "";
     public bool isEnemy = false;
+    public bool isMinion = false;
+    public bool isBoss = false;
 
     // stats fields
     public float health;
@@ -102,7 +104,7 @@ public class Unit : MonoBehaviour
             }
             gridManager.HighlightEnemyPathTemporarily(currentTilePos, closest);
             gridManager.MoveEnemy(this, closest);
-            Debug.Log(distance);
+            Debug.Log("moving distance" + distance);
         }
         else{//move to closest tile in range of enemy and attack
             int range = effectiveRange-mov;
@@ -120,31 +122,34 @@ public class Unit : MonoBehaviour
                 gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
                 gridManager.MoveEnemy(this, closestInRange);
                 combatManager.HandleCombat(this, closestUnit, actions[0], range);
-                Debug.Log(distance);
+                Debug.Log("attacking distance" + distance);
             }
         }
     }
 
+    public void HandleDeathCleanup()
+    {
+        GridManager gridManager = FindObjectOfType<GridManager>();
+        UnitMenuController menu = FindObjectOfType<UnitMenuController>();
+        CombatTextController combatUI = FindObjectOfType<CombatTextController>();
+
+        gridManager?.RemoveUnit(currentTilePos);
+
+        if (!isEnemy)
+        {
+            menu?.GetUnits().Remove(this);
+            menu?.HideUnitActionMenu();
+        }
+
+        combatUI?.ShowDeathText(unitDisplayName);
+        Destroy(gameObject);
+    }
     public virtual void CheckDeath()
     {
         if (currentHealth <= 0)
         {
             Debug.Log($"{unitDisplayName} has been defeated.");
-
-            var grid = FindObjectOfType<GridManager>();
-            var menu = FindObjectOfType<UnitMenuController>();
-            var combatUI = FindObjectOfType<CombatTextController>();
-
-            grid?.RemoveUnit(currentTilePos);
-            if (!isEnemy){
-                menu?.GetUnits().Remove(this);
-                menu?.HideUnitActionMenu();
-            }
-    
-        
-
-            combatUI?.ShowDeathText(unitDisplayName); // show "___ has fallen!"
-            Destroy(gameObject);
+            GameManager.Instance.OnUnitDeath(this);
         }
     }
 

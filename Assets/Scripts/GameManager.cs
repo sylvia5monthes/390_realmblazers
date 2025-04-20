@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
         PlayerCounter,
         EnemyPhase,
         EnemyCounter,
+        BossPhase,
+        BossCounter,
         GameOver
 
     }
@@ -54,8 +56,16 @@ public class GameManager : MonoBehaviour
         FindObjectOfType<EnemyController>()?.StartPhase();
         Debug.Log("Enemy Phase Started");
     }
+
     public void LoadEnd(){
         SceneManager.LoadScene("EndDemo");
+    }
+    public void OnUnitDeath(Unit unit){
+        if (unit.isEnemy){
+            FindObjectOfType<EnemyController>()?.OnEnemyDeath(unit);
+        } else {
+            unit.HandleDeathCleanup();
+        }
     }
 
 }
