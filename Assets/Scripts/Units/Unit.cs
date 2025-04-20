@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -83,48 +84,64 @@ public class Unit : MonoBehaviour
     }
     public virtual void EnemyLogic(){//can be overridden with better AI later. default is attack closest unit using 1st ability
         //finds actable range
+        bool actionSelected = false;
         int effectiveRange = (int)actions[0][3] + mov;
-        int distance = 999;
+        List<Unit> sortedUnits = unitMenuController.GetUnits()
+            .OrderBy(unit => gridManager.GetManhattan(currentTilePos, unit.currentTilePos))
+            .ToList();
+        int sortedIndex = 0;
         Unit closestUnit = this;
-        foreach (Unit unit in unitMenuController.GetUnits())
+        while (actionSelected == false)
             {
-                if (gridManager.GetManhattan(currentTilePos,unit.currentTilePos) < distance){
-                    closestUnit = unit;
-                    distance = gridManager.GetManhattan(currentTilePos,unit.currentTilePos);
+                if(sortedIndex>sortedUnits.Count){
+                    //donothing
+                    return;
                 }
-            }
-        if (distance > effectiveRange){//move to tile closest to this unit
-            Vector3Int closest = currentTilePos;
-            distance = 999;
-            foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
-                if (gridManager.GetManhattan(gridPos, closestUnit.currentTilePos) < distance){
-                    closest = gridPos;
-                    distance = gridManager.GetManhattan(gridPos, closestUnit.currentTilePos);
+                closestUnit = sortedUnits[sortedIndex];
+                int distance = gridManager.GetManhattan(currentTilePos,closestUnit.currentTilePos);
+                if (distance > effectiveRange){
+                    actionSelected = true;//stop searching
+                    Vector3Int closest = currentTilePos;
+                    distance = 999;//moving distance, separate from manhattan distance to enem ysorry for same variable name
+                    foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
+                        if (gridManager.GetManhattan(gridPos, closestUnit.currentTilePos) < distance){
+                            closest = gridPos;
+                            distance = gridManager.GetManhattan(gridPos, closestUnit.currentTilePos);
+                        }
+                    }
+                    gridManager.HighlightEnemyPathTemporarily(currentTilePos, closest);
+                    gridManager.MoveEnemy(this, closest);
+                    Debug.Log("moving distance" + distance);
+                } else{
+                    //if there are units in range but attackable tiles are occupied, search for a different target.
+                    int range = effectiveRange-mov;
+                    Vector3Int closestInRange = currentTilePos;
+                    if (gridManager.GetManhattan(currentTilePos, closestUnit.currentTilePos) <= range){
+                        gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);//stand in place and attack
+                        combatManager.HandleCombat(this, closestUnit, actions[0], range);
+                        Debug.Log("attacking distance" + distance);
+                        actionSelected = true;
+                    } else{
+                        distance = mov+1;//moving distance, not same as manhattan distance to enemy. sorry for same variable name
+                        foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
+                            if (gridManager.GetManhattan(gridPos, currentTilePos) < distance && gridManager.GetManhattan(closestUnit.currentTilePos, gridPos) <= range){
+                                closestInRange = gridPos;
+                                distance = gridManager.GetManhattan(gridPos, currentTilePos);
+                            }
+                        }
+                        if (closestInRange.Equals(currentTilePos)){
+                            //do nothing, actionselected should still be false
+                        } else{
+                            gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
+                            gridManager.MoveEnemy(this, closestInRange);
+                            combatManager.HandleCombat(this, closestUnit, actions[0], range);
+                            actionSelected=true;
+                            Debug.Log("attacking distance" + distance);
+                        }
+                    }
                 }
+                sortedIndex+=1;
             }
-            gridManager.HighlightEnemyPathTemporarily(currentTilePos, closest);
-            gridManager.MoveEnemy(this, closest);
-            Debug.Log("moving distance" + distance);
-        }
-        else{//move to closest tile in range of enemy and attack
-            int range = effectiveRange-mov;
-            Vector3Int closestInRange = currentTilePos;
-            distance = mov+1;
-            foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
-                if (gridManager.GetManhattan(gridPos, currentTilePos) < distance && gridManager.GetManhattan(closestUnit.currentTilePos, gridPos) <= range){
-                    closestInRange = gridPos;
-                    distance = gridManager.GetManhattan(gridPos, currentTilePos);
-                }
-            }
-            if (closestInRange.Equals(currentTilePos)){
-                //do nothing
-            } else{
-                gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
-                gridManager.MoveEnemy(this, closestInRange);
-                combatManager.HandleCombat(this, closestUnit, actions[0], range);
-                Debug.Log("attacking distance" + distance);
-            }
-        }
     }
 
     public void HandleDeathCleanup()
