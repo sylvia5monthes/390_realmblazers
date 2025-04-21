@@ -116,27 +116,49 @@ public class Unit : MonoBehaviour
                     //if there are units in range but attackable tiles are occupied, search for a different target.
                     int range = effectiveRange-mov;
                     Vector3Int closestInRange = currentTilePos;
-                    if (gridManager.GetManhattan(currentTilePos, closestUnit.currentTilePos) <= range){
+                    int manhattanToUnit = gridManager.GetManhattan(currentTilePos, closestUnit.currentTilePos);
+                    if (manhattanToUnit == range){
                         gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);//stand in place and attack
                         combatManager.HandleCombat(this, closestUnit, actions[0], range);
                         Debug.Log("attacking distance" + distance);
                         actionSelected = true;
                     } else{
                         distance = mov+1;//moving distance, not same as manhattan distance to enemy. sorry for same variable name
-                        foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
-                            if (gridManager.GetManhattan(gridPos, currentTilePos) < distance && gridManager.GetManhattan(closestUnit.currentTilePos, gridPos) <= range){
-                                closestInRange = gridPos;
-                                distance = gridManager.GetManhattan(gridPos, currentTilePos);
+                        if(manhattanToUnit < range){//ranged attacker in melee range
+                            foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
+                                if (gridManager.GetManhattan(gridPos, currentTilePos) < distance && gridManager.GetManhattan(closestUnit.currentTilePos, gridPos) == range){
+                                    closestInRange = gridPos;
+                                    distance = gridManager.GetManhattan(gridPos, currentTilePos);
+                                }
                             }
-                        }
-                        if (closestInRange.Equals(currentTilePos)){
-                            //do nothing, actionselected should still be false
-                        } else{
-                            gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
-                            gridManager.MoveEnemy(this, closestInRange);
-                            combatManager.HandleCombat(this, closestUnit, actions[0], range);
-                            actionSelected=true;
-                            Debug.Log("attacking distance" + distance);
+                            if (closestInRange.Equals(currentTilePos)){
+                                gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);//stand in place and attack
+                                combatManager.HandleCombat(this, closestUnit, actions[0], 1);
+                                Debug.Log("attacking distance" + distance);
+                                actionSelected = true;
+                            } else{
+                                gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
+                                gridManager.MoveEnemy(this, closestInRange);
+                                combatManager.HandleCombat(this, closestUnit, actions[0], range);
+                                actionSelected=true;
+                                Debug.Log("attacking distance" + distance);
+                            }
+                        } else{//out of range
+                            foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
+                                if (gridManager.GetManhattan(gridPos, currentTilePos) < distance && gridManager.GetManhattan(closestUnit.currentTilePos, gridPos) <= range){
+                                    closestInRange = gridPos;
+                                    distance = gridManager.GetManhattan(gridPos, currentTilePos);
+                                }
+                            }
+                            if (closestInRange.Equals(currentTilePos)){
+                                //do nothing, actionselected should still be false
+                            } else{
+                                gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
+                                gridManager.MoveEnemy(this, closestInRange);
+                                combatManager.HandleCombat(this, closestUnit, actions[0], range);
+                                actionSelected=true;
+                                Debug.Log("attacking distance" + distance);
+                            }
                         }
                     }
                 }
