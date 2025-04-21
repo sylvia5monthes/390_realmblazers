@@ -136,7 +136,7 @@ public class UnitMenuController : MonoBehaviour
         selectedUnit = unit;
         unitActionPanel.SetActive(true);
 
-        moveButton.interactable = !unit.hasMoved;
+        moveButton.interactable = !(unit.hasMoved || unit.hasActed);
         actionButton.interactable = !unit.hasActed;
         waitButton.interactable = !unit.hasActed;
 
@@ -282,8 +282,8 @@ public class UnitMenuController : MonoBehaviour
     public void UnitHasActed(Unit unit){
         HideUnitActionMenu();
         unit.hasActed = true;
-        if (!selectedUnit.hasMoved){//waiting ends the unit's turn. if anyone disagrees we can change, but right now
-            selectedUnit.hasMoved = true; //i think it's easiest to just whenever we have a unit act we automatically set moved to true as well
+        if (!unit.hasMoved){//waiting ends the unit's turn. if anyone disagrees we can change, but right now
+            unit.hasMoved = true; //i think it's easiest to just whenever we have a unit act we automatically set moved to true as well
         }
         if (AllPlayersActed()){
             FindObjectOfType<GameManager>()?.StartEnemyPhase();
