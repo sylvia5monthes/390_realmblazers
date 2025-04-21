@@ -10,7 +10,7 @@ public class ImpEnemyUnit : Unit
     protected override void Start()
     {
         base.Start();
-        unitDisplayName = "Goblin";
+        unitDisplayName = "Imp";
         actions = new float[][]{
             spark
         };
@@ -29,7 +29,6 @@ public class ImpEnemyUnit : Unit
     {
         base.PerformAction(index);
 
-        // Implement Archer-specific action logic here
-        Debug.Log("Goblin is performing an action!");
+        Debug.Log("Imp is performing an action!");
     }
 }

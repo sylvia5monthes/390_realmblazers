@@ -148,12 +148,12 @@ MonoBehaviour:
   isMinion: 1
   isBoss: 0
   health: 20
-  atk: 11
+  atk: 12
   def: 10
-  matk: 11
+  matk: 12
   mdef: 10
-  prec: 11
-  eva: 11
+  prec: 12
+  eva: 12
   mov: 3
   currentTilePos: {x: 0, y: 0, z: 0}
   hasMoved: 0
