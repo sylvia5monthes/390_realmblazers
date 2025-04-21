@@ -3644,6 +3644,134 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1211597110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1211597112}
+  - component: {fileID: 1211597111}
+  m_Layer: 0
+  m_Name: music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1211597111
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211597110}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 7cc283ab652ee404a948ae60e93af029, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1211597112
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1211597110}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8264505, y: -3.5851955, z: -0.00052538054}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1280264030
 GameObject:
   m_ObjectHideFlags: 0
@@ -3857,11 +3985,13 @@ MonoBehaviour:
   knightButton: {fileID: 744552354}
   archerButton: {fileID: 39502557}
   whiteMageButton: {fileID: 570461082}
+  blackMageButton: {fileID: 0}
   abilityPanel: {fileID: 1738245181}
   abilityButtonTemplate: {fileID: 894200576}
   knightPrefab: {fileID: 2050863061766310624, guid: 5499ecac47fe04e20b83dc2b6365caaa, type: 3}
   archerPrefab: {fileID: 4054877677828688244, guid: a5205aeeb8c9c4138ab0ee03765be2af, type: 3}
   whiteMagePrefab: {fileID: 8199162552948431021, guid: 210178fb4fa6e4d599f05a2840072dc3, type: 3}
+  blackMagePrefab: {fileID: 0}
   unitActionPanel: {fileID: 1659102983}
   moveButton: {fileID: 1568333955}
   actionButton: {fileID: 1000596401}
@@ -3871,6 +4001,7 @@ MonoBehaviour:
   enemyAbilityText: {fileID: 119647294}
   abilityTooltipPanel: {fileID: 2053369724}
   abilityTooltipText: {fileID: 1104515330}
+  level: 0
 --- !u!4 &1353120740
 Transform:
   m_ObjectHideFlags: 0
@@ -4306,6 +4437,7 @@ MonoBehaviour:
   currentPhase: 0
   isPhaseChanging: 0
   nextScene: Stage2
+  currentLevel: 1
 --- !u!4 &1584909679
 Transform:
   m_ObjectHideFlags: 0
@@ -6292,3 +6424,4 @@ SceneRoots:
   - {fileID: 1584909679}
   - {fileID: 1299124079}
   - {fileID: 594269334}
+  - {fileID: 1211597112}
