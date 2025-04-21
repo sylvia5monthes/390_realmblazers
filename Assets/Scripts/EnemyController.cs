@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour
 
         Debug.Log($"[OnEnemyDeath] Minions left: {activeMinions.Count}, Bosses left: {activeBosses.Count}");
 
-        if (activeMinions.Count == 0 && GameManager.Instance.currentPhase != GameManager.GamePhase.BossPhase)
+        if (activeMinions.Count == 0 && !enteredBossPhase && GameManager.Instance.currentPhase != GameManager.GamePhase.BossPhase)
         {
             enteredBossPhase = true;
             Debug.Log("[OnEnemyDeath] All minions defeated. Triggering Boss Phase.");
@@ -65,8 +65,8 @@ public class EnemyController : MonoBehaviour
         }
         else if (activeBosses.Count == 0 && enteredBossPhase)
         {
-            Debug.Log("[OnEnemyDeath] All bosses defeated. Loading end scene.");
-            GameManager.Instance.LoadEnd();
+            Debug.Log("[OnEnemyDeath] All bosses defeated. Loading next scene.");
+            gameManager.LoadNext();
         }
     }
     public void StartPhase()

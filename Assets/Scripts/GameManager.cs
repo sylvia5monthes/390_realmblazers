@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     public GamePhase currentPhase;
     public bool isPhaseChanging = false;
+    public string nextScene = "placeholder";
+    public int currentLevel = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -57,8 +59,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("Enemy Phase Started");
     }
 
-    public void LoadEnd(){
-        SceneManager.LoadScene("EndDemo");
+    public void LoadNext(){
+        SceneManager.LoadScene(nextScene);
     }
     public void OnUnitDeath(Unit unit){
         if (unit.isEnemy){

@@ -19,6 +19,15 @@ public class WhiteMageUnit : Unit
         actionNames = new string[]{
             action0, action1
         };
+        int level = GameManager.Instance.currentLevel-1;
+        health += level * 4;
+        currentHealth = health;
+        atk += level * 2;
+        def += level * 2;
+        matk += level * 4;
+        mdef += level * 4;
+        prec += level * 3;
+        eva += level * 3;
     }
 
     // Update is called once per frame

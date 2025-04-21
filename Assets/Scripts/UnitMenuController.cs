@@ -18,15 +18,18 @@ public class UnitMenuController : MonoBehaviour
     public Button knightButton;
     public Button archerButton;
     public Button whiteMageButton;
+    public Button blackMageButton;
     public GameObject abilityPanel;
     public Button abilityButtonTemplate;
     private bool knightPlaced = false;
     private bool archerPlaced = false;
     private bool whiteMagePlaced = false;
+    private bool blackMagePlaced = false;
 
     public GameObject knightPrefab; 
     public GameObject archerPrefab;
     public GameObject whiteMagePrefab;
+    public GameObject blackMagePrefab;
 
     [Header("Unit Action Menu")]
     public GameObject unitActionPanel;
@@ -46,6 +49,7 @@ public class UnitMenuController : MonoBehaviour
     private Unit selectedUnit;
     private GridManager gridManager;
     private List<Unit> activeUnits;
+    public int level;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +60,9 @@ public class UnitMenuController : MonoBehaviour
         knightButton.onClick.AddListener(() => SelectUnitForPlacement(knightPrefab));
         archerButton.onClick.AddListener(() => SelectUnitForPlacement(archerPrefab));
         whiteMageButton.onClick.AddListener(() => SelectUnitForPlacement(whiteMagePrefab));
+        if (level == 2){
+            blackMageButton.onClick.AddListener(() => SelectUnitForPlacement(blackMagePrefab));
+        }
 
         // set button listeners to open menus
         minimizeButton.onClick.AddListener(HideUnitSelectionMenu);
@@ -97,15 +104,29 @@ public class UnitMenuController : MonoBehaviour
             whiteMagePlaced = true;
             whiteMageButton.interactable = false;
             activeUnits.Add(FindObjectOfType<WhiteMageUnit>());
+        } else if (prefab == blackMagePrefab){
+            blackMagePlaced = true;
+            blackMageButton.interactable = false;
+            activeUnits.Add(FindObjectOfType<BlackMageUnit>());
         }
-
-        if (knightPlaced && archerPlaced && whiteMagePlaced) 
-        {
+        if (level == 2){
+            if (knightPlaced && archerPlaced && whiteMagePlaced && blackMagePlaced) 
+            {
             HideUnitSelectionMenu();
             openUnitSelectionButton.gameObject.SetActive(false);
             Debug.Log("All units placed. Starting player phase.");
 
             FindObjectOfType<GameManager>()?.StartPlayerPhase();
+            }
+        } else{
+            if (knightPlaced && archerPlaced && whiteMagePlaced) 
+            {
+            HideUnitSelectionMenu();
+            openUnitSelectionButton.gameObject.SetActive(false);
+            Debug.Log("All units placed. Starting player phase.");
+
+            FindObjectOfType<GameManager>()?.StartPlayerPhase();
+            }
         }
     }
 
@@ -117,6 +138,7 @@ public class UnitMenuController : MonoBehaviour
 
         moveButton.interactable = !unit.hasMoved;
         actionButton.interactable = !unit.hasActed;
+        waitButton.interactable = !unit.hasActed;
 
         if (unit.isEnemy)
         {
@@ -168,6 +190,7 @@ public class UnitMenuController : MonoBehaviour
 
                 Button newButton = Instantiate(abilityButtonTemplate, abilityPanel.transform);
                 newButton.gameObject.SetActive(true);
+                newButton.interactable = !unit.hasActed;
                 newButton.GetComponentInChildren<TextMeshProUGUI>().text = actionName;
 
                 newButton.onClick.AddListener(() => DoAction(actionIndex));

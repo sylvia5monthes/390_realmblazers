@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.iOS;
 
@@ -19,6 +20,15 @@ public class KnightUnit : Unit
         actionNames = new string[]{
             action0
         };
+        int level = GameManager.Instance.currentLevel-1;
+        health += level * 5;
+        currentHealth = health;
+        atk += level * 4;
+        def += level * 3;
+        matk += level * 3;
+        mdef += level * 3;
+        prec += level * 3;
+        eva += level * 3;
     }
 
     // Update is called once per frame
