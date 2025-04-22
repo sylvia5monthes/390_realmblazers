@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 987854522949723755}
   - component: {fileID: 5867033345187864910}
-  - component: {fileID: 4061231066027409533}
   - component: {fileID: -7579634837569400415}
+  - component: {fileID: -7346699919856029716}
   m_Layer: 0
   m_Name: VanguardPrefab
   m_TagString: PlayerUnit
@@ -86,37 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4061231066027409533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199162552948431021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7d421ea91b0b467e919829e613e9f57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitDisplayName: 
-  isEnemy: 0
-  isMinion: 0
-  isBoss: 0
-  health: 20
-  atk: 10
-  def: 11
-  matk: 10
-  mdef: 10
-  prec: 10
-  eva: 10
-  mov: 3
-  currentTilePos: {x: 0, y: 0, z: 0}
-  hasMoved: 0
-  hasActed: 0
-  currentHealth: 0
-  actionNames: []
-  defenseBuffed: 0
-  defenseDebuffed: 0
 --- !u!61 &-7579634837569400415
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -162,3 +131,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 12, y: 12}
   m_EdgeRadius: 0
+--- !u!114 &-7346699919856029716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8199162552948431021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f21e8553a2d3642c8a4f289ed7e85db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitDisplayName: 
+  isEnemy: 0
+  isMinion: 0
+  isBoss: 0
+  health: 20
+  atk: 10
+  def: 11
+  matk: 10
+  mdef: 10
+  prec: 10
+  eva: 10
+  mov: 3
+  currentTilePos: {x: 0, y: 0, z: 0}
+  hasMoved: 0
+  hasActed: 0
+  currentHealth: 0
+  actionNames: []
+  defenseBuffed: 0
+  defenseDebuffed: 0
