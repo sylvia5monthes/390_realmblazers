@@ -391,8 +391,8 @@ void Update()
                     if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
                     {
                         Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
-                        if (grid[pos.x, pos.y].unitOnTile != null){
-                            if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
+                        if (IsInBounds(pos) && grid[pos.x, pos.y].unitOnTile != null){
+                            if (grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
                             {
                                 highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
                                 highlightedMoveTiles.Add(pos);
@@ -416,8 +416,8 @@ void Update()
                     if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
                     {
                         Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
-                            if (grid[pos.x, pos.y].unitOnTile != null){
-                                if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && !grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
+                            if (IsInBounds(pos) && grid[pos.x, pos.y].unitOnTile != null){
+                                if (grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && !grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
                                 {
                                     highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
                                     highlightedMoveTiles.Add(pos);
