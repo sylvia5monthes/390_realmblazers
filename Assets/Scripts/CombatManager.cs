@@ -42,9 +42,19 @@ public class CombatManager : MonoBehaviour
         if(!magic){
             offense = actor.atk;
             defense = receiver.def;
+            if (receiver.defenseBuffed){
+                defense = Mathf.Floor(defense * 1.2f);
+            } else if (receiver.defenseDebuffed){
+                defense = Mathf.Floor(defense * 0.8f);
+            }
         } else{
             offense = actor.matk;
             defense = receiver.mdef;
+            if (receiver.defenseBuffed){
+                defense = Mathf.Floor(defense * 1.2f);
+            } else if (receiver.defenseDebuffed){
+                defense = Mathf.Floor(defense * 0.8f);
+            }
         }
         float chance;
         if (gridmanager.TileAt(receiver.currentTilePos).isBrush){
@@ -59,6 +69,9 @@ public class CombatManager : MonoBehaviour
         }
         receiver.currentHealth -= totaldamage;
         combatTextController.ShowActorDamage(totaldamage, actor.unitDisplayName, receiver.unitDisplayName);
+        if (totaldamage > 0 && actionName == "Shield Bash"){
+            receiver.SetDefenseBuff(false);
+        }
 
         // display combat animation
         GridManager gridManager = FindObjectOfType<GridManager>();
@@ -85,9 +98,18 @@ public class CombatManager : MonoBehaviour
                 if(!magic){
                     offense = receiver.atk;
                     defense = actor.def;
+                    if (actor.defenseBuffed){
+                        defense = Mathf.Floor(defense * 1.2f);
+                    } else if (actor.defenseDebuffed){
+                        defense = Mathf.Floor(defense * 0.8f);
+                    }
                 } else{
                     offense = receiver.matk;
-                    defense = actor.mdef;
+                    if (actor.defenseBuffed){
+                        defense = Mathf.Floor(defense * 1.2f);
+                    } else if (actor.defenseDebuffed){
+                        defense = Mathf.Floor(defense * 0.8f);
+                    }
                 }
                 totaldamage = defaultAction[1] + offense - defense;
                 if (gridmanager.TileAt(actor.currentTilePos).isBrush){

@@ -32,6 +32,9 @@ public class Unit : MonoBehaviour
     private GridManager gridManager;
     private UnitMenuController unitMenuController;
     private CombatManager combatManager;
+    private int buffTurns = 0;
+    public bool defenseBuffed = false;
+    public bool defenseDebuffed = false;
 
     protected virtual void Start()
     {
@@ -197,6 +200,25 @@ public class Unit : MonoBehaviour
     }
     public int GetLevel(){
         return unitMenuController.level-1;//want to scale based on level - 1, not level itself
+    }
+    public void SetDefenseBuff(bool isBuff){
+        buffTurns = 3;
+        defenseBuffed = false;
+        defenseDebuffed = false;
+        if (isBuff){
+            defenseBuffed = true;
+        } else{
+            defenseDebuffed = true;
+        }
+    }
+    public void DecrementBuff(){
+        if (buffTurns >0){
+            buffTurns-=1;
+        }
+        if (buffTurns == 0){
+            defenseBuffed = false;
+            defenseDebuffed = false;
+        }
     }
 
 }

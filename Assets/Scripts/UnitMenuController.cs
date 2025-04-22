@@ -233,13 +233,26 @@ public class UnitMenuController : MonoBehaviour
             }
         }
         unitNameText.text = unit.unitDisplayName;
+        float unitDisplayEva = unit.eva;
+        if(gridManager.TileAt(unit.currentTilePos).isBrush){
+            unitDisplayEva = Mathf.Floor(unit.eva * 1.2f);
+        }
+        float unitDisplayDef = unit.def;
+        float unitDisplayMdef = unit.mdef;
+        if (unit.defenseBuffed){
+            unitDisplayDef = Mathf.Floor(unit.def * 1.2f);
+            unitDisplayMdef = Mathf.Floor(unit.mdef * 1.2f);
+        } else if (unit.defenseDebuffed){
+            unitDisplayDef = Mathf.Floor(unit.def * 0.8f);
+            unitDisplayMdef = Mathf.Floor(unit.mdef * 0.8f);
+        }
         statsText.text = $"Health: {unit.currentHealth} / {unit.health}\n" +
                         $"Attack: {unit.atk}\n" +
-                        $"Defense: {unit.def}\n" +
+                        $"Defense: {unitDisplayDef}\n" +
                         $"Magic Attack: {unit.matk}\n" +
-                        $"Magic Defense: {unit.mdef}\n" +
+                        $"Magic Defense: {unitDisplayMdef}\n" +
                         $"Precision: {unit.prec}\n" +
-                        $"Evasion: {unit.eva}\n" +
+                        $"Evasion: {unitDisplayEva}\n" +
                         $"Movement: {unit.mov}";
         
     }
@@ -368,6 +381,7 @@ public class UnitMenuController : MonoBehaviour
             if (gridManager.TileAt(unit.currentTilePos).isMagma){
                     unit.currentHealth-=3;
                 }
+            unit.DecrementBuff();
         }
     }
     public List<Unit> GetUnits(){

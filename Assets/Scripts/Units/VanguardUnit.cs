@@ -1,45 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.iOS;
 
-public class KnightUnit : Unit
+public class VanguardUnit : Unit
 {   
-    //may change structure later
-    float[] slash = new float[] {0, 5, 0.9f, 1}; //index 1: physical vs magic. 1 is magic, 0 is phys. then: power, accuracy, and range
-    string action0 = "Slash";
-    float[] bash = new float[] {0, 2, 0.8f, 1}; //index 1: physical vs magic. 1 is magic, 0 is phys. then: power, accuracy, and range
-    string action1 = "Shield Bash";
+    float[] crush = new float[] {0, 4, 0.9f, 1}; //index 1: physical vs magic. 1 is magic, 0 is phys. then: power, accuracy, and range
+    string action0 = "Crush";
+    float[] snipe = new float[] {0, 2, 0.85f, 3};
+    string action1 = "Snipe";
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
-        unitDisplayName = "Knight";
+        unitDisplayName = "Vanguard";
         int level = GetLevel();
         if (level >=1){
             actions = new float[][]{
-                slash, bash
+                crush, snipe
             };
             actionNames = new string[]{
                 action0, action1
             };
         } else{
             actions = new float[][]{
-                slash
+                crush
             };
             actionNames = new string[]{
                 action0
             };
         }
-        health += level * 5;
+        health += level * 4;
         currentHealth = health;
         atk += level * 4;
         def += level * 3;
         matk += level * 3;
         mdef += level * 3;
-        prec += level * 3;
-        eva += level * 3;
+        prec += level * 4;
+        eva += level * 2;
     }
 
     // Update is called once per frame
@@ -50,8 +47,9 @@ public class KnightUnit : Unit
 
     public override void PerformAction(int index)
     {
-        
-        // Implement Knight-specific action logic here
-        Debug.Log("Knight is performing an action!");
+        base.PerformAction(index);
+
+        // Implement Archer-specific action logic here
+        Debug.Log("Archer is performing an action!");
     }
 }
