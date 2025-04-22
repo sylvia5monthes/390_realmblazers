@@ -70,6 +70,11 @@ public class Unit : MonoBehaviour
             Debug.Log("In targeting mode");
             return; // Let GridManager handle it from Update()
         }
+        if (gridManager.IsInTargetingAllyMode()){
+            Debug.Log("In targeting ally mode");
+            return; // Let GridManager handle it from Update()
+
+        }
 
         Debug.Log($"Unit {gameObject.name} was clicked!");
         UnitMenuController actionMenu = FindObjectOfType<UnitMenuController>();

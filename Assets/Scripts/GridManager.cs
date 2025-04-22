@@ -883,5 +883,8 @@ void Update()
     {
         return unitWaitingToAct != null && pendingAction != null;
     }
+    public bool IsInTargetingAllyMode(){
+        return unitWaitingToAct != null && pendingAction != null  && (pendingAction[0] == 2 || pendingAction[0] ==3);
+    }
 
 }
