@@ -8,7 +8,11 @@
 
 
 ## How to Play
+For each level, you have a series of playable units that can be placed in an initial area. Once you place all the units down, the actual gameplay begins starting with the player phase. For each unit that you have alive, you can move them or perform an action. You can choose to either move and then perform an action, only perform an action, or do nothing by waiting. Player movement and attack results are determined by their class stats, which are coded into the game. After each player has finished their turn (movement and action), then the enemy phase begins. Each enemy can also choose to move and act depending on Enemy Logic AI.
 
+To break down some of the action mechanics, each unit can attack any enemies in range. The damage is calculated in the backend of the game and the corresponding results are displayed on the screen. Units that were attacked, if they are still alive, have the opportunity to retaliate against the original attack. This damage is also calculated on the backend and then displayed on the screen.
+
+When the player finishes killing all the minions in one stage, a boss enemy unit will spawn in and re-trigger the player phase. This boss has higher stats and stronger attacks than the minion enemy unit, so players will need to strategically control their units to defeat the enemies.
 
 ## Content Amount and Type
 
