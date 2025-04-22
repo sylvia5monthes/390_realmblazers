@@ -1869,6 +1869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563f60a220f1c47d3a60ff40a9cdb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  magmaDamageDisplay: {fileID: 0}
 --- !u!4 &594269334
 Transform:
   m_ObjectHideFlags: 0
@@ -4196,12 +4197,14 @@ MonoBehaviour:
   moveButton: {fileID: 1568333955}
   actionButton: {fileID: 1000596401}
   waitButton: {fileID: 87613964}
+  closeActionMenuButton: {fileID: 2113549599}
   statsText: {fileID: 62022749}
   unitNameText: {fileID: 76143751}
   enemyAbilityText: {fileID: 119647294}
   abilityTooltipPanel: {fileID: 2053369724}
   abilityTooltipText: {fileID: 1104515330}
   level: 1
+  magmaDamageDisplay: {fileID: 0}
 --- !u!4 &1353120740
 Transform:
   m_ObjectHideFlags: 0
@@ -5959,6 +5962,7 @@ MonoBehaviour:
   snowBrushPrefab: {fileID: 2131921781117059266, guid: afd249e3d3d6b46eeb4d2725f4079611, type: 3}
   magmaTerrainPrefab: {fileID: 0}
   magmaBrushPrefab: {fileID: 0}
+  magmaDamagePrefab: {fileID: 0}
   darknessTerrainPrefab: {fileID: 0}
   darknessBrushPrefab: {fileID: 0}
   goblinPrefab: {fileID: 3892650201071848878, guid: 5ab1b2ea8a81f4a269d421d6c802f891, type: 3}
