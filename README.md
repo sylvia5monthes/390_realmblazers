@@ -3,6 +3,7 @@
 **Game Title**: RealmBlazers\
 **Team Members**: Lyndrinn Yao (lhy2), Connie Xu (cx71), Emily Sun (ejs83), Ashton Caldwell (arc100)\
 **GitHub Link**: https://github.com/sylvia5monthes/390_realmblazers
+--adding build as google drive link here https://drive.google.com/file/d/16cifUMvJAsL0VVZBSEv8LB4n6liP6_Ek/view?usp=sharing
 
 ## Game Pitch
 RealmBlazers is a tactical J-RPG where you command uniquely skilled units on a grid-based battlefield. Using positioning and abilities to overcome enemies across different levels, reunite your scattered party and escape the shadow realms to defeat the Demon Lord.
