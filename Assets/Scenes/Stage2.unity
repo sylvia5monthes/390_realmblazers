@@ -2116,6 +2116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magmaDamageDisplay: {fileID: 1448196116430284655, guid: 9e037d947d8dd48dc840cc35e9c82445, type: 3}
+  endDialogue: {fileID: 11400000, guid: 6a0b7db50e5edba44b15eaec6af72760, type: 2}
 --- !u!4 &594269334
 Transform:
   m_ObjectHideFlags: 0
@@ -6728,7 +6729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPhase: 0
   isPhaseChanging: 0
-  nextScene: placeholder
+  nextScene: Stage3
 --- !u!4 &1584909679
 Transform:
   m_ObjectHideFlags: 0

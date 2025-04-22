@@ -10,15 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc7b69d47bec62248be08253313e5372, type: 3}
-  m_Name: Level1Dialogue
+  m_Name: EndLevel3Dialogue
   m_EditorClassIdentifier: 
   lines:
-  - speaker: White Mage
-    text: So this is Niflheim? It's freezing!
-    portrait: {fileID: 21300000, guid: 3fc2f4abdc21344c69cc5d16124016eb, type: 3}
   - speaker: Knight
-    text: Goblins! This must be where they were taken!
+    text: We did it...
     portrait: {fileID: 21300000, guid: aef75d832d6b2484a932ebafe4d20bbe, type: 3}
   - speaker: Archer
-    text: Let's clear out everyone first. Stay in the brush to help avoid attacks!
+    text: With the demon king dead, the realm can exist in peace.
     portrait: {fileID: 21300000, guid: fbe65c983b66646c599510e242ee8f2c, type: 3}
+  - speaker: White Mage
+    text: And we rescued you guys too!
+    portrait: {fileID: 21300000, guid: 3fc2f4abdc21344c69cc5d16124016eb, type: 3}
+  - speaker: Black Mage
+    text: Yes, thank you!
+    portrait: {fileID: 21300000, guid: 583f879dc0c984ed9b472cb3a2b2223f, type: 3}
+  - speaker: Vanguard
+    text: Let us depart!
+    portrait: {fileID: 21300000, guid: 2efb02b1d47ea4e65aad8d861e8e39c3, type: 3}

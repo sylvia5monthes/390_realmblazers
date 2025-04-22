@@ -11,6 +11,8 @@ public class EnemyController : MonoBehaviour
     private bool enteredBossPhase = false;
     private GridManager gridManager;
     public GameObject magmaDamageDisplay;
+    private DialogueManager dialogueManager;
+    public Sequence endDialogue;
 
     void Start()
     {
@@ -70,7 +72,10 @@ public class EnemyController : MonoBehaviour
         else if (activeBosses.Count == 0 && enteredBossPhase)
         {
             Debug.Log("[OnEnemyDeath] All bosses defeated. Loading next scene.");
-            gameManager.LoadNext();
+            
+            dialogueManager = FindObjectOfType<DialogueManager>();
+
+            dialogueManager.StartEndDialogue(endDialogue);
         }
     }
     public void StartPhase()
