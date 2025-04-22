@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
+// this class handles all the combat text that is displayed on the screen
+// show damage, healing, and other combat-related messages for both the actor and receiver
 public class CombatTextController : MonoBehaviour
 {
     public GameObject combatTextPanel;

@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class GridManager : MonoBehaviour
 {
+    // grid variables
     public Tilemap tilemap;
     public Tilemap highlighter;
     public TileBase highlightedTile;
@@ -14,6 +15,9 @@ public class GridManager : MonoBehaviour
     public int width = 10;
     public int height = 10;
     public int initialSpawnWidth = 3;
+    private Tile[,] grid;
+
+    // unit and terrain prefabs
     public GameObject unitPrefab;
     private GameObject selectedUnitPrefab;
     public GameObject snowTerrainPrefab;
@@ -24,7 +28,7 @@ public class GridManager : MonoBehaviour
 
     public GameObject darknessTerrainPrefab;
     public GameObject darknessBrushPrefab;
-    private Tile[,] grid;
+
     private HashSet<Vector3Int> highlightedMoveTiles = new HashSet<Vector3Int>();
     private Unit unitWaitingToMove = null;
     private Unit unitWaitingToAct = null;

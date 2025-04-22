@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// in charge of game state and phase management
 public class GameManager : MonoBehaviour
 {
 

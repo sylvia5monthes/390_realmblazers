@@ -36,6 +36,7 @@ public class CutsceneManager : MonoBehaviour
 
     void Update()
     {
+        // Check for mouse click to proceed to the next slide
         if (Input.GetMouseButtonDown(0) && readyForNext && !isTyping)
         {
             currentSlideIndex++;

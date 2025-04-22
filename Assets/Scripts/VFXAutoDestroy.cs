@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// scrip that attaches to a VFX prefab and destroys it after a certain time
 public class VFXAutoDestroy : MonoBehaviour
 {
     public float lifetime = 2.0f; // Duration before destruction

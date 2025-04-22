@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+// handles the pause menu functionality
+// allows the player to pause the game, resume, restart, or quit
 public class PauseMenuManager : MonoBehaviour
 {
     public GameObject pauseMenu;

@@ -38,6 +38,8 @@ public class EnemyController : MonoBehaviour
         }
         Debug.Log("EnemyController: Added " + unit.unitDisplayName + " to enemies.");
     }
+    
+    // get all active enemies (not dead)
     public List<Unit> GetEnemies()
     {
         List<Unit> all = new List<Unit>();
@@ -63,12 +65,14 @@ public class EnemyController : MonoBehaviour
 
         Debug.Log($"[OnEnemyDeath] Minions left: {activeMinions.Count}, Bosses left: {activeBosses.Count}");
 
+        // Check if all minions are defeated and trigger boss phase
         if (activeMinions.Count == 0 && !enteredBossPhase && GameManager.Instance.currentPhase != GameManager.GamePhase.BossPhase)
         {
             enteredBossPhase = true;
             Debug.Log("[OnEnemyDeath] All minions defeated. Triggering Boss Phase.");
             StartCoroutine(TriggerBossPhaseThenPlayer());
         }
+        // check if boss has been defeated
         else if (activeBosses.Count == 0 && enteredBossPhase)
         {
             Debug.Log("[OnEnemyDeath] All bosses defeated. Loading next scene.");
@@ -78,10 +82,13 @@ public class EnemyController : MonoBehaviour
             dialogueManager.StartEndDialogue(endDialogue);
         }
     }
+
+    // start enemy phase
     public void StartPhase()
     {
         Tilemap tilemap = FindObjectOfType<Tilemap>();
         List<Unit> validEnemies = new List<Unit>();
+        // iterate through all enemies to check if they are alive and if so initialize attributes
         foreach (Unit unit in GetEnemies())
         {
             if (unit.currentHealth > 0)
@@ -102,6 +109,7 @@ public class EnemyController : MonoBehaviour
     private IEnumerator EnemyPhaseCoroutine(List<Unit> enemies)
     {
         yield return new WaitForSeconds(4.0f); // wait for phase text
+        // iterate through all enemies to check if they are alive and if so perform actions through enemy logic
         foreach (Unit unit in enemies)
         {
             if (unit.currentHealth > 0)

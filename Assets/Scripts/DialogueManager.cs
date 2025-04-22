@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// handles the dialogue system in the game
 public class DialogueManager : MonoBehaviour
 {
     public GameObject dialogueUI;

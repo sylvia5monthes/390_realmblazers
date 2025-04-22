@@ -27,6 +27,7 @@ public class PhaseTextController : MonoBehaviour
         StartCoroutine(DisplayPhaseText(phase));
     }
 
+    // display the phase text for a short duration
     private IEnumerator DisplayPhaseText(string phase)
     {
 
