@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7b69d47bec62248be08253313e5372, type: 3}
   m_Name: Level1Dialogue
   m_EditorClassIdentifier: 
-  lines: []
+  lines:
+  - speaker: White Mage
+    text: So this is Niflheim? It's freezing!
+    portrait: {fileID: 21300000, guid: 3fc2f4abdc21344c69cc5d16124016eb, type: 3}
+  - speaker: Knight
+    text: Goblins! This must be where they were taken!
+    portrait: {fileID: 21300000, guid: aef75d832d6b2484a932ebafe4d20bbe, type: 3}
+  - speaker: Archer
+    text: Let's clear out everyone first.
+    portrait: {fileID: 21300000, guid: fbe65c983b66646c599510e242ee8f2c, type: 3}
