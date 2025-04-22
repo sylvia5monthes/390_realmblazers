@@ -626,18 +626,17 @@ void Update()
         int level = unitMenuController.level;
         Debug.Log("[GridManager] Spawning boss unit.");
         if (level == 3){
-            //boss for 3
-        } else if (level == 2){
             GameObject demonKingUnit = Instantiate(demonKingPrefab);
             Unit demonKingUnitScript = demonKingUnit.GetComponent<Unit>();
             enemyController.ActivateEnemy(demonKingUnitScript);
             Vector3Int firstUnoccupied = new Vector3Int(0,0,0);
             List<Vector3Int> demonKingSpawnPositions = new List<Vector3Int>{
-                new Vector3Int(0, 0, 0),
-                new Vector3Int(0, 1, 0),
-                new Vector3Int(1, 0, 0),
-                new Vector3Int(1, 1, 0),
-                new Vector3Int(2,2,0)
+                new Vector3Int(10, 0, 0),
+                new Vector3Int(10, 1, 0),
+                new Vector3Int(11, 0, 0),
+                new Vector3Int(11, 1, 0),
+                new Vector3Int(9, 1, 0),
+                new Vector3Int(10, 2, 0)
             };
             foreach(var adjustedGridPos in demonKingSpawnPositions){
                 if(!TileAt(adjustedGridPos).IsOccupied){
@@ -645,6 +644,79 @@ void Update()
                     break;
                 }
             }
+            PlaceUnitOnTile(demonKingUnit, firstUnoccupied);
+            GameObject warlockUnit = Instantiate(warlockPrefab);
+            Unit warlockUnitScript = warlockUnit.GetComponent<Unit>();
+            enemyController.ActivateEnemy(warlockUnitScript);
+            List<Vector3Int> warlockSpawnPositions = new List<Vector3Int>{
+                new Vector3Int(1, 2, 0),
+                new Vector3Int(2, 1, 0),
+                new Vector3Int(0, 0, 0),
+                new Vector3Int(0, 1, 0),
+                new Vector3Int(1, 0, 0),
+                new Vector3Int(1, 1, 0)
+            };
+            foreach(var adjustedGridPos in warlockSpawnPositions){
+                if(!TileAt(adjustedGridPos).IsOccupied){
+                    firstUnoccupied = adjustedGridPos;
+                    break;
+                }
+            }
+            PlaceUnitOnTile(warlockUnit, firstUnoccupied);
+            GameObject demonUnit = Instantiate(demonPrefab);
+            Unit demonUnitScript = demonUnit.GetComponent<Unit>();
+            enemyController.ActivateEnemy(demonUnitScript);
+            List<Vector3Int> demonSpawnPositions = new List<Vector3Int>{
+                new Vector3Int(10, 9, 0),
+                new Vector3Int(9, 10, 0),
+                new Vector3Int(10, 10, 0),
+                new Vector3Int(11, 11, 0),
+                new Vector3Int(11, 10, 0),
+                new Vector3Int(10, 11, 0)
+            };
+            foreach(var adjustedGridPos in demonSpawnPositions){
+                if(!TileAt(adjustedGridPos).IsOccupied){
+                    firstUnoccupied = adjustedGridPos;
+                    break;
+                }
+            }
+            PlaceUnitOnTile(demonUnit, firstUnoccupied);
+        } else if (level == 2){
+            GameObject incubusUnit = Instantiate(incubusPrefab);
+             Unit incubusUnitScript = incubusUnit.GetComponent<Unit>();
+             enemyController.ActivateEnemy(incubusUnitScript);
+             Vector3Int firstUnoccupied = new Vector3Int(0,0,0);
+             List<Vector3Int> incubusSpawnPositions = new List<Vector3Int>{
+                new Vector3Int(0, 0, 0),
+                 new Vector3Int(0, 1, 0),
+                 new Vector3Int(1, 0, 0),
+                 new Vector3Int(1, 1, 0),
+                 new Vector3Int(2,2,0)
+             };
+             foreach(var adjustedGridPos in incubusSpawnPositions){
+                 if(!TileAt(adjustedGridPos).IsOccupied){
+                     firstUnoccupied = adjustedGridPos;
+                     break;
+                 }
+             }
+             PlaceUnitOnTile(incubusUnit, firstUnoccupied);
+             GameObject succubusUnit = Instantiate(succubusPrefab);
+             Unit succubusUnitScript = succubusUnit.GetComponent<Unit>();
+             enemyController.ActivateEnemy(succubusUnitScript);
+             List<Vector3Int> succubusSpawnPositions = new List<Vector3Int>{
+                 new Vector3Int(width-1, height-1, 0),
+                 new Vector3Int(width-1, height-2, 0),
+                 new Vector3Int(width-2, height-1, 0),
+                 new Vector3Int(width-2,height-2, 0),
+                 new Vector3Int(width-3,height-3,0)
+             };
+             foreach(var adjustedGridPos in succubusSpawnPositions){
+                if(!TileAt(adjustedGridPos).IsOccupied){
+                     firstUnoccupied = adjustedGridPos;
+                     break;
+                 }
+             }
+             PlaceUnitOnTile(succubusUnit, firstUnoccupied);
         } else{
             GameObject bossUnit = Instantiate(iceDemonPrefab);
             Unit bossUnitScript = bossUnit.GetComponent<Unit>();
