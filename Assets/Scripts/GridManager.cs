@@ -484,13 +484,32 @@ void Update()
     }
     public void SpawnBoss()
     {
+        int level = unitMenuController.level;
         Debug.Log("[GridManager] Spawning boss unit.");
-
-        GameObject bossUnit = Instantiate(iceDemonPrefab);
-        Unit bossUnitScript = bossUnit.GetComponent<Unit>();
-        
-        enemyController.ActivateEnemy(bossUnitScript);
-        PlaceUnitOnTile(bossUnit, new Vector3Int(width - 2, 1, 0));
+        if (level == 3){
+            //boss for 3
+        } else if (level == 2){
+            //2
+        } else{
+            GameObject bossUnit = Instantiate(iceDemonPrefab);
+            Unit bossUnitScript = bossUnit.GetComponent<Unit>();
+            
+            enemyController.ActivateEnemy(bossUnitScript);
+            List<Vector3Int> spawnPositions = new List<Vector3Int>{
+                new Vector3Int(width - 2, 1, 0),
+                new Vector3Int(width - 1, 1, 0),
+                new Vector3Int(width - 1, 0, 0),
+                new Vector3Int(width - 2, 10, 0)
+            };
+            Vector3Int firstUnoccupied = new Vector3Int(0,0,0);
+            foreach(var adjustedGridPos in spawnPositions){
+                if(!TileAt(adjustedGridPos).IsOccupied){
+                    firstUnoccupied = adjustedGridPos;
+                    break;
+                }
+            }
+            PlaceUnitOnTile(bossUnit, firstUnoccupied);
+        }
     }
     public int GetManhattan(Vector3Int tilePos1, Vector3Int tilePos2){
         return Mathf.Abs(tilePos1.x - tilePos2.x) + Mathf.Abs(tilePos1.y - tilePos2.y);
