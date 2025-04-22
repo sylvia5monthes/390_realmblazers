@@ -32,7 +32,7 @@ public class BlackMageUnit : Unit
         health += level * 4;
         currentHealth = health;
         atk += level * 2;
-        def += level * 2;
+        def += level * 3;
         matk += level * 4;
         mdef += level * 3;
         prec += level * 3;
