@@ -11,6 +11,11 @@ public class VFXManager : MonoBehaviour
     public GameObject cureEffectPrefab;
     public GameObject poundEffectPrefab;
     public GameObject fireballEffectPrefab;
+    public GameObject boltEffectPrefab;
+    public GameObject biteEffectPrefab;
+    public GameObject darkEffectPrefab;
+    public GameObject sparkEffectPrefab;
+    public GameObject charmEffectPrefab;
 
     private void Awake()
     {
@@ -28,7 +33,8 @@ public class VFXManager : MonoBehaviour
     {
         
     }
-
+    
+    // plays action VFX at the given world position depending on the action name
     public void PlayActionVFX(string actionName, Vector3 worldPosition)
     {
         switch (actionName)
@@ -78,9 +84,51 @@ public class VFXManager : MonoBehaviour
                 Instantiate(poundEffectPrefab, worldPosition, Quaternion.identity);
                 break;
 
-            // ice demon
+            // demon
             case "Smash":
                 //Debug.Log("Playing Smash VFX");
+                Instantiate(poundEffectPrefab, worldPosition, Quaternion.identity);
+                break;
+            
+            // demon king and warlock
+            case "Dark":
+                // Debug.Log("Playing Dark VFX");
+                Instantiate(darkEffectPrefab, worldPosition, Quaternion.identity);
+                break; 
+            
+            // crystal 
+            case "Bolt":
+                //Debug.Log("Playing Bolt VFX");
+                Instantiate(boltEffectPrefab, worldPosition, Quaternion.identity);
+                break;
+
+            // hellhound 
+            case "Bite":
+                //Debug.Log("Playing Bite VFX");
+                Instantiate(biteEffectPrefab, worldPosition, Quaternion.identity);
+                break;
+
+            // imp
+            case "Spark":
+                //Debug.Log("Playing Spark VFX");
+                Instantiate(sparkEffectPrefab, worldPosition, Quaternion.identity);
+                break;
+
+            // incubus
+            case "Ravage":
+                //Debug.Log("Playing Ravage VFX");
+                Instantiate(slashEffectPrefab, worldPosition, Quaternion.identity);
+                break;
+
+            // succubus
+            case "Charm":
+                //Debug.Log("Playing Charm VFX");
+                Instantiate(charmEffectPrefab, worldPosition, Quaternion.identity);
+                break;
+
+            // vanguard 
+            case "Crush":
+                //Debug.Log("Playing Crush VFX");
                 Instantiate(poundEffectPrefab, worldPosition, Quaternion.identity);
                 break;
 

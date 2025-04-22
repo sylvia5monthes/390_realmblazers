@@ -9,7 +9,7 @@ public class VFXAutoDestroy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, lifetime);
+        Destroy(gameObject, lifetime); // Destroy this GameObject after the specified lifetime
     }
 
     // Update is called once per frame
