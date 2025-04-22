@@ -64,6 +64,13 @@ public class Unit : MonoBehaviour
             Debug.Log("Not in player phase or UI is clicked");
             return;
         }
+
+        if (gridManager.IsInTargetingMode() && isEnemy)
+        {
+            Debug.Log("In targeting mode");
+            return; // Let GridManager handle it from Update()
+        }
+
         Debug.Log($"Unit {gameObject.name} was clicked!");
         UnitMenuController actionMenu = FindObjectOfType<UnitMenuController>();
         if (actionMenu != null)

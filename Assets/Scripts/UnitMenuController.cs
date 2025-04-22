@@ -38,9 +38,11 @@ public class UnitMenuController : MonoBehaviour
     public Button moveButton;
     public Button actionButton;
     public Button waitButton;
+    public Button closeActionMenuButton;
     public TMP_Text statsText;
     public TMP_Text unitNameText;
     public TMP_Text enemyAbilityText;
+    private bool suppressClickThisFrame = false;
 
 
     [Header("Ability Tooltip")]
@@ -71,6 +73,31 @@ public class UnitMenuController : MonoBehaviour
         minimizeButton.onClick.AddListener(HideUnitSelectionMenu);
         openUnitSelectionButton.onClick.AddListener(ShowUnitSelectionMenu);
         openUnitSelectionButton.gameObject.SetActive(false);
+
+        // set button listeners for action panel
+        moveButton.onClick.AddListener(() =>
+        {
+            if (suppressClickThisFrame) return;
+            MoveUnit();
+        });
+
+        actionButton.onClick.AddListener(() =>
+        {
+            if (suppressClickThisFrame) return;
+            OnActionButtonPressed();
+        });
+
+        waitButton.onClick.AddListener(() =>
+        {
+            if (suppressClickThisFrame) return;
+            WaitUnit();
+        });
+
+        closeActionMenuButton.onClick.AddListener(() =>
+        {
+            if (suppressClickThisFrame) return;
+            HideUnitActionMenu();
+        });
         
         unitSelectionPanel.SetActive(true);
         unitActionPanel.SetActive(false);
@@ -258,6 +285,7 @@ public class UnitMenuController : MonoBehaviour
                         $"Evasion: {unitDisplayEva}\n" +
                         $"Movement: {unit.mov}";
         
+        suppressClickThisFrame = true;
     }
 
     public void HideUnitActionMenu()
@@ -374,7 +402,10 @@ public class UnitMenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (suppressClickThisFrame && Input.GetMouseButtonUp(0))
+        {
+            suppressClickThisFrame = false;
+        }
     }
     public void PhaseStart(){//re-enable actions and movements on all active units at start of phase
         Tilemap tilemap = FindObjectOfType<Tilemap>();

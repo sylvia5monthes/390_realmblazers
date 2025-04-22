@@ -734,4 +734,9 @@ void Update()
         return Mathf.Abs(tilePos1.x - tilePos2.x) + Mathf.Abs(tilePos1.y - tilePos2.y);
     }
 
+    public bool IsInTargetingMode()
+    {
+        return unitWaitingToAct != null && pendingAction != null;
+    }
+
 }
