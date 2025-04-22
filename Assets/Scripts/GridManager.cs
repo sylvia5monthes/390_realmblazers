@@ -40,6 +40,7 @@ public class GridManager : MonoBehaviour
     public GameObject succubusPrefab;
     private UnitMenuController unitMenuController;
     private EnemyController enemyController;
+    private int level;
     
     void Start()
     {
@@ -57,14 +58,8 @@ public class GridManager : MonoBehaviour
 
         // Spawn enemies at the start
         unitMenuController = FindObjectOfType<UnitMenuController>();
-        int level = unitMenuController.level;
-        if (level == 3){
-            //spawnenemiesatstart3
-        } else if (level ==2){
-            SpawnEnemiesAtStart2();
-        } else{
-            SpawnEnemiesAtStart();
-        }
+        level = unitMenuController.level;
+        SpawnEnemiesAtStart();
         SpawnTerrainsAtStart();
 
         // Highlight the initial placement area
@@ -364,12 +359,14 @@ void Update()
                 } else {
                     // if occupied, check if it's an ally or enemy
                     Unit unitOnTile = tile.unitOnTile.GetComponent<Unit>();
-
-                    // ok to walk through if an ally
-                    if (unitOnTile.isEnemy == movingUnit.isEnemy){
-                        queue.Enqueue((nextPos, nextCost));
-                        visited.Add(nextPos);
+                    if (unitOnTile != null){
+                        // ok to walk through if an ally
+                        if (unitOnTile.isEnemy == movingUnit.isEnemy){
+                            queue.Enqueue((nextPos, nextCost));
+                            visited.Add(nextPos);
+                        }
                     }
+
                 }
             }
         }
@@ -515,51 +512,55 @@ void Update()
 
     public void SpawnEnemiesAtStart()
     {
-        List<Vector3Int> enemySpawnPositions = new List<Vector3Int>
-        {
-            new Vector3Int(width - 1, 0, 0),
-            new Vector3Int(width - 1, 1, 0),
-            new Vector3Int(width - 2, 0, 0),
-        };
+        if (level == 1){
+            List<Vector3Int> enemySpawnPositions = new List<Vector3Int>
+            {
+                new Vector3Int(width - 1, 0, 0),
+                new Vector3Int(width - 1, 1, 0),
+                new Vector3Int(width - 2, 0, 0),
+            };
 
-        foreach (var adjustedGridPos in enemySpawnPositions)
-        {
-            GameObject enemyUnit = Instantiate(goblinPrefab);
-            Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
-            enemyController.ActivateEnemy(enemyUnitScript);
-            PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+            foreach (var adjustedGridPos in enemySpawnPositions)
+            {
+                GameObject enemyUnit = Instantiate(goblinPrefab);
+                Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+                enemyController.ActivateEnemy(enemyUnitScript);
+                PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+            }
+        } else if (level == 2){
+                List<Vector3Int> impSpawnPositions = new List<Vector3Int>
+            {
+                new Vector3Int(width - 4, 0, 0),
+                new Vector3Int(width - 3, 1, 0),
+                new Vector3Int(width - 2, 2, 0),
+                new Vector3Int(width - 1, 3, 0)
+            };
+
+            foreach (var adjustedGridPos in impSpawnPositions)
+            {
+                GameObject enemyUnit = Instantiate(impPrefab);
+                Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+                enemyController.ActivateEnemy(enemyUnitScript);
+                PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+            }
+            List<Vector3Int> hellhoundSpawnPositions = new List<Vector3Int>
+            {
+                new Vector3Int(width - 3, 0, 0),
+                new Vector3Int(width - 1, 2, 0)
+            };
+
+            foreach (var adjustedGridPos in hellhoundSpawnPositions)
+            {
+                GameObject enemyUnit = Instantiate(hellhoundPrefab);
+                Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+                enemyController.ActivateEnemy(enemyUnitScript);
+                PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+            }
+        } else{
+            //level3 enemies
         }
+    
 
-    }
-    public void SpawnEnemiesAtStart2(){
-        List<Vector3Int> impSpawnPositions = new List<Vector3Int>
-        {
-            new Vector3Int(width - 4, 0, 0),
-            new Vector3Int(width - 3, 1, 0),
-            new Vector3Int(width - 2, 2, 0),
-            new Vector3Int(width - 1, 3, 0)
-        };
-
-        foreach (var adjustedGridPos in impSpawnPositions)
-        {
-            GameObject enemyUnit = Instantiate(impPrefab);
-            Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
-            enemyController.ActivateEnemy(enemyUnitScript);
-            PlaceUnitOnTile(enemyUnit, adjustedGridPos);
-        }
-        List<Vector3Int> hellhoundSpawnPositions = new List<Vector3Int>
-        {
-            new Vector3Int(width - 3, 0, 0),
-            new Vector3Int(width - 1, 2, 0)
-        };
-
-        foreach (var adjustedGridPos in hellhoundSpawnPositions)
-        {
-            GameObject enemyUnit = Instantiate(hellhoundPrefab);
-            Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
-            enemyController.ActivateEnemy(enemyUnitScript);
-            PlaceUnitOnTile(enemyUnit, adjustedGridPos);
-        }
     }
     public void SpawnBoss()
     {
