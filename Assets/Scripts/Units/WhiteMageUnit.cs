@@ -19,7 +19,7 @@ public class WhiteMageUnit : Unit
         actionNames = new string[]{
             action0, action1
         };
-        int level = GameManager.Instance.currentLevel-1;
+        int level = GetLevel();
         health += level * 4;
         currentHealth = health;
         atk += level * 2;

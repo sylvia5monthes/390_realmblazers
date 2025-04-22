@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     public GamePhase currentPhase;
     public bool isPhaseChanging = false;
     public string nextScene = "placeholder";
-    public int currentLevel = 1;
 
     // Start is called before the first frame update
     void Start()

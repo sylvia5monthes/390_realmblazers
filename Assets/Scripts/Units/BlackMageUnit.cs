@@ -13,7 +13,7 @@ public class BlackMageUnit : Unit
     {
         base.Start();
         unitDisplayName = "Black Mage";
-        int level = GameManager.Instance.currentLevel-1;
+        int level = GetLevel();
         if (level >=1){
             actions = new float[][]{
                 fire, fireball

@@ -13,7 +13,7 @@ public class ArcherUnit : Unit
     {
         base.Start();
         unitDisplayName = "Archer";
-        int level = GameManager.Instance.currentLevel-1;
+        int level = GetLevel();
         if (level >=1){
             actions = new float[][]{
                 shoot, snipe

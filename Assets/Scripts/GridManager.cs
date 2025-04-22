@@ -27,6 +27,8 @@ public class GridManager : MonoBehaviour
     // TODO: make this dynamic for each level
     public GameObject goblinPrefab;
     public GameObject iceDemonPrefab;
+    public GameObject impPrefab;
+    public GameObject hellhoundPrefab;
     private UnitMenuController unitMenuController;
     private EnemyController enemyController;
     
@@ -45,8 +47,15 @@ public class GridManager : MonoBehaviour
         }
 
         // Spawn enemies at the start
-        SpawnEnemiesAtStart();
         unitMenuController = FindObjectOfType<UnitMenuController>();
+        int level = unitMenuController.level;
+        if (level == 3){
+            //spawnenemiesatstart3
+        } else if (level ==2){
+            SpawnEnemiesAtStart2();
+        } else{
+            SpawnEnemiesAtStart();
+        }
 
         // Highlight the initial placement area
         HighlightInitialPlacementArea();
@@ -442,6 +451,36 @@ void Update()
             PlaceUnitOnTile(enemyUnit, adjustedGridPos);
         }
 
+    }
+    public void SpawnEnemiesAtStart2(){
+        List<Vector3Int> impSpawnPositions = new List<Vector3Int>
+        {
+            new Vector3Int(width - 4, 0, 0),
+            new Vector3Int(width - 3, 1, 0),
+            new Vector3Int(width - 2, 2, 0),
+            new Vector3Int(width - 1, 3, 0)
+        };
+
+        foreach (var adjustedGridPos in impSpawnPositions)
+        {
+            GameObject enemyUnit = Instantiate(impPrefab);
+            Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+            enemyController.ActivateEnemy(enemyUnitScript);
+            PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+        }
+        List<Vector3Int> hellhoundSpawnPositions = new List<Vector3Int>
+        {
+            new Vector3Int(width - 3, 0, 0),
+            new Vector3Int(width - 1, 2, 0)
+        };
+
+        foreach (var adjustedGridPos in hellhoundSpawnPositions)
+        {
+            GameObject enemyUnit = Instantiate(hellhoundPrefab);
+            Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+            enemyController.ActivateEnemy(enemyUnitScript);
+            PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+        }
     }
     public void SpawnBoss()
     {

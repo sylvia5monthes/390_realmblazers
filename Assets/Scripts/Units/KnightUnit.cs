@@ -20,7 +20,7 @@ public class KnightUnit : Unit
         actionNames = new string[]{
             action0
         };
-        int level = GameManager.Instance.currentLevel-1;
+        int level = GetLevel();
         health += level * 5;
         currentHealth = health;
         atk += level * 4;

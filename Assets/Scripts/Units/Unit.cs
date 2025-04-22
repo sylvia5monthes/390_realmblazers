@@ -191,5 +191,8 @@ public class Unit : MonoBehaviour
             GameManager.Instance.OnUnitDeath(this);
         }
     }
+    public int GetLevel(){
+        return unitMenuController.level-1;//want to scale based on level - 1, not level itself
+    }
 
 }
