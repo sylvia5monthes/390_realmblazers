@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DarkBasicTile
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 21300000, guid: 56a9c2d99dfd447d3a907590a1bd71c4, type: 3}
-  m_Color: {r: 0.023687212, g: 0.01882343, b: 0.028301895, a: 1}
+  m_Color: {r: 0.19263972, g: 0.13999642, b: 0.24528301, a: 1}
   m_Transform:
     e00: 1
     e01: 0
