@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitDisplayName: 
-  isEnemy: 0
+  isEnemy: 1
   isMinion: 0
   isBoss: 1
   health: 45

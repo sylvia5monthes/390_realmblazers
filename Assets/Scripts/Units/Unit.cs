@@ -161,7 +161,7 @@ public class Unit : MonoBehaviour
                                 gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
                                 gridManager.MoveEnemy(this, closestInRange);
                                 combatManager.HandleCombat(this, closestUnit, actions[0], actionNames[0], 1);
-                                //Debug.Log("attacking distance" + distance);
+                                actionSelected = true;
                             }
                         } else{//out of range
                             foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){

@@ -148,7 +148,7 @@ MonoBehaviour:
   isMinion: 1
   isBoss: 0
   health: 26
-  atk: 15
+  atk: 16
   def: 15
   matk: 15
   mdef: 15

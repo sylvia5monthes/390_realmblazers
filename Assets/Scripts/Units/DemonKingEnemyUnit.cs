@@ -95,7 +95,7 @@ public class DemonKingEnemyUnit : Unit
                                 gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
                                 gridManager.MoveEnemy(this, closestInRange);
                                 combatManager.HandleCombat(this, closestUnit, actions[selectedAction], actionNames[selectedAction], gridManager.GetManhattan(closestUnit.currentTilePos, currentTilePos));
-                                //Debug.Log("attacking distance" + distance);
+                                actionSelected = true;
                             }
                         } else{//out of range
                             foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){

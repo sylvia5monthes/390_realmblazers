@@ -150,7 +150,7 @@ MonoBehaviour:
   health: 25
   atk: 10
   def: 13
-  matk: 16
+  matk: 17
   mdef: 15
   prec: 15
   eva: 15
