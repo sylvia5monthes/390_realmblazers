@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WarlockEnemyUnit : Unit
 {   
-    float[] dark = new float[] {1, 7, 0.9f, 1}; //index 1: physical vs magic. 1 is magic, 0 is phys. then: power, accuracy, and range
+    float[] dark = new float[] {1, 7, 0.9f, 2}; //index 1: physical vs magic. 1 is magic, 0 is phys. then: power, accuracy, and range
     string action0 = "Dark";
     // Start is called before the first frame update
     protected override void Start()

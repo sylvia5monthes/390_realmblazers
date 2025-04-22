@@ -35,6 +35,7 @@ public class CrystalEnemyUnit : Unit
     }
     public override void EnemyLogic()
     {
+        gridManager.HighlightEnemyPathTemporarily(currentTilePos, currentTilePos, 1.0f);
         List<Unit> sortedUnits = unitMenuController.GetUnits()
             .OrderBy(unit => gridManager.GetManhattan(currentTilePos, unit.currentTilePos))
             .ToList();

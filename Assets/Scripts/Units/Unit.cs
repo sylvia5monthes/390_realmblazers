@@ -31,7 +31,7 @@ public class Unit : MonoBehaviour
     public string[] actionNames;
     protected GridManager gridManager;
     protected UnitMenuController unitMenuController;
-    private CombatManager combatManager;
+    protected CombatManager combatManager;
     private int buffTurns = 0;
     public bool defenseBuffed = false;
     public bool defenseDebuffed = false;
