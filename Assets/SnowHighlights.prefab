@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 5045630933332903382}
   - component: {fileID: 7903648486889337574}
   m_Layer: 0
-  m_Name: Highlights
+  m_Name: SnowHighlights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

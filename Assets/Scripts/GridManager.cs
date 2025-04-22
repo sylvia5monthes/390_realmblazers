@@ -662,6 +662,36 @@ void Update()
                 PlaceBrushOnTile(brush, adjustedGridPos);
             }
         }
+        else if(level == 2){
+            List<Vector3Int> spawnTerrainPositions = new List<Vector3Int>
+            {
+                new Vector3Int(width/2, height/2, 0),
+                new Vector3Int(width/2-1, height/2-1, 0),
+                new Vector3Int(width/2, height/2-1, 0),
+                new Vector3Int(width/2-1, height/2, 0)
+            };
+            foreach (var adjustedGridPos in spawnTerrainPositions)
+            {
+                GameObject terrain = Instantiate(magmaTerrainPrefab);
+                PlaceTerrainOnTile(terrain, adjustedGridPos);
+            }
+            List<Vector3Int> spawnBrushPositions = new List<Vector3Int>
+            {
+                new Vector3Int(0, 0, 0),
+                new Vector3Int(1, 1, 0),
+                new Vector3Int(2, 2, 0),
+                new Vector3Int(3, 3, 0),
+                new Vector3Int(6, 6, 0),
+                new Vector3Int(7, 7, 0),
+                new Vector3Int(8, 8, 0),
+                new Vector3Int(9, 9, 0)
+            };
+            foreach (var adjustedGridPos in spawnBrushPositions)
+            {
+                GameObject brush = Instantiate(magmaBrushPrefab);
+                PlaceBrushOnTile(brush, adjustedGridPos);
+            }
+        }
     }
     public int GetManhattan(Vector3Int tilePos1, Vector3Int tilePos2){
         return Mathf.Abs(tilePos1.x - tilePos2.x) + Mathf.Abs(tilePos1.y - tilePos2.y);
