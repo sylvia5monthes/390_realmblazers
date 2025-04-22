@@ -365,6 +365,9 @@ public class UnitMenuController : MonoBehaviour
         {
             unit.hasActed = false;
             unit.hasMoved = false;
+            if (gridManager.TileAt(unit.currentTilePos).isMagma){
+                    unit.currentHealth-=3;
+                }
         }
     }
     public List<Unit> GetUnits(){

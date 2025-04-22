@@ -10,4 +10,9 @@ public class StartMenuManager : MonoBehaviour
         SceneManager.LoadScene("OpeningCutscene");
     }
 
+    public void SelectLevel()
+    {
+        SceneManager.LoadScene("LevelSelect");
+    }
+
 }
