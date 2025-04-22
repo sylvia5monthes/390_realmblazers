@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class EnemyController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class EnemyController : MonoBehaviour
     private List<Unit> activeBosses = new List<Unit>();
     private bool enteredBossPhase = false;
     private GridManager gridManager;
+    public GameObject magmaDamageDisplay;
 
     void Start()
     {
@@ -73,6 +75,7 @@ public class EnemyController : MonoBehaviour
     }
     public void StartPhase()
     {
+        Tilemap tilemap = FindObjectOfType<Tilemap>();
         List<Unit> validEnemies = new List<Unit>();
         foreach (Unit unit in GetEnemies())
         {
@@ -83,6 +86,8 @@ public class EnemyController : MonoBehaviour
                 validEnemies.Add(unit);
                 if (gridManager.TileAt(unit.currentTilePos).isMagma){
                     unit.currentHealth-=3;
+                    Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
+                    Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
                 }
                 unit.DecrementBuff();
             }

@@ -28,6 +28,10 @@ public class CombatTextController : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(DisplayHealerText(health, actorName, receiverName));
     }
+    public void ShowProtect(string actorName, string receiverName){
+        StopAllCoroutines();
+        StartCoroutine(DisplayProtectText(actorName, receiverName));
+    }
 
     public void ShowActorDamage(float damage, string actorName, string receiverName)
     {
@@ -52,6 +56,15 @@ public class CombatTextController : MonoBehaviour
     private IEnumerator DisplayHealerText(float health, string actorName, string receiverName){
         combatTextPanel.SetActive(false);
         actorText.text = actorName + healString1 + receiverName + healString2 + health.ToString() + healString3;
+        combatTextPanel.SetActive(true);
+        actorText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        actorText.gameObject.SetActive(false);
+        combatTextPanel.SetActive(false);
+    }
+    private IEnumerator DisplayProtectText(string actorName, string receiverName){
+        combatTextPanel.SetActive(false);
+        actorText.text = actorName + " protected " + receiverName + " for 3 turns!";
         combatTextPanel.SetActive(true);
         actorText.gameObject.SetActive(true);
         yield return new WaitForSeconds(2.0f);

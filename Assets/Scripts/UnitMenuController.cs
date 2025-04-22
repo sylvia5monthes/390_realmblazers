@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.Tilemaps;
+using Unity.Mathematics;
 
 public class UnitMenuController : MonoBehaviour
 {
@@ -50,6 +52,7 @@ public class UnitMenuController : MonoBehaviour
     private GridManager gridManager;
     private List<Unit> activeUnits;
     public int level;
+    public GameObject magmaDamageDisplay;
 
     // Start is called before the first frame update
     void Start()
@@ -374,15 +377,23 @@ public class UnitMenuController : MonoBehaviour
         
     }
     public void PhaseStart(){//re-enable actions and movements on all active units at start of phase
+        Tilemap tilemap = FindObjectOfType<Tilemap>();
         foreach (Unit unit in activeUnits)
         {
             unit.hasActed = false;
             unit.hasMoved = false;
             if (gridManager.TileAt(unit.currentTilePos).isMagma){
                     unit.currentHealth-=3;
+                    Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
+                    Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
                 }
             unit.DecrementBuff();
+            
         }
+        foreach (Unit unit in activeUnits){
+            unit.CheckDeath();
+        }
+
     }
     public List<Unit> GetUnits(){
         return activeUnits;

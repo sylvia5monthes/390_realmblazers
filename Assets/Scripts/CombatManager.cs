@@ -29,6 +29,10 @@ public class CombatManager : MonoBehaviour
         Vector3 vfxPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(receiver.currentTilePos));
         VFXManager.Instance?.PlayActionVFX("Cure", vfxPos);
     }
+    public void HandleProtect(Unit actor, Unit receiver, float[] action){
+        receiver.SetDefenseBuff(true);
+        combatTextController.ShowProtect(actor.unitDisplayName, receiver.unitDisplayName);
+    }
     public void HandleCombat(Unit actor, Unit receiver, float[] action, string actionName, int distance) {
         Debug.Log("CombatManager: HandleCombat called between " + actor.unitDisplayName + " and " + receiver.unitDisplayName);
         bool magic = false;

@@ -1997,6 +1997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563f60a220f1c47d3a60ff40a9cdb788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  magmaDamageDisplay: {fileID: 1448196116430284655, guid: 9e037d947d8dd48dc840cc35e9c82445, type: 3}
 --- !u!4 &594269334
 Transform:
   m_ObjectHideFlags: 0
@@ -4287,6 +4288,7 @@ MonoBehaviour:
   abilityTooltipPanel: {fileID: 2053369724}
   abilityTooltipText: {fileID: 1104515330}
   level: 2
+  magmaDamageDisplay: {fileID: 1448196116430284655, guid: 9e037d947d8dd48dc840cc35e9c82445, type: 3}
 --- !u!4 &1353120740
 Transform:
   m_ObjectHideFlags: 0
@@ -6522,6 +6524,7 @@ MonoBehaviour:
   snowBrushPrefab: {fileID: 2131921781117059266, guid: afd249e3d3d6b46eeb4d2725f4079611, type: 3}
   magmaTerrainPrefab: {fileID: 1943226259865961192, guid: fb211acfedf0a4cf0aee46233c560a39, type: 3}
   magmaBrushPrefab: {fileID: 1203978096238607371, guid: c5e35c2ae8e124495a0ad790af89fec5, type: 3}
+  magmaDamagePrefab: {fileID: 6358874637262333589, guid: e6eb7ac50a5d54a9aab0ccf352f6e7b0, type: 3}
   darknessTerrainPrefab: {fileID: 0}
   darknessBrushPrefab: {fileID: 0}
   goblinPrefab: {fileID: 3892650201071848878, guid: 5ab1b2ea8a81f4a269d421d6c802f891, type: 3}

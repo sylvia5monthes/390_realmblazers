@@ -6,8 +6,8 @@ public class VanguardUnit : Unit
 {   
     float[] crush = new float[] {0, 4, 0.9f, 1}; //index 1: physical vs magic. 1 is magic, 0 is phys. then: power, accuracy, and range
     string action0 = "Crush";
-    float[] snipe = new float[] {0, 2, 0.85f, 3};
-    string action1 = "Snipe";
+    float[] protect = new float[] {3, 0, 1f, 2};
+    string action1 = "Protect";
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -16,7 +16,7 @@ public class VanguardUnit : Unit
         int level = GetLevel();
         if (level >=1){
             actions = new float[][]{
-                crush, snipe
+                crush, protect
             };
             actionNames = new string[]{
                 action0, action1
@@ -29,13 +29,13 @@ public class VanguardUnit : Unit
                 action0
             };
         }
-        health += level * 4;
+        health += level * 6;
         currentHealth = health;
-        atk += level * 4;
-        def += level * 3;
-        matk += level * 3;
+        atk += level * 3;
+        def += level * 4;
+        matk += level * 2;
         mdef += level * 3;
-        prec += level * 4;
+        prec += level * 2;
         eva += level * 2;
     }
 

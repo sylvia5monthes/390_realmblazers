@@ -20,6 +20,7 @@ public class GridManager : MonoBehaviour
     public GameObject snowBrushPrefab;
     public GameObject magmaTerrainPrefab;
     public GameObject magmaBrushPrefab;
+    public GameObject magmaDamagePrefab;
 
     public GameObject darknessTerrainPrefab;
     public GameObject darknessBrushPrefab;
@@ -91,6 +92,14 @@ void Update()
         {
             if(pendingAction[0] == 2){
                 CombatManager.Instance.HandleHeal(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction);
+                unitMenuController.UnitHasActed(unitWaitingToAct);
+                unitWaitingToAct = null;
+                pendingAction = null;
+                highlightedMoveTiles.Clear();
+                highlighter.ClearAllTiles();
+                return;
+            } else if (pendingAction[0] == 3){//protect
+                CombatManager.Instance.HandleProtect(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction);
                 unitMenuController.UnitHasActed(unitWaitingToAct);
                 unitWaitingToAct = null;
                 pendingAction = null;
@@ -487,7 +496,7 @@ void Update()
         unitWaitingToAct = unit;
         pendingAction = action;
         pendingActionName = actionName;
-        if (action[0] == 2){
+        if (action[0] >= 2){
             HighlightAlliedTiles(unit.currentTilePos, (int)action[3]);
         } else{
             HighlightActableTiles(unit.currentTilePos, (int)action[3]);
@@ -667,10 +676,18 @@ void Update()
         else if(level == 2){
             List<Vector3Int> spawnTerrainPositions = new List<Vector3Int>
             {
-                new Vector3Int(width/2, height/2, 0),
-                new Vector3Int(width/2-1, height/2-1, 0),
-                new Vector3Int(width/2, height/2-1, 0),
-                new Vector3Int(width/2-1, height/2, 0)
+                new Vector3Int(0, 6, 0),
+                new Vector3Int(5, 0, 0),
+                new Vector3Int(6, height-1, 0),
+                new Vector3Int(width-1, 5, 0),
+                new Vector3Int(width-3, height-1, 0),
+                new Vector3Int(width-4, height-2, 0),
+                new Vector3Int(width-5, height-3, 0),
+                new Vector3Int(width-6, height-4, 0),
+                new Vector3Int(width-1, height-3, 0),
+                new Vector3Int(width-2, height-4, 0),
+                new Vector3Int(width-3, height-5, 0),
+                new Vector3Int(width-4, height-6, 0)
             };
             foreach (var adjustedGridPos in spawnTerrainPositions)
             {
@@ -679,19 +696,37 @@ void Update()
             }
             List<Vector3Int> spawnBrushPositions = new List<Vector3Int>
             {
-                new Vector3Int(0, 0, 0),
-                new Vector3Int(1, 1, 0),
-                new Vector3Int(2, 2, 0),
-                new Vector3Int(3, 3, 0),
-                new Vector3Int(6, 6, 0),
-                new Vector3Int(7, 7, 0),
-                new Vector3Int(8, 8, 0),
-                new Vector3Int(9, 9, 0)
+                new Vector3Int(2, 0, 0),
+                new Vector3Int(3, 1, 0),
+                new Vector3Int(4, 2, 0),
+                new Vector3Int(5, 3, 0),
+                new Vector3Int(0, 2, 0),
+                new Vector3Int(1, 3, 0),
+                new Vector3Int(2, 4, 0),
+                new Vector3Int(3, 5, 0)
             };
             foreach (var adjustedGridPos in spawnBrushPositions)
             {
                 GameObject brush = Instantiate(magmaBrushPrefab);
                 PlaceBrushOnTile(brush, adjustedGridPos);
+            }
+            List<Vector3Int> spawnMagmaPositions = new List<Vector3Int>
+            {
+                new Vector3Int(1, 5, 0),
+                new Vector3Int(6, 1, 0),
+                new Vector3Int(5, height-2, 0),
+                new Vector3Int(width-2, 6, 0),
+                new Vector3Int(5, height-6, 0),
+                new Vector3Int(6, height-7, 0),
+                new Vector3Int(4, height-5, 0),
+                new Vector3Int(7, height-8, 0),
+                new Vector3Int(4, 4, 0),
+                new Vector3Int(7, 7, 0)
+            };
+            foreach (var adjustedGridPos in spawnMagmaPositions)
+            {
+                GameObject magma = Instantiate(magmaDamagePrefab);
+                PlaceMagmaOnTile(magma, adjustedGridPos);
             }
         }
     }
