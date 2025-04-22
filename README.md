@@ -18,8 +18,20 @@ To break down some of the action mechanics, each unit can attack any enemies in 
 
 When the player finishes killing all the minions in one stage, a boss enemy unit will spawn in and re-trigger the player phase. This boss has higher stats and stronger attacks than the minion enemy unit, so players will need to strategically control their units to defeat the enemies.
 
-## Content Amount and Type
+There are also some terrain effects on each stage. Brush increases the chance that the unit inside will dodge an attack. Magma in stage two will decrease the unit's defense. Obstacles prevent units from standing on certain squares.
 
+Press P to pause and unpause the game. Click to progress dialogue/cutscenes.
+
+## Content Amount and Type
+There are three levels that are available to play. Each level contains a small legion of enemies, that once defeated, release the boss enemy. Upon defeating the boss enemy, dialogue will play, and the next stage will load. After the third stage, a victory screen is displayed, and the player can return to the main menu, signifying the end of the RealmBlazers demo.
+
+It is important to start from the StartMenu scene since pressing Begin from this scene will play a cutscene. Audio should be played as well since all audio tracks were originally designed by Lyndrinn Yao. We included a level select in the main menu in case a level is too difficult, thus allowing the player to skip ahead if needed. Preferably however, the game should be played from beginning to end in order to see all the cutscenes and dialogues.
+
+To experience the entirety of RealmBlazers, it is expected that the player experiments with the terrains available and the abilities of each unit provided. However, if the player plays from beginning to end, starting from the StartMenu scene and ending with the Victory scene, it is likely that the player will experience everything in RealmBlazers.
 
 ## Lessons Learned
+One of the biggest lessons that Shenanigames has learned from this project was the importance of the scope issue. With so many ideas and mechanics of interest, we ran into issues regarding a lack of time and overcomplicated code. We learned to keep the objective as well as the mechanics succinct while attempting to ramp up the challenge with each stage. 
 
+Additionally, we learned how imperative it is to assign roles to each team member. Since each member of Shenanigames worked on whatever seemed important, merge conflicts became rampant and divided tasks became disorganized at times. Through perseverance and teamwork however, we managed to come together and ensure that the final product was functional, and that it captured the vision we originally wished for RealmBlazers.
+
+Finally, we discovered a keen enjoyment for creating an entertaining product from scratch. Shenanigames is proud to have worked hard together to create a product that we are all satisfied to call our debut title. RealmBlazers was able to represent our vision for an enjoyable game, and we are very glad to have had the chance to work on it together!
