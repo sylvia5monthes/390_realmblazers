@@ -56,9 +56,9 @@ public class Unit : MonoBehaviour
     void OnMouseDown()
     {   
         if (GameManager.Instance.currentPhase != GameManager.GamePhase.PlayerPhase ||
-            GameManager.Instance.isPhaseChanging)
+            GameManager.Instance.isPhaseChanging || IsPointerOverUI())
         {
-            Debug.Log("Not your turn!");
+            Debug.Log("Not in player phase or UI is clicked");
             return;
         }
         Debug.Log($"Unit {gameObject.name} was clicked!");
@@ -67,6 +67,11 @@ public class Unit : MonoBehaviour
         {
             actionMenu.ShowUnitActionMenu(this);
         }
+    }
+
+    private bool IsPointerOverUI()
+    {
+        return UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
     }
 
     // can be overriden by specific unit classes

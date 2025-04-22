@@ -66,7 +66,7 @@ public class GridManager : MonoBehaviour
 
 void Update()
 {
-    if (Input.GetMouseButtonDown(0) && !GameManager.Instance.isPhaseChanging)
+    if (Input.GetMouseButtonDown(0) && !GameManager.Instance.isPhaseChanging && !IsPointerOverUI())
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int gridPos = WorldPositionToGridPosition(tilemap.WorldToCell(worldPos));
@@ -140,6 +140,11 @@ void Update()
         }
     }
 }
+
+    private bool IsPointerOverUI()
+    {
+        return UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+    }
 
     public bool IsInBounds(Vector3Int pos)
     {
