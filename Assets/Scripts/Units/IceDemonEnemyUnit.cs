@@ -89,13 +89,13 @@ public class IceDemonEnemyUnit : Unit
                             }
                             if (closestInRange.Equals(currentTilePos)){
                                 gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);//stand in place and attack
-                                combatManager.HandleCombat(this, closestUnit, actions[selectedAction], actionNames[selectedAction], 1);
+                                combatManager.HandleCombat(this, closestUnit, actions[selectedAction], actionNames[selectedAction], gridManager.GetManhattan(closestUnit.currentTilePos, closestInRange));
                                 //Debug.Log("attacking distance" + distance);
                                 actionSelected = true;
                             } else{
                                 gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
                                 gridManager.MoveEnemy(this, closestInRange);
-                                combatManager.HandleCombat(this, closestUnit, actions[selectedAction], actionNames[selectedAction], gridManager.GetManhattan(closestUnit.currentTilePos, currentTilePos));
+                                combatManager.HandleCombat(this, closestUnit, actions[selectedAction], actionNames[selectedAction], gridManager.GetManhattan(closestUnit.currentTilePos, closestInRange));
                                 //Debug.Log("attacking distance" + distance);
                                 actionSelected = true;
                             }
