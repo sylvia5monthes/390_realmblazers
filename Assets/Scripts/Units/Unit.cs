@@ -123,6 +123,7 @@ public class Unit : MonoBehaviour
                             closest = gridPos;
                             distance = gridManager.GetManhattan(gridPos, closestUnit.currentTilePos);
                         }
+                        Debug.Log("current closest: " + closest);
                     }
                     gridManager.HighlightEnemyPathTemporarily(currentTilePos, closest);
                     gridManager.MoveEnemy(this, closest);
