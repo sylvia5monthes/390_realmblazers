@@ -502,7 +502,7 @@ void Update()
     public void StartAction(Unit unit, float[] action, string actionName)
     {
         if (unitWaitingToMove !=null){
-            unitWaitingToAct = null;
+            unitWaitingToMove= null;
         }
         unitWaitingToAct = unit;
         pendingAction = action;
