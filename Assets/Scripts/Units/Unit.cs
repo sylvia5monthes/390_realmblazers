@@ -125,7 +125,7 @@ public class Unit : MonoBehaviour
                     if (manhattanToUnit == range){
                         gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);//stand in place and attack
                         combatManager.HandleCombat(this, closestUnit, actions[0], actionNames[0], 1);
-                        Debug.Log("attacking distance" + distance);
+                        //Debug.Log("attacking distance" + distance);
                         actionSelected = true;
                     } else{
                         distance = mov+1;//moving distance, not same as manhattan distance to enemy. sorry for same variable name
@@ -139,13 +139,13 @@ public class Unit : MonoBehaviour
                             if (closestInRange.Equals(currentTilePos)){
                                 gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);//stand in place and attack
                                 combatManager.HandleCombat(this, closestUnit, actions[0], actionNames[0], 1);
-                                Debug.Log("attacking distance" + distance);
+                                //Debug.Log("attacking distance" + distance);
                                 actionSelected = true;
                             } else{
                                 gridManager.HighlightEnemyPathTemporarily(currentTilePos, closestInRange);
                                 gridManager.MoveEnemy(this, closestInRange);
                                 combatManager.HandleCombat(this, closestUnit, actions[0], actionNames[0], 1);
-                                Debug.Log("attacking distance" + distance);
+                                //Debug.Log("attacking distance" + distance);
                             }
                         } else{//out of range
                             foreach(Vector3Int gridPos in gridManager.GetMovableTiles(currentTilePos, mov, true)){
@@ -161,7 +161,7 @@ public class Unit : MonoBehaviour
                                 gridManager.MoveEnemy(this, closestInRange);
                                 combatManager.HandleCombat(this, closestUnit, actions[0], actionNames[0], gridManager.GetManhattan(closestUnit.currentTilePos, closestInRange));
                                 actionSelected=true;
-                                Debug.Log("attacking distance" + gridManager.GetManhattan(closestUnit.currentTilePos, closestInRange));
+                                //Debug.Log("attacking distance" + gridManager.GetManhattan(closestUnit.currentTilePos, closestInRange));
                             }
                         }
                     }
