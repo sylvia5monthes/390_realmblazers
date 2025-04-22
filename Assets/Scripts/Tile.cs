@@ -9,6 +9,11 @@ public class Tile
 
     public bool IsOccupied => unitOnTile != null;
 
+    public bool isTerrain = false;
+
+    public bool isBrush = false;
+    public bool isMagma = false;
+
     public Tile(Vector3Int position)
     {
         gridPosition = position;
@@ -24,4 +29,6 @@ public class Tile
     {
         
     }
+
+    
 }

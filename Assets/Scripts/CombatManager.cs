@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class CombatManager : MonoBehaviour
@@ -7,6 +8,7 @@ public class CombatManager : MonoBehaviour
     //we can probably handle calling of animations using this script
     public static CombatManager Instance;
     private CombatTextController combatTextController;
+    private GridManager gridmanager;
     void Start()
     {
         if (Instance == null)
@@ -14,6 +16,7 @@ public class CombatManager : MonoBehaviour
             Instance = this;
         }
         combatTextController = FindObjectOfType<CombatTextController>();
+        gridmanager = FindObjectOfType<GridManager>();
     }
     public void HandleHeal(Unit actor, Unit receiver, float[] action){
         float totalheal = action[1] + actor.matk;
@@ -43,8 +46,13 @@ public class CombatManager : MonoBehaviour
             offense = actor.matk;
             defense = receiver.mdef;
         }
+        float chance;
+        if (gridmanager.TileAt(receiver.currentTilePos).isBrush){
+            chance = action[2] * actor.prec / (receiver.eva * 1.2f);
+        } else{
+            chance = action[2] * actor.prec / receiver.eva;
+        }
         float totaldamage = action[1] + offense - defense;
-        float chance = action[2] * actor.prec / receiver.eva;
         if (Random.value>=chance){
             totaldamage = 0;//set damage to 0 if miss
         }
@@ -81,7 +89,11 @@ public class CombatManager : MonoBehaviour
                     defense = actor.mdef;
                 }
                 totaldamage = defaultAction[1] + offense - defense;
-                chance = defaultAction[2] * receiver.prec / actor.eva;
+                if (gridmanager.TileAt(actor.currentTilePos).isBrush){
+                    chance = defaultAction[2] * receiver.prec / (actor.eva * 1.2f);
+                } else{
+                    chance = defaultAction[2] * receiver.prec / actor.eva;
+                }
                 if (Random.value>=chance){
                     totaldamage = 0;//set damage to 0 if miss
                 }

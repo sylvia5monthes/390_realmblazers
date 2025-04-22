@@ -8,10 +8,12 @@ public class EnemyController : MonoBehaviour
     private List<Unit> activeMinions = new List<Unit>();
     private List<Unit> activeBosses = new List<Unit>();
     private bool enteredBossPhase = false;
+    private GridManager gridManager;
 
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        gridManager = FindObjectOfType<GridManager>();
 
     }
 
@@ -79,6 +81,9 @@ public class EnemyController : MonoBehaviour
                 unit.hasMoved = false;
                 unit.hasActed = false;
                 validEnemies.Add(unit);
+                if (gridManager.TileAt(unit.currentTilePos).isMagma){
+                    unit.currentHealth-=3;
+                }
             }
         }
 

@@ -161,6 +161,69 @@ void Update()
     public Tile TileAt(Vector3Int gridPos){
         return grid[gridPos.x, gridPos.y];
     }
+    public bool PlaceTerrainOnTile(GameObject terrain, Vector3Int gridPos){
+        if (IsInBounds(gridPos))
+        {
+            Tile tile = grid[gridPos.x, gridPos.y];
+            if (!tile.IsOccupied)
+            {
+                Debug.Log($"Placing terrain on tile at {gridPos}");
+                terrain.transform.position = tilemap.GetCellCenterWorld(GridPositionToWorldPosition(gridPos));
+                tile.unitOnTile = terrain; //make isoccupied true such that terrain is impassable
+            } else 
+            {
+                Debug.Log($"Tile at {gridPos} is already occupied by another unit.");
+                return false; // Tile is occupied
+            }
+        } else 
+        {
+            Debug.Log($"Grid position {gridPos} is out of bounds.");
+            return false; // Out of bounds
+        }
+        return true; // Successfully placed the terrain
+    }
+    public bool PlaceBrushOnTile(GameObject brush, Vector3Int gridPos){
+        if (IsInBounds(gridPos))
+        {
+            Tile tile = grid[gridPos.x, gridPos.y];
+            if (!tile.IsOccupied)
+            {
+                Debug.Log($"Placing terrain on tile at {gridPos}");
+                brush.transform.position = tilemap.GetCellCenterWorld(GridPositionToWorldPosition(gridPos));
+                tile.isBrush = true;
+            } else 
+            {
+                Debug.Log($"Tile at {gridPos} is already occupied by another unit.");
+                return false; // Tile is occupied
+            }
+        } else 
+        {
+            Debug.Log($"Grid position {gridPos} is out of bounds.");
+            return false; // Out of bounds
+        }
+        return true; // Successfully placed the terrain
+    }
+    public bool PlaceMagmaOnTile(GameObject magma, Vector3Int gridPos){
+        if (IsInBounds(gridPos))
+        {
+            Tile tile = grid[gridPos.x, gridPos.y];
+            if (!tile.IsOccupied)
+            {
+                Debug.Log($"Placing terrain on tile at {gridPos}");
+                magma.transform.position = tilemap.GetCellCenterWorld(GridPositionToWorldPosition(gridPos));
+                tile.isMagma = true;
+            } else 
+            {
+                Debug.Log($"Tile at {gridPos} is already occupied by another unit.");
+                return false; // Tile is occupied
+            }
+        } else 
+        {
+            Debug.Log($"Grid position {gridPos} is out of bounds.");
+            return false; // Out of bounds
+        }
+        return true; // Successfully placed the terrain
+    }
 
     public bool PlaceUnitOnTile(GameObject unit, Vector3Int gridPos)
     {
