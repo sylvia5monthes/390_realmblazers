@@ -58,6 +58,8 @@ public class UnitMenuController : MonoBehaviour
     private List<Unit> activeUnits;
     public int level;
     public GameObject magmaDamageDisplay;
+    private DialogueManager dialogueManager;
+    public Sequence dialogue;
 
     // Start is called before the first frame update
     void Start()
@@ -158,9 +160,13 @@ public class UnitMenuController : MonoBehaviour
             FindObjectOfType<GridManager>().ClearInitialPlacementHighlightedTiles();
 
             openUnitSelectionButton.gameObject.SetActive(false);
-            Debug.Log("All units placed. Starting player phase.");
+            Debug.Log("All units placed. Starting dialogue.");
 
-            FindObjectOfType<GameManager>()?.StartPlayerPhase();
+            dialogueManager = FindObjectOfType<DialogueManager>();
+
+            dialogueManager.StartDialogue(dialogue);
+
+            //FindObjectOfType<GameManager>()?.StartPlayerPhase();
             }
         } else if (level == 3){
             if (knightPlaced && archerPlaced && whiteMagePlaced && blackMagePlaced && vanguardPlaced) 
@@ -171,9 +177,13 @@ public class UnitMenuController : MonoBehaviour
             FindObjectOfType<GridManager>().ClearInitialPlacementHighlightedTiles();
 
             openUnitSelectionButton.gameObject.SetActive(false);
-            Debug.Log("All units placed. Starting player phase.");
+            Debug.Log("All units placed. Starting dialogue.");
 
-            FindObjectOfType<GameManager>()?.StartPlayerPhase();
+            dialogueManager = FindObjectOfType<DialogueManager>();
+
+            dialogueManager.StartDialogue(dialogue);
+
+            //FindObjectOfType<GameManager>()?.StartPlayerPhase();
             }
             } 
             else
