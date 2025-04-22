@@ -614,7 +614,8 @@ void Update()
             List<Vector3Int> warlockSpawnPositions = new List<Vector3Int>
             {
                 new Vector3Int(10, 0, 0),
-                new Vector3Int(11, 1, 0)
+                new Vector3Int(11, 1, 0),
+                new Vector3Int(11,0,0)
             };
 
             foreach (var adjustedGridPos in warlockSpawnPositions)
