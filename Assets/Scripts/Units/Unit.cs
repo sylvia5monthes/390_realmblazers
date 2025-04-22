@@ -209,8 +209,8 @@ public class Unit : MonoBehaviour
     public int GetLevel(){
         return unitMenuController.level-1;//want to scale based on level - 1, not level itself
     }
-    public void SetDefenseBuff(bool isBuff){
-        buffTurns = 3;
+    public void SetDefenseBuff(bool isBuff, int turns){
+        buffTurns = turns;
         defenseBuffed = false;
         defenseDebuffed = false;
         if (isBuff){

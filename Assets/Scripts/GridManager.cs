@@ -39,6 +39,10 @@ public class GridManager : MonoBehaviour
     public GameObject hellhoundPrefab;
     public GameObject incubusPrefab;
     public GameObject succubusPrefab;
+    public GameObject crystalPrefab;
+    public GameObject demonPrefab;
+    public GameObject warlockPrefab;
+    public GameObject demonKingPrefab;
     private UnitMenuController unitMenuController;
     private EnemyController enemyController;
     private int level;
@@ -571,7 +575,48 @@ void Update()
                 PlaceUnitOnTile(enemyUnit, adjustedGridPos);
             }
         } else{
-            //level3 enemies
+            List<Vector3Int> crystalSpawnPositions = new List<Vector3Int>
+            {
+                new Vector3Int(3, 3, 0),
+                new Vector3Int(8, 8, 0),
+                new Vector3Int(8, 3, 0)
+            };
+
+            foreach (var adjustedGridPos in crystalSpawnPositions)
+            {
+                GameObject enemyUnit = Instantiate(crystalPrefab);
+                Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+                enemyController.ActivateEnemy(enemyUnitScript);
+                PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+            }
+            List<Vector3Int> demonSpawnPositions = new List<Vector3Int>
+            {
+                new Vector3Int(0, 1, 0),
+                new Vector3Int(1, 0, 0),
+                new Vector3Int(11, 10, 0),
+                new Vector3Int(10, 11, 0)
+            };
+
+            foreach (var adjustedGridPos in demonSpawnPositions)
+            {
+                GameObject enemyUnit = Instantiate(demonPrefab);
+                Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+                enemyController.ActivateEnemy(enemyUnitScript);
+                PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+            }
+            List<Vector3Int> warlockSpawnPositions = new List<Vector3Int>
+            {
+                new Vector3Int(10, 0, 0),
+                new Vector3Int(11, 1, 0)
+            };
+
+            foreach (var adjustedGridPos in warlockSpawnPositions)
+            {
+                GameObject enemyUnit = Instantiate(crystalPrefab);
+                Unit enemyUnitScript = enemyUnit.GetComponent<Unit>();
+                enemyController.ActivateEnemy(enemyUnitScript);
+                PlaceUnitOnTile(enemyUnit, adjustedGridPos);
+            }
         }
     
 

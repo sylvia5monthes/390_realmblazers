@@ -21,17 +21,20 @@ public class UnitMenuController : MonoBehaviour
     public Button archerButton;
     public Button whiteMageButton;
     public Button blackMageButton;
+    public Button vanguardButton;
     public GameObject abilityPanel;
     public Button abilityButtonTemplate;
     private bool knightPlaced = false;
     private bool archerPlaced = false;
     private bool whiteMagePlaced = false;
     private bool blackMagePlaced = false;
+    private bool vanguardPlaced = false;
 
     public GameObject knightPrefab; 
     public GameObject archerPrefab;
     public GameObject whiteMagePrefab;
     public GameObject blackMagePrefab;
+    public GameObject vanguardPrefab;
 
     [Header("Unit Action Menu")]
     public GameObject unitActionPanel;
@@ -65,8 +68,11 @@ public class UnitMenuController : MonoBehaviour
         knightButton.onClick.AddListener(() => SelectUnitForPlacement(knightPrefab));
         archerButton.onClick.AddListener(() => SelectUnitForPlacement(archerPrefab));
         whiteMageButton.onClick.AddListener(() => SelectUnitForPlacement(whiteMagePrefab));
-        if (level == 2){
+        if (level >= 2){
             blackMageButton.onClick.AddListener(() => SelectUnitForPlacement(blackMagePrefab));
+        }
+        if (level == 3){
+            vanguardButton.onClick.AddListener(() => SelectUnitForPlacement(vanguardPrefab));
         }
 
         // set button listeners to open menus
@@ -138,6 +144,10 @@ public class UnitMenuController : MonoBehaviour
             blackMagePlaced = true;
             blackMageButton.interactable = false;
             activeUnits.Add(FindObjectOfType<BlackMageUnit>());
+        } else if (prefab == vanguardPrefab){
+            vanguardPlaced = true;
+            vanguardButton.interactable = false;
+            activeUnits.Add(FindObjectOfType<VanguardUnit>());
         }
         if (level == 2){
             if (knightPlaced && archerPlaced && whiteMagePlaced && blackMagePlaced) 
@@ -152,11 +162,11 @@ public class UnitMenuController : MonoBehaviour
 
             FindObjectOfType<GameManager>()?.StartPlayerPhase();
             }
-        } else{
-            if (knightPlaced && archerPlaced && whiteMagePlaced) 
+        } else if (level == 3){
+            if (knightPlaced && archerPlaced && whiteMagePlaced && blackMagePlaced && vanguardPlaced) 
             {
             HideUnitSelectionMenu();
-            
+
             // clear highlighted initial placement tiles
             FindObjectOfType<GridManager>().ClearInitialPlacementHighlightedTiles();
 
@@ -165,6 +175,21 @@ public class UnitMenuController : MonoBehaviour
 
             FindObjectOfType<GameManager>()?.StartPlayerPhase();
             }
+            } 
+            else
+            {
+                if (knightPlaced && archerPlaced && whiteMagePlaced) 
+                {
+                HideUnitSelectionMenu();
+                
+                // clear highlighted initial placement tiles
+                FindObjectOfType<GridManager>().ClearInitialPlacementHighlightedTiles();
+
+                openUnitSelectionButton.gameObject.SetActive(false);
+                Debug.Log("All units placed. Starting player phase.");
+
+                FindObjectOfType<GameManager>()?.StartPlayerPhase();
+                }
         }
     }
 
@@ -414,11 +439,11 @@ public class UnitMenuController : MonoBehaviour
         {
             unit.hasActed = false;
             unit.hasMoved = false;
-            //if (gridManager.TileAt(unit.currentTilePos).isMagma){
-            //        unit.currentHealth-=3;
-            //        Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
-            //        Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
-            //    }
+            if (gridManager.TileAt(unit.currentTilePos).isMagma){
+                    unit.currentHealth-=3;
+                    Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
+                    Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
+                }
             unit.DecrementBuff();
             
         }

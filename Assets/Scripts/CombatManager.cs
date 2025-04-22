@@ -30,7 +30,7 @@ public class CombatManager : MonoBehaviour
         VFXManager.Instance?.PlayActionVFX("Cure", vfxPos);
     }
     public void HandleProtect(Unit actor, Unit receiver, float[] action){
-        receiver.SetDefenseBuff(true);
+        receiver.SetDefenseBuff(true, 3);
         combatTextController.ShowProtect(actor.unitDisplayName, receiver.unitDisplayName);
     }
     public void HandleCombat(Unit actor, Unit receiver, float[] action, string actionName, int distance) {
@@ -74,7 +74,7 @@ public class CombatManager : MonoBehaviour
         receiver.currentHealth -= totaldamage;
         combatTextController.ShowActorDamage(totaldamage, actor.unitDisplayName, receiver.unitDisplayName);
         if (totaldamage > 0 && actionName == "Shield Bash"){
-            receiver.SetDefenseBuff(false);
+            receiver.SetDefenseBuff(false, 3);
         }
 
         // display combat animation
