@@ -84,6 +84,7 @@ public class EnemyController : MonoBehaviour
                 if (gridManager.TileAt(unit.currentTilePos).isMagma){
                     unit.currentHealth-=3;
                 }
+                unit.DecrementBuff();
             }
         }
 
