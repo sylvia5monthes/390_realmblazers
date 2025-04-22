@@ -182,8 +182,6 @@ public class UnitMenuController : MonoBehaviour
             dialogueManager = FindObjectOfType<DialogueManager>();
 
             dialogueManager.StartDialogue(dialogue);
-
-            //FindObjectOfType<GameManager>()?.StartPlayerPhase();
             }
             } 
             else
@@ -196,9 +194,11 @@ public class UnitMenuController : MonoBehaviour
                 FindObjectOfType<GridManager>().ClearInitialPlacementHighlightedTiles();
 
                 openUnitSelectionButton.gameObject.SetActive(false);
-                Debug.Log("All units placed. Starting player phase.");
+                Debug.Log("All units placed. Starting dialogue.");
 
-                FindObjectOfType<GameManager>()?.StartPlayerPhase();
+                dialogueManager = FindObjectOfType<DialogueManager>();
+
+                dialogueManager.StartDialogue(dialogue);
                 }
         }
     }

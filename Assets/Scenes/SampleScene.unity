@@ -800,7 +800,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -265, y: 125}
+  m_AnchoredPosition: {x: -336, y: 53}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &140018399
@@ -894,7 +894,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -13.643396, z: -1171.7313, w: 0}
+  m_margin: {x: 0, y: -13.643396, z: -232.7428, w: -303.36554}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3762,7 +3762,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -283, y: 157}
+  m_AnchoredPosition: {x: -354, y: 92}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &928816277
@@ -5304,12 +5304,14 @@ MonoBehaviour:
   archerButton: {fileID: 39502557}
   whiteMageButton: {fileID: 570461082}
   blackMageButton: {fileID: 0}
+  vanguardButton: {fileID: 0}
   abilityPanel: {fileID: 1738245181}
   abilityButtonTemplate: {fileID: 894200576}
   knightPrefab: {fileID: 2050863061766310624, guid: 5499ecac47fe04e20b83dc2b6365caaa, type: 3}
   archerPrefab: {fileID: 4054877677828688244, guid: a5205aeeb8c9c4138ab0ee03765be2af, type: 3}
   whiteMagePrefab: {fileID: 8199162552948431021, guid: 210178fb4fa6e4d599f05a2840072dc3, type: 3}
   blackMagePrefab: {fileID: 0}
+  vanguardPrefab: {fileID: 0}
   unitActionPanel: {fileID: 1659102983}
   moveButton: {fileID: 1568333955}
   actionButton: {fileID: 1000596401}
@@ -7077,6 +7079,10 @@ MonoBehaviour:
   hellhoundPrefab: {fileID: 0}
   incubusPrefab: {fileID: 0}
   succubusPrefab: {fileID: 0}
+  crystalPrefab: {fileID: 0}
+  demonPrefab: {fileID: 0}
+  warlockPrefab: {fileID: 0}
+  demonKingPrefab: {fileID: 0}
 --- !u!1 &1738245181
 GameObject:
   m_ObjectHideFlags: 0
