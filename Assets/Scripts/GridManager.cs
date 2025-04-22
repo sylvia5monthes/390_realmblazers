@@ -8,9 +8,12 @@ public class GridManager : MonoBehaviour
     public Tilemap tilemap;
     public Tilemap highlighter;
     public TileBase highlightedTile;
+    public Tilemap placementHighlighter;
+    public TileBase placementHighlightedTile;
     public TileBase movableTile;
     public int width = 10;
     public int height = 10;
+    public int initialSpawnWidth = 3;
     public GameObject unitPrefab;
     private GameObject selectedUnitPrefab;
 
@@ -44,6 +47,9 @@ public class GridManager : MonoBehaviour
         // Spawn enemies at the start
         SpawnEnemiesAtStart();
         unitMenuController = FindObjectOfType<UnitMenuController>();
+
+        // Highlight the initial placement area
+        HighlightInitialPlacementArea();
     }
 
 void Update()
@@ -107,7 +113,8 @@ void Update()
         Vector3Int originalGridPos = tilemap.WorldToCell(worldPos);
         Vector3Int adjustedGridPos = WorldPositionToGridPosition(originalGridPos);
 
-        if (selectedUnitPrefab != null && IsInBounds(adjustedGridPos))
+        // check if the adjusted grid position in in the upper left 3 x 3 corner
+        if (selectedUnitPrefab != null && IsInInitialSpawnArea(adjustedGridPos))
         {
             GameObject unit = Instantiate(selectedUnitPrefab);
             // try to place unit; if fail, delete it
@@ -127,6 +134,13 @@ void Update()
         Debug.Log($"Checking bounds for {pos}");
         return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
     }
+
+    public bool IsInInitialSpawnArea(Vector3Int pos)
+    {
+        // Check if the position is within the initial spawn area (upper left 3x3 corner)
+        return pos.x >= 0 && pos.x < initialSpawnWidth && pos.y >= height - initialSpawnWidth && pos.y < height;
+    }
+
     public Tile TileAt(Vector3Int gridPos){
         return grid[gridPos.x, gridPos.y];
     }
@@ -200,6 +214,26 @@ void Update()
         }
 
     }
+
+    public void HighlightInitialPlacementArea()
+    {
+        placementHighlighter.ClearAllTiles();
+
+        for (int x = 0; x < initialSpawnWidth; x++)
+        {
+            for (int y = height - initialSpawnWidth; y < height; y++)
+            {
+                Vector3Int gridPos = new Vector3Int(x, y, 0);
+                placementHighlighter.SetTile(GridPositionToWorldPosition(gridPos), placementHighlightedTile);
+            }
+        }
+    }
+
+    public void ClearInitialPlacementHighlightedTiles()
+    {
+        placementHighlighter.ClearAllTiles();
+    }
+
     public List<Vector3Int> GetMovableTiles(Vector3Int gridPos, int range, bool isEnemy = false){
         // pathfinding w/ bfs, can only move through ally tiles
         List<Vector3Int> ret = new List<Vector3Int>();

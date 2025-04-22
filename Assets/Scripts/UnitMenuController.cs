@@ -113,6 +113,10 @@ public class UnitMenuController : MonoBehaviour
             if (knightPlaced && archerPlaced && whiteMagePlaced && blackMagePlaced) 
             {
             HideUnitSelectionMenu();
+
+            // clear highlighted initial placement tiles
+            FindObjectOfType<GridManager>().ClearInitialPlacementHighlightedTiles();
+
             openUnitSelectionButton.gameObject.SetActive(false);
             Debug.Log("All units placed. Starting player phase.");
 
@@ -122,6 +126,10 @@ public class UnitMenuController : MonoBehaviour
             if (knightPlaced && archerPlaced && whiteMagePlaced) 
             {
             HideUnitSelectionMenu();
+            
+            // clear highlighted initial placement tiles
+            FindObjectOfType<GridManager>().ClearInitialPlacementHighlightedTiles();
+
             openUnitSelectionButton.gameObject.SetActive(false);
             Debug.Log("All units placed. Starting player phase.");
 
