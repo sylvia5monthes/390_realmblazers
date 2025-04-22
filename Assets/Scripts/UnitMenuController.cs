@@ -331,7 +331,7 @@ public class UnitMenuController : MonoBehaviour
         Debug.Log($"Action selected: {selectedUnit.actionNames[actionIndex]}");
         //selectedUnit.PerformAction(actionIndex);
         HideUnitActionMenu();
-        gridManager.StartAction(selectedUnit, selectedUnit.actions[actionIndex]);//4th value in the array is range
+        gridManager.StartAction(selectedUnit, selectedUnit.actions[actionIndex], selectedUnit.actionNames[actionIndex]);//4th value in the array is range
     }
     // public void OnMoveClicked()
     // {

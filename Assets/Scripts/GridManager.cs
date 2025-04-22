@@ -22,6 +22,7 @@ public class GridManager : MonoBehaviour
     private Unit unitWaitingToMove = null;
     private Unit unitWaitingToAct = null;
     private float[] pendingAction = null;
+    private string pendingActionName = null;
 
     // spawn enemies
     // TODO: make this dynamic for each level
@@ -97,7 +98,7 @@ void Update()
             } else{
                 Vector3Int waitingPos = unitWaitingToAct.currentTilePos;
                 int distance = Mathf.Abs(gridPos.x-waitingPos.x) + Mathf.Abs(gridPos.y - waitingPos.y);
-                CombatManager.Instance.HandleCombat(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction, distance);
+                CombatManager.Instance.HandleCombat(unitWaitingToAct,grid[gridPos.x, gridPos.y].unitOnTile.GetComponent<Unit>(), pendingAction, pendingActionName, distance);
                 unitMenuController.UnitHasActed(unitWaitingToAct);
                 unitWaitingToAct = null;
                 pendingAction = null;
@@ -405,10 +406,11 @@ void Update()
         unitWaitingToMove = unit;
         HighlightMovableTiles(unit.currentTilePos);
     }
-    public void StartAction(Unit unit, float[] action)
+    public void StartAction(Unit unit, float[] action, string actionName)
     {
         unitWaitingToAct = unit;
         pendingAction = action;
+        pendingActionName = actionName;
         if (action[0] == 2){
             HighlightAlliedTiles(unit.currentTilePos, (int)action[3]);
         } else{
