@@ -910,12 +910,24 @@ void Update()
     // a combat action is pending 
     public bool IsInTargetingMode()
     {
-        return unitWaitingToAct != null && pendingAction != null;
+        return unitWaitingToAct != null && pendingAction != null && pendingAction[0] < 2;
     }
 
     // a healing or protect action is pending
     public bool IsInTargetingAllyMode(){
         return unitWaitingToAct != null && pendingAction != null  && (pendingAction[0] == 2 || pendingAction[0] ==3);
+    }
+    public Unit GetUnitWaitingToAct(){
+        return unitWaitingToAct;
+    }
+    public void ClearAction(){
+        Debug.Log("Cancelling action");
+            unitWaitingToMove = null;
+            unitWaitingToAct = null;
+            pendingAction = null;
+            pendingActionName = null;
+            highlightedMoveTiles.Clear();
+            highlighter.ClearAllTiles();
     }
 
 }

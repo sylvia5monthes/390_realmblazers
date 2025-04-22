@@ -377,6 +377,7 @@ public class UnitMenuController : MonoBehaviour
         if (!unit.hasMoved){//waiting ends the unit's turn. if anyone disagrees we can change, but right now
             unit.hasMoved = true; //i think it's easiest to just whenever we have a unit act we automatically set moved to true as well
         }
+        gridManager.ClearAction();
         if (AllPlayersActed()){
             Debug.Log("all acted");
             // delay enemy phase start if last unit used an action because there are combat popups showing up

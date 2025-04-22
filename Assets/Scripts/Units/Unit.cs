@@ -70,7 +70,7 @@ public class Unit : MonoBehaviour
             Debug.Log("In targeting mode");
             return; // Let GridManager handle it from Update()
         }
-        if (gridManager.IsInTargetingAllyMode()){
+        if (gridManager.IsInTargetingAllyMode() && !isEnemy && gridManager.GetUnitWaitingToAct() != this){
             Debug.Log("In targeting ally mode");
             return; // Let GridManager handle it from Update()
 
@@ -233,7 +233,7 @@ public class Unit : MonoBehaviour
         if (buffTurns >0){
             buffTurns-=1;
         }
-        if (buffTurns == 0){
+        if (buffTurns <= 0){
             defenseBuffed = false;
             defenseDebuffed = false;
         }
