@@ -492,11 +492,18 @@ void Update()
     }
     public void StartMove(Unit unit)
     {
+        if (pendingAction != null){
+            pendingAction = null;
+            unitWaitingToAct = null;
+        }
         unitWaitingToMove = unit;
         HighlightMovableTiles(unit.currentTilePos);
     }
     public void StartAction(Unit unit, float[] action, string actionName)
     {
+        if (unitWaitingToMove !=null){
+            unitWaitingToAct = null;
+        }
         unitWaitingToAct = unit;
         pendingAction = action;
         pendingActionName = actionName;
