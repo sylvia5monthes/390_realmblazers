@@ -338,6 +338,7 @@ public class UnitMenuController : MonoBehaviour
             unit.hasMoved = true; //i think it's easiest to just whenever we have a unit act we automatically set moved to true as well
         }
         if (AllPlayersActed()){
+            Debug.Log("all acted");
             FindObjectOfType<GameManager>()?.StartEnemyPhase();
             return;
         }
