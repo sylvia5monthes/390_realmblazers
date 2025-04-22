@@ -60,6 +60,7 @@ public class UnitMenuController : MonoBehaviour
     public GameObject magmaDamageDisplay;
     private DialogueManager dialogueManager;
     public Sequence dialogue;
+    private bool lastUnitUsedAction = false;
 
     // Start is called before the first frame update
     void Start()
@@ -123,6 +124,7 @@ public class UnitMenuController : MonoBehaviour
         Debug.Log($"Selected unit prefab: {selectedUnitPrefab.name}");
     }
 
+    // mark the unit as placed and disable the button
     public void MarkUnitAsPlaced(GameObject prefab) 
     {
         if (prefab == knightPrefab) 
@@ -151,6 +153,7 @@ public class UnitMenuController : MonoBehaviour
             vanguardButton.interactable = false;
             activeUnits.Add(FindObjectOfType<VanguardUnit>());
         }
+        // check if all units are placed, and if so start the dialogue
         if (level == 2){
             if (knightPlaced && archerPlaced && whiteMagePlaced && blackMagePlaced) 
             {
@@ -201,6 +204,7 @@ public class UnitMenuController : MonoBehaviour
         }
     }
 
+    // shows the unit action menu for the selected unit
     public void ShowUnitActionMenu(Unit unit)
     {
         Debug.Log($"Showing action menu for unit: {unit.name}");
@@ -211,6 +215,7 @@ public class UnitMenuController : MonoBehaviour
         actionButton.interactable = !unit.hasActed;
         waitButton.interactable = !unit.hasActed;
 
+        // enemy unit: show ability info and hide action buttons
         if (unit.isEnemy)
         {
             // Hide action buttons
@@ -302,6 +307,7 @@ public class UnitMenuController : MonoBehaviour
         }
         float unitDisplayDef = unit.def;
         float unitDisplayMdef = unit.mdef;
+        // handle buffs and debuffs
         if (unit.defenseBuffed){
             unitDisplayDef = Mathf.Floor(unit.def * 1.2f);
             unitDisplayMdef = Mathf.Floor(unit.mdef * 1.2f);
@@ -361,6 +367,7 @@ public class UnitMenuController : MonoBehaviour
         ShowUnitActionMenu(unit);
     }
     public void WaitUnit(){
+        lastUnitUsedAction = false;
         UnitHasActed(selectedUnit);//button
     }
 
@@ -372,10 +379,22 @@ public class UnitMenuController : MonoBehaviour
         }
         if (AllPlayersActed()){
             Debug.Log("all acted");
-            FindObjectOfType<GameManager>()?.StartEnemyPhase();
+            // delay enemy phase start if last unit used an action because there are combat popups showing up
+            if (lastUnitUsedAction){
+                StartCoroutine(DelayedStartEnemyPhase(5.0f));
+            } else {
+                FindObjectOfType<GameManager>()?.StartEnemyPhase();
+            }
             return;
         }
     }
+
+    private IEnumerator DelayedStartEnemyPhase(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        FindObjectOfType<GameManager>()?.StartEnemyPhase();
+    }
+
     public void OnActionButtonPressed()//ability menu
     {
         // // Clear old buttons
@@ -406,6 +425,7 @@ public class UnitMenuController : MonoBehaviour
     }//things to consider- self targeted actions?healing?right now this is just for combat abilities, but will try to restructure later
     private void DoAction(int actionIndex)
     {
+        lastUnitUsedAction = true;
         Debug.Log($"Action selected: {selectedUnit.actionNames[actionIndex]}");
         //selectedUnit.PerformAction(actionIndex);
         HideUnitActionMenu();

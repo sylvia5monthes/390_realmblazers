@@ -32,7 +32,6 @@ public class GridManager : MonoBehaviour
     private string pendingActionName = null;
 
     // spawn enemies
-    // TODO: make this dynamic for each level
     public GameObject goblinPrefab;
     public GameObject iceDemonPrefab;
     public GameObject impPrefab;
@@ -73,6 +72,8 @@ public class GridManager : MonoBehaviour
 
 void Update()
 {
+    // Handle mouse input for unit movement and action selection
+    // don't allow clicking through UI
     if (Input.GetMouseButtonDown(0) && !GameManager.Instance.isPhaseChanging && !IsPointerOverUI())
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -92,6 +93,7 @@ void Update()
             return;
         }
         // if a action is pending and the clicked tile is valid:
+        // perform combat
         if (unitWaitingToAct != null && highlightedMoveTiles.Contains(gridPos))
         {
             if(pendingAction[0] == 2){
@@ -133,6 +135,22 @@ void Update()
         HighlightTileAt(gridPos);
     }
 
+    // allow cancelling action/movement if one is pending with the escape key
+    if (Input.GetKeyDown(KeyCode.Escape))
+    {
+        if (unitWaitingToAct != null || unitWaitingToMove != null)
+        {
+            Debug.Log("Cancelling action");
+            unitWaitingToMove = null;
+            unitWaitingToAct = null;
+            pendingAction = null;
+            pendingActionName = null;
+            highlightedMoveTiles.Clear();
+            highlighter.ClearAllTiles();
+        }
+    }
+
+    // right click to place unit during initial spawn phase
     if (Input.GetMouseButtonDown(1) && !GameManager.Instance.isPhaseChanging)
     {
         Debug.Log("Right mouse button clicked");
@@ -329,6 +347,8 @@ void Update()
         placementHighlighter.ClearAllTiles();
     }
 
+    // use pathfinding algo (bfs) to find all the tiles
+    // that are within the range of the unit
     public List<Vector3Int> GetMovableTiles(Vector3Int gridPos, int range, bool isEnemy = false){
         // pathfinding w/ bfs, can only move through ally tiles
         List<Vector3Int> ret = new List<Vector3Int>();
@@ -391,6 +411,8 @@ void Update()
         return ret;
     }
 
+    // find all the tiles that are within the range of the unit's selected action
+    // and highlight them
     public void HighlightActableTiles(Vector3Int gridPos, int range){//again, currently only for combat abilities (enemy units)
         highlighter.ClearAllTiles();
         highlightedMoveTiles.Clear();
@@ -534,6 +556,7 @@ void Update()
         selectedUnitPrefab = unitPrefab;
     }
 
+    // for each level, specify where to spawn enemies on the grid
     public void SpawnEnemiesAtStart()
     {
         if (level == 1){
@@ -880,10 +903,13 @@ void Update()
         return Mathf.Abs(tilePos1.x - tilePos2.x) + Mathf.Abs(tilePos1.y - tilePos2.y);
     }
 
+    // a combat action is pending 
     public bool IsInTargetingMode()
     {
         return unitWaitingToAct != null && pendingAction != null;
     }
+
+    // a healing or protect action is pending
     public bool IsInTargetingAllyMode(){
         return unitWaitingToAct != null && pendingAction != null  && (pendingAction[0] == 2 || pendingAction[0] ==3);
     }
