@@ -11,7 +11,9 @@ public class DialogueManager : MonoBehaviour
     public Image portraitImage;
 
     private Queue<Line> lines;
+    private Queue<Line> endLines;
     private bool isDialoguePlaying;
+    private bool isEndDialoguePlaying;
 
     void Start()
     {
@@ -26,11 +28,23 @@ public class DialogueManager : MonoBehaviour
         DisplayNextLine();
     }
 
+    public void StartEndDialogue(Sequence endSequence)
+    {
+        endLines = new Queue<Line>(endSequence.lines);
+        isEndDialoguePlaying = true;
+        dialogueUI.SetActive(true);
+        DisplayNextEndLine();
+    }
+
     void Update()
     {
         if (isDialoguePlaying && Input.GetMouseButtonDown(0)) // Left click
         {
             DisplayNextLine();
+        }
+        if (isEndDialoguePlaying && Input.GetMouseButtonDown(0))
+        {
+            DisplayNextEndLine();
         }
     }
 
@@ -48,12 +62,34 @@ public class DialogueManager : MonoBehaviour
         portraitImage.sprite = line.portrait;
     }
 
+    void DisplayNextEndLine()
+    {
+        if (endLines.Count == 0)
+        {
+            EndEndDialogue();
+            return;
+        }
+
+        Line line = endLines.Dequeue();
+        speakerText.text = line.speaker;
+        dialogueText.text = line.text;
+        portraitImage.sprite = line.portrait;
+    }
+
     void EndDialogue()
     {
         isDialoguePlaying = false;
         dialogueUI.SetActive(false);
 
         FindObjectOfType<GameManager>()?.StartPlayerPhase();
+    }
+
+    void EndEndDialogue()
+    {
+        isEndDialoguePlaying = false;
+        dialogueUI.SetActive(false);
+
+        FindObjectOfType<GameManager>()?.LoadNext();
     }
 
     public bool IsDialoguePlaying()

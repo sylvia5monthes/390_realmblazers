@@ -165,8 +165,6 @@ public class UnitMenuController : MonoBehaviour
             dialogueManager = FindObjectOfType<DialogueManager>();
 
             dialogueManager.StartDialogue(dialogue);
-
-            //FindObjectOfType<GameManager>()?.StartPlayerPhase();
             }
         } else if (level == 3){
             if (knightPlaced && archerPlaced && whiteMagePlaced && blackMagePlaced && vanguardPlaced) 
