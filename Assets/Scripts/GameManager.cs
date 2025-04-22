@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public GamePhase currentPhase;
     public bool isPhaseChanging = false;
     public string nextScene = "placeholder";
+    public GameObject gameOver;
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +68,11 @@ public class GameManager : MonoBehaviour
         } else {
             unit.HandleDeathCleanup();
         }
+    }
+
+    public void GameOver(){
+        Time.timeScale = 0f;
+        gameOver.SetActive(true);
     }
 
 }

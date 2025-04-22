@@ -198,6 +198,11 @@ public class Unit : MonoBehaviour
         {
             menu?.GetUnits().Remove(this);
             menu?.HideUnitActionMenu();
+
+            if (menu.GetUnits().Count == 0)
+            {
+                GameManager.Instance.GameOver();
+            }
         }
 
         combatUI?.ShowDeathText(unitDisplayName);
