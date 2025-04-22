@@ -16,7 +16,13 @@ public class GridManager : MonoBehaviour
     public int initialSpawnWidth = 3;
     public GameObject unitPrefab;
     private GameObject selectedUnitPrefab;
+    public GameObject snowTerrainPrefab;
+    public GameObject snowBrushPrefab;
+    public GameObject magmaTerrainPrefab;
+    public GameObject magmaBrushPrefab;
 
+    public GameObject darknessTerrainPrefab;
+    public GameObject darknessBrushPrefab;
     private Tile[,] grid;
     private HashSet<Vector3Int> highlightedMoveTiles = new HashSet<Vector3Int>();
     private Unit unitWaitingToMove = null;
@@ -59,6 +65,7 @@ public class GridManager : MonoBehaviour
         } else{
             SpawnEnemiesAtStart();
         }
+        SpawnTerrainsAtStart();
 
         // Highlight the initial placement area
         HighlightInitialPlacementArea();
@@ -615,6 +622,25 @@ void Update()
                 }
             }
             PlaceUnitOnTile(bossUnit, firstUnoccupied);
+        }
+    }
+    public void SpawnTerrainsAtStart()
+    {
+        int level = unitMenuController.level;
+        if (level == 1){
+            // spawn terrain for rocks
+            List<Vector3Int> spawnTerrainPositions = new List<Vector3Int>
+            {
+                new Vector3Int(width/2, height/2, 0),
+                new Vector3Int(width/2-1, height/2-1, 0),
+                new Vector3Int(width/2, height/2-1, 0),
+                new Vector3Int(width/2-1, height/2, 0)
+            };
+            foreach (var adjustedGridPos in spawnTerrainPositions)
+            {
+                GameObject terrain = Instantiate(snowTerrainPrefab);
+                PlaceTerrainOnTile(terrain, adjustedGridPos);
+            }
         }
     }
     public int GetManhattan(Vector3Int tilePos1, Vector3Int tilePos2){
