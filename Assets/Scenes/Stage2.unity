@@ -4722,7 +4722,6 @@ MonoBehaviour:
   currentPhase: 0
   isPhaseChanging: 0
   nextScene: placeholder
-  currentLevel: 2
 --- !u!4 &1584909679
 Transform:
   m_ObjectHideFlags: 0
@@ -6485,6 +6484,8 @@ MonoBehaviour:
   iceDemonPrefab: {fileID: 5642282086267636438, guid: f80bf6bb94fb64a7fa969f1ab90eb498, type: 3}
   impPrefab: {fileID: 3892650201071848878, guid: 3955fb3b2a05646989fb5b0894b72a7d, type: 3}
   hellhoundPrefab: {fileID: 3892650201071848878, guid: 6db522f6c1b664090b5869918ffbd917, type: 3}
+  incubusPrefab: {fileID: 5642282086267636438, guid: 3e820db7fd15d4b7987936d2d7fa7613, type: 3}
+  succubusPrefab: {fileID: 5642282086267636438, guid: 4541fe7b856be4157b996c3b590e7791, type: 3}
 --- !u!1 &1738245181
 GameObject:
   m_ObjectHideFlags: 0

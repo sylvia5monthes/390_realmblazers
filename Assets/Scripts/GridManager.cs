@@ -29,6 +29,8 @@ public class GridManager : MonoBehaviour
     public GameObject iceDemonPrefab;
     public GameObject impPrefab;
     public GameObject hellhoundPrefab;
+    public GameObject incubusPrefab;
+    public GameObject succubusPrefab;
     private UnitMenuController unitMenuController;
     private EnemyController enemyController;
     
@@ -489,7 +491,41 @@ void Update()
         if (level == 3){
             //boss for 3
         } else if (level == 2){
-            //2
+            GameObject incubusUnit = Instantiate(incubusPrefab);
+            Unit incubusUnitScript = incubusUnit.GetComponent<Unit>();
+            enemyController.ActivateEnemy(incubusUnitScript);
+            Vector3Int firstUnoccupied = new Vector3Int(0,0,0);
+            List<Vector3Int> incubusSpawnPositions = new List<Vector3Int>{
+                new Vector3Int(0, 0, 0),
+                new Vector3Int(0, 1, 0),
+                new Vector3Int(1, 0, 0),
+                new Vector3Int(1, 1, 0),
+                new Vector3Int(2,2,0)
+            };
+            foreach(var adjustedGridPos in incubusSpawnPositions){
+                if(!TileAt(adjustedGridPos).IsOccupied){
+                    firstUnoccupied = adjustedGridPos;
+                    break;
+                }
+            }
+            PlaceUnitOnTile(incubusUnit, firstUnoccupied);
+            GameObject succubusUnit = Instantiate(succubusPrefab);
+            Unit succubusUnitScript = succubusUnit.GetComponent<Unit>();
+            enemyController.ActivateEnemy(succubusUnitScript);
+            List<Vector3Int> succubusSpawnPositions = new List<Vector3Int>{
+                new Vector3Int(width-1, height-1, 0),
+                new Vector3Int(width-1, height-2, 0),
+                new Vector3Int(width-2, height-1, 0),
+                new Vector3Int(width-2,height-2, 0),
+                new Vector3Int(width-3,height-3,0)
+            };
+            foreach(var adjustedGridPos in succubusSpawnPositions){
+                if(!TileAt(adjustedGridPos).IsOccupied){
+                    firstUnoccupied = adjustedGridPos;
+                    break;
+                }
+            }
+            PlaceUnitOnTile(succubusUnit, firstUnoccupied);
         } else{
             GameObject bossUnit = Instantiate(iceDemonPrefab);
             Unit bossUnitScript = bossUnit.GetComponent<Unit>();

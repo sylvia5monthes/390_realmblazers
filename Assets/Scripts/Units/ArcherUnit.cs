@@ -36,7 +36,7 @@ public class ArcherUnit : Unit
         matk += level * 3;
         mdef += level * 3;
         prec += level * 4;
-        eva += level * 3;
+        eva += level * 2;
     }
 
     // Update is called once per frame

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8045313037047851677}
   - component: {fileID: 8442931074478467997}
   - component: {fileID: 4581670124560094041}
-  - component: {fileID: 3702172413653904963}
+  - component: {fileID: 1927555239843742579}
   m_Layer: 0
-  m_Name: IceDemonPrefab
+  m_Name: IncubusPrefab
   m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 52f780f12c5784fa3ad1b32d89cc1eea, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9fbe9e08e75874dc49c5cdbce2d9e04f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -131,7 +131,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3702172413653904963
+--- !u!114 &1927555239843742579
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,21 +140,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 5642282086267636438}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6272f8ec4446546cd8404a765e022324, type: 3}
+  m_Script: {fileID: 11500000, guid: 78baab8cfe6704dce98138ea12763945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitDisplayName: 
   isEnemy: 1
   isMinion: 0
   isBoss: 1
-  health: 30
-  atk: 12
-  def: 12
-  matk: 12
-  mdef: 12
-  prec: 10
-  eva: 10
-  mov: 2
+  health: 33
+  atk: 13
+  def: 14
+  matk: 13
+  mdef: 14
+  prec: 11
+  eva: 13
+  mov: 3
   currentTilePos: {x: 0, y: 0, z: 0}
   hasMoved: 0
   hasActed: 0
