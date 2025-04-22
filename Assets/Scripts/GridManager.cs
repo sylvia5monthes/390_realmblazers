@@ -391,7 +391,7 @@ void Update()
                     if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
                     {
                         Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
-                        if (grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>()!= null){
+                        if (grid[pos.x, pos.y].unitOnTile == null){
                             if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
                             {
                                 highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
@@ -416,7 +416,7 @@ void Update()
                     if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
                     {
                         Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
-                            if (grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>()!= null){
+                            if (grid[pos.x, pos.y].unitOnTile == null){
                                 if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && !grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
                                 {
                                     highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
@@ -457,7 +457,7 @@ void Update()
         float offset_y = height / 2;
         Vector3Int adjustedPos = new Vector3Int((int)(originalGridPos.x + offset_x), (int)(originalGridPos.y + offset_y), (int)originalGridPos.z);
 
-        Debug.Log($"Original Grid Position: {originalGridPos}, Adjusted Position: {adjustedPos}");
+        //Debug.Log($"Original Grid Position: {originalGridPos}, Adjusted Position: {adjustedPos}");
 
         return adjustedPos;
     }
@@ -471,7 +471,7 @@ void Update()
         float offset_y = height / 2; 
         Vector3Int originalGridPos = new Vector3Int(adjustedGridPos.x - (int)offset_x, adjustedGridPos.y - (int)offset_y, (int)adjustedGridPos.z);
 
-        Debug.Log($"Adjusted Grid Position: {adjustedGridPos}, Original Position: {originalGridPos}");
+        //Debug.Log($"Adjusted Grid Position: {adjustedGridPos}, Original Position: {originalGridPos}");
 
         return originalGridPos;
     }

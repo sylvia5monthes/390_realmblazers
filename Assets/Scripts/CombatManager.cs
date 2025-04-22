@@ -49,6 +49,7 @@ public class CombatManager : MonoBehaviour
         float chance;
         if (gridmanager.TileAt(receiver.currentTilePos).isBrush){
             chance = action[2] * actor.prec / (receiver.eva * 1.2f);
+            Debug.Log(actor.eva/1.2f);
         } else{
             chance = action[2] * actor.prec / receiver.eva;
         }
@@ -91,7 +92,6 @@ public class CombatManager : MonoBehaviour
                 totaldamage = defaultAction[1] + offense - defense;
                 if (gridmanager.TileAt(actor.currentTilePos).isBrush){
                     chance = defaultAction[2] * receiver.prec / (actor.eva * 1.2f);
-                    Debug.Log(actor.eva/1.2f);
                 } else{
                     chance = defaultAction[2] * receiver.prec / actor.eva;
                 }

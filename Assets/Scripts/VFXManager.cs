@@ -35,52 +35,52 @@ public class VFXManager : MonoBehaviour
         {
             // knight 
             case "Slash":
-                Debug.Log("Playing Slash VFX");
+                //Debug.Log("Playing Slash VFX");
                 Instantiate(slashEffectPrefab, worldPosition, Quaternion.identity);
                 break;
 
             // archer
             case "Shoot":
-                Debug.Log("Playing Shoot VFX");
+                //Debug.Log("Playing Shoot VFX");
                 Instantiate(shootEffectPrefab, worldPosition, Quaternion.identity);
                 break;
 
             case "Snipe":
-                Debug.Log("Playing Snipe VFX");
+                //Debug.Log("Playing Snipe VFX");
                 Instantiate(shootEffectPrefab, worldPosition, Quaternion.identity);
                 break;
             
             // white mage 
             case "Holy":
-                Debug.Log("Playing Holy VFX");
+                //Debug.Log("Playing Holy VFX");
                 Instantiate(holyEffectPrefab, worldPosition, Quaternion.identity);
                 break;
             
             case "Cure":
-                Debug.Log("Playing Cure VFX");
+                //Debug.Log("Playing Cure VFX");
                 Instantiate(cureEffectPrefab, worldPosition, Quaternion.identity);
                 break;
 
             // black mage 
             case "Fire":
-                Debug.Log("Playing Fire VFX");
+                //Debug.Log("Playing Fire VFX");
                 Instantiate(fireballEffectPrefab, worldPosition, Quaternion.identity);
                 break;
             
             case "Fireball":
-                Debug.Log("Playing Fireball VFX");
+                //Debug.Log("Playing Fireball VFX");
                 Instantiate(fireballEffectPrefab, worldPosition, Quaternion.identity);
                 break;
 
             // goblin
             case "Pound":
-                Debug.Log("Playing Pound VFX");
+                //Debug.Log("Playing Pound VFX");
                 Instantiate(poundEffectPrefab, worldPosition, Quaternion.identity);
                 break;
 
             // ice demon
             case "Smash":
-                Debug.Log("Playing Smash VFX");
+                //Debug.Log("Playing Smash VFX");
                 Instantiate(poundEffectPrefab, worldPosition, Quaternion.identity);
                 break;
 
