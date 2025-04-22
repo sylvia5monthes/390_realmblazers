@@ -390,9 +390,6 @@ public class UnitMenuController : MonoBehaviour
             unit.DecrementBuff();
             
         }
-        foreach (Unit unit in activeUnits){
-            unit.CheckDeath();
-        }
 
     }
     public List<Unit> GetUnits(){
