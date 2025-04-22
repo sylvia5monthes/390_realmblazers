@@ -93,7 +93,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator EnemyPhaseCoroutine(List<Unit> enemies)
     {
-        yield return new WaitForSeconds(3.0f); // wait for phase text
+        yield return new WaitForSeconds(4.0f); // wait for phase text
         foreach (Unit unit in enemies)
         {
             if (unit.currentHealth > 0)
@@ -102,6 +102,7 @@ public class EnemyController : MonoBehaviour
                 yield return new WaitForSeconds(3.0f);
             }
         }
+        yield return new WaitForSeconds(2.0f);
         gameManager.StartPlayerPhase();
     }
 
