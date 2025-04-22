@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc7b69d47bec62248be08253313e5372, type: 3}
+  m_Name: Level2Dialogue
+  m_EditorClassIdentifier: 
+  lines:
+  - speaker: Black Mage
+    text: This is where I saw them headed. He must be around here somewhere.
+    portrait: {fileID: 21300000, guid: 583f879dc0c984ed9b472cb3a2b2223f, type: 3}
+  - speaker: Knight
+    text: There's no time to lose then. We must defeat them all and rescue him before
+      it's too late!
+    portrait: {fileID: 21300000, guid: aef75d832d6b2484a932ebafe4d20bbe, type: 3}
+  - speaker: White Mage
+    text: Be careful of the magma spots!
+    portrait: {fileID: 21300000, guid: 3fc2f4abdc21344c69cc5d16124016eb, type: 3}

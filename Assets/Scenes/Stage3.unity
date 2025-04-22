@@ -6558,7 +6558,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -13.643396, z: -255.21469, w: -354.72903}
+  m_margin: {x: 0, y: -13.643396, z: -100.43843, w: -354.72903}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -7090,7 +7090,7 @@ MonoBehaviour:
   abilityTooltipText: {fileID: 39043122}
   level: 3
   magmaDamageDisplay: {fileID: 1448196116430284655, guid: 9e037d947d8dd48dc840cc35e9c82445, type: 3}
-  dialogue: {fileID: 11400000, guid: e491046cb4665d94f8abb8442ee76eb5, type: 2}
+  dialogue: {fileID: 11400000, guid: 6926b6b2e5048db47bcbdae59b71745f, type: 2}
 --- !u!4 &1353120740
 Transform:
   m_ObjectHideFlags: 0
