@@ -1506,6 +1506,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 227423672}
   m_CullTransparentMesh: 1
+--- !u!1 &325212409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 325212411}
+  - component: {fileID: 325212410}
+  m_Layer: 0
+  m_Name: VFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &325212410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325212409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92745b4993ece43b589e411b41b7702d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slashEffectPrefab: {fileID: 425981343107016400, guid: 3211febaa3a6941a79fb3a457499dd4a, type: 3}
+  shootEffectPrefab: {fileID: 8513487771704592205, guid: 537bf3d61992e49b39923a342c9c37f9, type: 3}
+  holyEffectPrefab: {fileID: 7589042476819324049, guid: 21229ddac537941d2847e2e7169d646b, type: 3}
+  cureEffectPrefab: {fileID: 7747521056929197847, guid: 21c16f10a94e24a7b95d0949446a71f8, type: 3}
+  poundEffectPrefab: {fileID: 8967810919017778017, guid: 4bdcae3702be44bea925d2d47fe147bb, type: 3}
+  fireballEffectPrefab: {fileID: 1750231179595530667, guid: 6fbfe9192df4d4d0898d921174ed12bf, type: 3}
+  boltEffectPrefab: {fileID: 5879268472956736198, guid: 2885e33247d3946cf80f80422a729344, type: 3}
+  biteEffectPrefab: {fileID: 2512899116251206595, guid: 8379795a88eab492b936dd8eb6d63476, type: 3}
+  darkEffectPrefab: {fileID: 8890029820872291115, guid: 41844e010ad36447bbff2f3d1fea1d22, type: 3}
+  sparkEffectPrefab: {fileID: 1919555484601475349, guid: 5259808b1fb2145eeaeb3c7855069bc1, type: 3}
+  charmEffectPrefab: {fileID: 5570979771104668175, guid: 420de619dead94073bb30485ba4ace0a, type: 3}
+--- !u!4 &325212411
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325212409}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1432753, y: 1.2962186, z: -0.0039914907}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &347940606
 GameObject:
   m_ObjectHideFlags: 0
@@ -2720,61 +2775,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00030708, y: -40}
   m_SizeDelta: {x: 355.01, y: 111.06}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &680512110
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 680512112}
-  - component: {fileID: 680512111}
-  m_Layer: 0
-  m_Name: VFXManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &680512111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 680512110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92745b4993ece43b589e411b41b7702d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slashEffectPrefab: {fileID: 425981343107016400, guid: 3211febaa3a6941a79fb3a457499dd4a, type: 3}
-  shootEffectPrefab: {fileID: 8513487771704592205, guid: 537bf3d61992e49b39923a342c9c37f9, type: 3}
-  holyEffectPrefab: {fileID: 7589042476819324049, guid: 21229ddac537941d2847e2e7169d646b, type: 3}
-  cureEffectPrefab: {fileID: 7747521056929197847, guid: 21c16f10a94e24a7b95d0949446a71f8, type: 3}
-  poundEffectPrefab: {fileID: 8967810919017778017, guid: 4bdcae3702be44bea925d2d47fe147bb, type: 3}
-  fireballEffectPrefab: {fileID: 1750231179595530667, guid: 6fbfe9192df4d4d0898d921174ed12bf, type: 3}
-  boltEffectPrefab: {fileID: 5879268472956736198, guid: 2885e33247d3946cf80f80422a729344, type: 3}
-  biteEffectPrefab: {fileID: 2512899116251206595, guid: 8379795a88eab492b936dd8eb6d63476, type: 3}
-  darkEffectPrefab: {fileID: 8890029820872291115, guid: 41844e010ad36447bbff2f3d1fea1d22, type: 3}
-  sparkEffectPrefab: {fileID: 1919555484601475349, guid: 5259808b1fb2145eeaeb3c7855069bc1, type: 3}
-  charmEffectPrefab: {fileID: 5570979771104668175, guid: 420de619dead94073bb30485ba4ace0a, type: 3}
---- !u!4 &680512112
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 680512110}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1432753, y: 1.2962186, z: -0.0039914907}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &720448441
 GameObject:
   m_ObjectHideFlags: 0
@@ -8850,6 +8850,6 @@ SceneRoots:
   - {fileID: 1299124079}
   - {fileID: 594269334}
   - {fileID: 112862489}
-  - {fileID: 680512112}
   - {fileID: 977064584}
   - {fileID: 849443467}
+  - {fileID: 325212411}
