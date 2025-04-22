@@ -391,11 +391,12 @@ void Update()
                     if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
                     {
                         Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
-
-                        if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
-                        {
-                            highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
-                            highlightedMoveTiles.Add(pos);
+                        if (grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>()!= null){
+                            if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
+                            {
+                                highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
+                                highlightedMoveTiles.Add(pos);
+                            }
                         }
                     }
                 }
@@ -415,11 +416,12 @@ void Update()
                     if (Mathf.Abs(dx) + Mathf.Abs(dy) <= range)
                     {
                         Vector3Int pos = new Vector3Int(gridPos.x + dx, gridPos.y + dy, 0);
-
-                        if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && !grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
-                        {
-                            highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
-                            highlightedMoveTiles.Add(pos);
+                            if (grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>()!= null){
+                                if (IsInBounds(pos) && grid[pos.x, pos.y].IsOccupied && !pos.Equals(gridPos) && !grid[pos.x, pos.y].unitOnTile.GetComponent<Unit>().isEnemy)
+                                {
+                                    highlighter.SetTile(GridPositionToWorldPosition(pos), movableTile);
+                                    highlightedMoveTiles.Add(pos);
+                                }
                         }
                     }
                 }
@@ -518,6 +520,7 @@ void Update()
                 new Vector3Int(width - 1, 0, 0),
                 new Vector3Int(width - 1, 1, 0),
                 new Vector3Int(width - 2, 0, 0),
+                new Vector3Int(width-2, 1,0)
             };
 
             foreach (var adjustedGridPos in enemySpawnPositions)
@@ -641,6 +644,22 @@ void Update()
             {
                 GameObject terrain = Instantiate(snowTerrainPrefab);
                 PlaceTerrainOnTile(terrain, adjustedGridPos);
+            }
+            List<Vector3Int> spawnBrushPositions = new List<Vector3Int>
+            {
+                new Vector3Int(0, 0, 0),
+                new Vector3Int(1, 1, 0),
+                new Vector3Int(2, 2, 0),
+                new Vector3Int(3, 3, 0),
+                new Vector3Int(6, 6, 0),
+                new Vector3Int(7, 7, 0),
+                new Vector3Int(8, 8, 0),
+                new Vector3Int(9, 9, 0)
+            };
+            foreach (var adjustedGridPos in spawnBrushPositions)
+            {
+                GameObject brush = Instantiate(snowBrushPrefab);
+                PlaceBrushOnTile(brush, adjustedGridPos);
             }
         }
     }

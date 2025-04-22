@@ -91,6 +91,7 @@ public class CombatManager : MonoBehaviour
                 totaldamage = defaultAction[1] + offense - defense;
                 if (gridmanager.TileAt(actor.currentTilePos).isBrush){
                     chance = defaultAction[2] * receiver.prec / (actor.eva * 1.2f);
+                    Debug.Log(actor.eva/1.2f);
                 } else{
                     chance = defaultAction[2] * receiver.prec / actor.eva;
                 }
