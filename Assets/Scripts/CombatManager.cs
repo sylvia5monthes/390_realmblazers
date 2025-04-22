@@ -109,6 +109,7 @@ public class CombatManager : MonoBehaviour
                     }
                 } else{
                     offense = receiver.matk;
+                    defense = actor.mdef;
                     if (actor.defenseBuffed){
                         defense = Mathf.Floor(defense * 1.2f);
                     } else if (actor.defenseDebuffed){
