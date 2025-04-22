@@ -84,11 +84,11 @@ public class EnemyController : MonoBehaviour
                 unit.hasMoved = false;
                 unit.hasActed = false;
                 validEnemies.Add(unit);
-                if (gridManager.TileAt(unit.currentTilePos).isMagma){
-                    unit.currentHealth-=3;
-                    Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
-                    Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
-                }
+                //if (gridManager.TileAt(unit.currentTilePos).isMagma){
+                    //unit.currentHealth-=3;
+                    //Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
+                    //Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
+                //}
                 unit.DecrementBuff();
             }
         }
