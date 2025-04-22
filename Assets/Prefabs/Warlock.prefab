@@ -147,14 +147,14 @@ MonoBehaviour:
   isEnemy: 1
   isMinion: 1
   isBoss: 0
-  health: 24
+  health: 25
   atk: 10
   def: 13
-  matk: 18
+  matk: 16
   mdef: 15
   prec: 15
   eva: 15
-  mov: 1
+  mov: 4
   currentTilePos: {x: 0, y: 0, z: 0}
   hasMoved: 0
   hasActed: 0
