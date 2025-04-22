@@ -755,6 +755,45 @@ void Update()
                 GameObject magma = Instantiate(magmaDamagePrefab);
                 PlaceMagmaOnTile(magma, adjustedGridPos);
             }
+        } else{
+            List<Vector3Int> spawnTerrainPositions = new List<Vector3Int>
+            {
+                new Vector3Int(2, 2, 0),
+                new Vector3Int(4, 4, 0),
+                new Vector3Int(2, 4, 0),
+                new Vector3Int(4, 2, 0),
+                new Vector3Int(9, 9, 0),
+                new Vector3Int(9, 7, 0),
+                new Vector3Int(7, 9, 0),
+                new Vector3Int(7, 7, 0),
+                new Vector3Int(9, 4, 0),
+                new Vector3Int(9, 2, 0),
+                new Vector3Int(7, 4, 0),
+                new Vector3Int(7, 2, 0)
+            };
+            foreach (var adjustedGridPos in spawnTerrainPositions)
+            {
+                GameObject terrain = Instantiate(darknessTerrainPrefab);
+                PlaceTerrainOnTile(terrain, adjustedGridPos);
+            }
+            List<Vector3Int> spawnBrushPositions = new List<Vector3Int>
+            {
+                new Vector3Int(3, 8, 0),
+                new Vector3Int(0, 5, 0),
+                new Vector3Int(1, 6, 0),
+                new Vector3Int(5, 11, 0),
+                new Vector3Int(6, 10, 0),
+                new Vector3Int(11, 6, 0),
+                new Vector3Int(10, 5, 0),
+                new Vector3Int(5, 1, 0),
+                new Vector3Int(6, 0, 0)
+
+            };
+            foreach (var adjustedGridPos in spawnBrushPositions)
+            {
+                GameObject brush = Instantiate(darknessBrushPrefab);
+                PlaceBrushOnTile(brush, adjustedGridPos);
+            }
         }
     }
     public int GetManhattan(Vector3Int tilePos1, Vector3Int tilePos2){

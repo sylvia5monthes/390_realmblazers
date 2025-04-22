@@ -29,8 +29,8 @@ public class Unit : MonoBehaviour
     public float currentHealth;
     public float[][] actions;
     public string[] actionNames;
-    private GridManager gridManager;
-    private UnitMenuController unitMenuController;
+    protected GridManager gridManager;
+    protected UnitMenuController unitMenuController;
     private CombatManager combatManager;
     private int buffTurns = 0;
     public bool defenseBuffed = false;
