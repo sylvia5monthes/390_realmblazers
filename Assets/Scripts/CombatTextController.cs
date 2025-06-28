@@ -36,14 +36,14 @@ public class CombatTextController : MonoBehaviour
         StartCoroutine(DisplayProtectText(actorName, receiverName));
     }
 
-    public void ShowActorDamage(float damage, string actorName, string receiverName)
+    public void ShowActorDamage(float damage, string actorName, string receiverName, bool miss)
     {
         StopAllCoroutines();
-        StartCoroutine(DisplayActorText(damage, actorName, receiverName));
+        StartCoroutine(DisplayActorText(damage, actorName, receiverName, miss));
     }
-    public void ShowReceiverDamage(float damage, string receiverName, string actorName)
+    public void ShowReceiverDamage(float damage, string receiverName, string actorName, bool miss)
     {
-        StartCoroutine(DisplayReceiverText(damage, receiverName, actorName));
+        StartCoroutine(DisplayReceiverText(damage, receiverName, actorName, miss));
     }
     public void ShowDeathText(string unitName)
     {
@@ -75,25 +75,42 @@ public class CombatTextController : MonoBehaviour
         combatTextPanel.SetActive(false);
     }
 
-    private IEnumerator DisplayActorText(float damage, string actorName, string receiverName){
+    private IEnumerator DisplayActorText(float damage, string actorName, string receiverName, bool miss){
         combatTextPanel.SetActive(false);
-        actorText.text = actorName + displayString1 + damage.ToString() + displayString2 + receiverName + "!";
+        if (miss)
+        {
+            actorText.text = actorName + " missed!";
+        }
+        else
+        {
+            actorText.text = actorName + displayString1 + damage.ToString() + displayString2 + receiverName + "!";
+        }
         combatTextPanel.SetActive(true);
         actorText.gameObject.SetActive(true);
         yield return new WaitForSeconds(3.0f);
         actorText.gameObject.SetActive(false);
     }
-    private IEnumerator DisplayReceiverText(float damage, string receiverName, string actorName){
+    private IEnumerator DisplayReceiverText(float damage, string receiverName, string actorName, bool miss){
         receiverText.gameObject.SetActive(false);
         yield return new WaitForSeconds(1.0f);
-        if (damage > 0){
+        if (miss)
+        {
+            receiverText.text = receiverName + " missed!";
+            receiverText.gameObject.SetActive(true);
+            yield return new WaitForSeconds(3.0f);
+            receiverText.gameObject.SetActive(false);
+            combatTextPanel.SetActive(false);
+        }
+        else if (damage > 0)
+        {
             receiverText.text = receiverName + displayString1 + damage.ToString() + displayString2 + actorName + "!";
             receiverText.gameObject.SetActive(true);
             yield return new WaitForSeconds(3.0f);
             receiverText.gameObject.SetActive(false);
             combatTextPanel.SetActive(false);
         }
-        else{
+        else
+        {
             combatTextPanel.SetActive(false);
         }
     }

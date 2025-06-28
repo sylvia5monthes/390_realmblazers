@@ -36,7 +36,9 @@ public class CombatManager : MonoBehaviour
     public void HandleCombat(Unit actor, Unit receiver, float[] action, string actionName, int distance) {
         Debug.Log("CombatManager: HandleCombat called between " + actor.unitDisplayName + " and " + receiver.unitDisplayName);
         bool magic = false;
-        if (action[0] == 1){
+        bool miss = false;
+        if (action[0] == 1)
+        {
             magic = true;
             Debug.Log("Magical damage!!!!!");
         }
@@ -69,10 +71,11 @@ public class CombatManager : MonoBehaviour
         }
         float totaldamage = action[1] + offense - defense;
         if (Random.value>=chance){
+            miss = true;
             totaldamage = 0;//set damage to 0 if miss
         }
         receiver.currentHealth -= totaldamage;
-        combatTextController.ShowActorDamage(totaldamage, actor.unitDisplayName, receiver.unitDisplayName);
+        combatTextController.ShowActorDamage(totaldamage, actor.unitDisplayName, receiver.unitDisplayName, miss);
         if (totaldamage > 0 && actionName == "Shield Bash"){
             receiver.SetDefenseBuff(false, 3);
         }
@@ -89,55 +92,79 @@ public class CombatManager : MonoBehaviour
             StartCoroutine(HandleDeathAfterDelay(receiver));
             return;
         }
+        miss = false;
         //RECEIVER'S ACTION: SKIP IF RECEIVER DIED
-        if (receiver.currentHealth > 0){
+        if (receiver.currentHealth > 0)
+        {
             float[] defaultAction = receiver.actions[0];
             string defaultActionName = receiver.actionNames[0];
-            if (distance <= defaultAction[3]){
-                if (defaultAction[0] == 1){
-                magic = true;
-                } else{
+            if (distance <= defaultAction[3])
+            {
+                if (defaultAction[0] == 1)
+                {
+                    magic = true;
+                }
+                else
+                {
                     magic = false;
                 }
-                if(!magic){
+                if (!magic)
+                {
                     offense = receiver.atk;
                     defense = actor.def;
-                    if (actor.defenseBuffed){
+                    if (actor.defenseBuffed)
+                    {
                         defense = Mathf.Floor(defense * 1.2f);
-                    } else if (actor.defenseDebuffed){
+                    }
+                    else if (actor.defenseDebuffed)
+                    {
                         defense = Mathf.Floor(defense * 0.8f);
                     }
-                } else{
+                }
+                else
+                {
                     offense = receiver.matk;
                     defense = actor.mdef;
-                    if (actor.defenseBuffed){
+                    if (actor.defenseBuffed)
+                    {
                         defense = Mathf.Floor(defense * 1.2f);
-                    } else if (actor.defenseDebuffed){
+                    }
+                    else if (actor.defenseDebuffed)
+                    {
                         defense = Mathf.Floor(defense * 0.8f);
                     }
                 }
                 totaldamage = defaultAction[1] + offense - defense;
-                if (gridmanager.TileAt(actor.currentTilePos).isBrush){
+                if (gridmanager.TileAt(actor.currentTilePos).isBrush)
+                {
                     chance = defaultAction[2] * receiver.prec / (actor.eva * 1.2f);
-                } else{
+                }
+                else
+                {
                     chance = defaultAction[2] * receiver.prec / actor.eva;
                 }
-                if (Random.value>=chance){
+                if (Random.value >= chance)
+                {
                     totaldamage = 0;//set damage to 0 if miss
+                    miss = true;
                 }
-                actor.currentHealth -=totaldamage;
+                actor.currentHealth -= totaldamage;
 
                 // display combat animation
                 vfxPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(actor.currentTilePos));
                 VFXManager.Instance?.PlayActionVFX(defaultActionName, vfxPos);
 
-            } else{
+            }
+            else
+            {
                 totaldamage = 0;
             }
-        } else{
-            totaldamage=0;
         }
-        combatTextController.ShowReceiverDamage(totaldamage, receiver.unitDisplayName,actor.unitDisplayName);
+        else
+        {
+            totaldamage = 0;
+        }
+        combatTextController.ShowReceiverDamage(totaldamage, receiver.unitDisplayName,actor.unitDisplayName, miss);
         if (actor.currentHealth <= 0)
         {
             StartCoroutine(HandleDeathAfterDelay(actor));

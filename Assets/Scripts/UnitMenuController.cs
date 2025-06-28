@@ -61,6 +61,9 @@ public class UnitMenuController : MonoBehaviour
     private DialogueManager dialogueManager;
     public Sequence dialogue;
     private bool lastUnitUsedAction = false;
+    string shieldBashDescription = "Reduces target's defenses for three turns.";
+    string cureDescription = "Heals ally HP for user's magic attack.";
+    string protectDescription = "Increases ally's defenses for three turns.";
 
     // Start is called before the first frame update
     void Start()
@@ -261,6 +264,19 @@ public class UnitMenuController : MonoBehaviour
                 string actionName = unit.actionNames[i];
                 float[] stats = unit.actions[i];
                 int actionIndex = i;
+                string description = "";
+                if (actionName == "Shield Bash")
+                {
+                    description = shieldBashDescription;
+                }
+                else if (actionName == "Cure")
+                {
+                    description = cureDescription;
+                }
+                else if (actionName == "Protect")
+                {
+                    description = protectDescription;
+                }
 
                 Debug.Log($"[PLAYER ABILITY] {actionName}");
 
@@ -278,7 +294,7 @@ public class UnitMenuController : MonoBehaviour
                 enter.callback.AddListener((data) => {
                     abilityTooltipPanel.SetActive(true);
                     abilityTooltipText.text = 
-                        $"{actionName}\nPower: {stats[1]}\nAccuracy: {stats[2]}\nRange: {stats[3]}";
+                        $"{actionName}\nPower: {stats[1]}\nAccuracy: {stats[2]}\nRange: {stats[3]}\n{description}";
 
                     Vector2 anchoredPos;
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(
