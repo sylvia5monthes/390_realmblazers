@@ -49,10 +49,12 @@ public class GridManager : MonoBehaviour
     private UnitMenuController unitMenuController;
     private EnemyController enemyController;
     private int level;
+    private TileTooltipController tileTooltipController;
     
     void Start()
     {
         enemyController = FindObjectOfType<EnemyController>();
+        tileTooltipController = FindObjectOfType<TileTooltipController>();
         grid = new Tile[width, height];
 
         for (int x = 0; x < width; x++)
@@ -131,11 +133,12 @@ void Update()
 
         // Otherwise, normal click handling...
         Tile clickedTile = grid[gridPos.x, gridPos.y];
-        if (clickedTile.IsOccupied)
-        {
-            Unit unit = clickedTile.unitOnTile.GetComponent<Unit>();
-            //FindObjectOfType<UnitMenuController>()?.ShowMenu(unit);
-        }
+        tileTooltipController.ChangeDescription(clickedTile);
+            if (clickedTile.IsOccupied)
+            {
+                Unit unit = clickedTile.unitOnTile.GetComponent<Unit>();
+                //FindObjectOfType<UnitMenuController>()?.ShowMenu(unit);
+            }
         HighlightTileAt(gridPos);
     }
 
@@ -207,7 +210,9 @@ void Update()
                 Debug.Log($"Placing terrain on tile at {gridPos}");
                 terrain.transform.position = tilemap.GetCellCenterWorld(GridPositionToWorldPosition(gridPos));
                 tile.unitOnTile = terrain; //make isoccupied true such that terrain is impassable
-            } else 
+                tile.isTerrain = true;
+            }
+            else
             {
                 Debug.Log($"Tile at {gridPos} is already occupied by another unit.");
                 return false; // Tile is occupied

@@ -16,6 +16,7 @@ public class VFXManager : MonoBehaviour
     public GameObject darkEffectPrefab;
     public GameObject sparkEffectPrefab;
     public GameObject charmEffectPrefab;
+    public GameObject blizzardEffectPrefab;
 
     private void Awake()
     {
@@ -88,6 +89,10 @@ public class VFXManager : MonoBehaviour
             case "Smash":
                 //Debug.Log("Playing Smash VFX");
                 Instantiate(poundEffectPrefab, worldPosition, Quaternion.identity);
+                break;
+            
+            case "Blizzard":
+                Instantiate(blizzardEffectPrefab, worldPosition, Quaternion.identity);
                 break;
             
             // demon king and warlock

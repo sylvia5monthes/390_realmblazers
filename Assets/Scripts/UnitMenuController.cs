@@ -264,7 +264,16 @@ public class UnitMenuController : MonoBehaviour
                 string actionName = unit.actionNames[i];
                 float[] stats = unit.actions[i];
                 int actionIndex = i;
+                string actionType = "Physical";
                 string description = "";
+                if (stats[0] == 1)
+                {
+                    actionType = "Magical";
+                }
+                else if (stats[0] > 1)
+                {
+                    actionType = "Support";
+                }
                 if (actionName == "Shield Bash")
                 {
                     description = shieldBashDescription;
@@ -294,7 +303,7 @@ public class UnitMenuController : MonoBehaviour
                 enter.callback.AddListener((data) => {
                     abilityTooltipPanel.SetActive(true);
                     abilityTooltipText.text = 
-                        $"{actionName}\nPower: {stats[1]}\nAccuracy: {stats[2]}\nRange: {stats[3]}\n{description}";
+                        $"Type: {actionType}\nPower: {stats[1]}\nAccuracy: {stats[2]}\nRange: {stats[3]}\n{description}";
 
                     Vector2 anchoredPos;
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -394,12 +403,32 @@ public class UnitMenuController : MonoBehaviour
             unit.hasMoved = true; //i think it's easiest to just whenever we have a unit act we automatically set moved to true as well
         }
         gridManager.ClearAction();
-        if (AllPlayersActed()){
+        if (gridManager.TileAt(unit.currentTilePos).isMagma && unit.currentHealth > 0)
+        {
+            Debug.Log("Magma damage");
+            Tilemap tilemap = FindObjectOfType<Tilemap>();
+            unit.currentHealth -= 3;
+            Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
+            Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
+            if (lastUnitUsedAction)
+            {
+                unit.CheckDelayDeath();
+            }
+            else
+            {
+                unit.CheckDeath();
+            }
+        }
+        if (AllPlayersActed())
+        {
             Debug.Log("all acted");
             // delay enemy phase start if last unit used an action because there are combat popups showing up
-            if (lastUnitUsedAction){
+            if (lastUnitUsedAction)
+            {
                 StartCoroutine(DelayedStartEnemyPhase(5.0f));
-            } else {
+            }
+            else
+            {
                 FindObjectOfType<GameManager>()?.StartEnemyPhase();
             }
             return;
@@ -479,16 +508,16 @@ public class UnitMenuController : MonoBehaviour
         }
     }
     public void PhaseStart(){//re-enable actions and movements on all active units at start of phase
-        Tilemap tilemap = FindObjectOfType<Tilemap>();
+        //Tilemap tilemap = FindObjectOfType<Tilemap>();
         foreach (Unit unit in activeUnits)
         {
             unit.hasActed = false;
             unit.hasMoved = false;
-            if (gridManager.TileAt(unit.currentTilePos).isMagma){
+            /*if (gridManager.TileAt(unit.currentTilePos).isMagma){
                     unit.currentHealth-=3;
                     Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
                     Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
-                }
+                }*/
             unit.DecrementBuff();
             
         }

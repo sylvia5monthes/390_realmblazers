@@ -216,8 +216,13 @@ public class Unit : MonoBehaviour
             GameManager.Instance.OnUnitDeath(this);
         }
     }
-    public int GetLevel(){
-        return unitMenuController.level-1;//want to scale based on level - 1, not level itself
+    public void CheckDelayDeath()
+    {
+        Invoke("CheckDeath", 2.5f);
+    }
+    public int GetLevel()
+    {
+        return unitMenuController.level - 1;//want to scale based on level - 1, not level itself
     }
     public void SetDefenseBuff(bool isBuff, int turns){
         buffTurns = turns;

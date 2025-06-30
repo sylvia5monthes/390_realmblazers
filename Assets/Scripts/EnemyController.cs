@@ -96,9 +96,9 @@ public class EnemyController : MonoBehaviour
                 unit.hasMoved = false;
                 unit.hasActed = false;
                 validEnemies.Add(unit);
-                if (gridManager.TileAt(unit.currentTilePos).isMagma){
-                    unit.SetDefenseBuff(false, 2);
-                }
+                //if (gridManager.TileAt(unit.currentTilePos).isMagma){
+                //    unit.SetDefenseBuff(false, 2);
+                //}
                 unit.DecrementBuff();
             }
         }
@@ -115,6 +115,15 @@ public class EnemyController : MonoBehaviour
             if (unit.currentHealth > 0)
             {
                 unit.EnemyLogic();
+                if (gridManager.TileAt(unit.currentTilePos).isMagma && unit.currentHealth > 0)
+                {
+                        Debug.Log("Magma damage");
+                        Tilemap tilemap = FindObjectOfType<Tilemap>();
+                        unit.currentHealth -= 3;
+                        Vector3 displayPos = tilemap.GetCellCenterWorld(gridManager.GridPositionToWorldPosition(unit.currentTilePos));
+                        Instantiate(magmaDamageDisplay, displayPos, Quaternion.identity);
+                        unit.CheckDelayDeath();
+                    }
                 yield return new WaitForSeconds(3.0f);
             }
         }
